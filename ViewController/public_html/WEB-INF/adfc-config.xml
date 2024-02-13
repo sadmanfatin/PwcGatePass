@@ -3,7 +3,7 @@
   <view id="MainPG">
     <page>/MainPG.jsf</page>
     <input-page-parameter id="__1">
-      <from-value>#{param.ParamOrgId}</from-value>
+      <from-value>#{"107"}</from-value>
       <to-value>#{sessionScope.OrgId}</to-value>
     </input-page-parameter>
     <input-page-parameter id="__2">
@@ -19,7 +19,7 @@
       <to-value>#{sessionScope.RespAppId}</to-value>
     </input-page-parameter>
     <input-page-parameter id="__5">
-      <from-value>#{param.ParamFunctionId}</from-value>
+      <from-value>#{"PWC_ADF_GATE_PASS_FORM_OGP"}</from-value>
       <to-value>#{sessionScope.FunctionId}</to-value>
     </input-page-parameter>
   </view>

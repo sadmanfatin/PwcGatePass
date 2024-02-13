@@ -87,6 +87,12 @@ public class Main {
     private RichInputComboboxListOfValues partytoaddressbind;
     private RichInputText partyaddressgeneric;
 
+    private RichInputComboboxListOfValues vehicleType;
+    private RichInputText vehicleNo;
+    private RichInputText driverName;
+    private RichInputText driverPhone;
+    private RichButton sendForApproval;
+
     public Main() {
     }
         public BindingContainer getBindings() {
@@ -910,4 +916,104 @@ public class Main {
     public RichInputText getPartyaddressgeneric() {
         return partyaddressgeneric;
     }
+    
+    public void internalFieldValueChangeListener(ValueChangeEvent valueChangeEvent) {
+          // Add event code here...
+          String newValue = valueChangeEvent.getNewValue().toString();
+          System.out.println("================ internalFieldValueChangeListener  new value  : "+ newValue);
+          
+          if( newValue.equals("true")){
+            //  this.getVehicleNo().setVisible(false);
+            //  this.getVehicleType().setVisible(false);
+            //  this.getDriverName().setVisible(false);
+            //  this.getDriverPhone().setVisible(false);
+              
+    //            this.getVehicleNo().setRequired(false);
+    //            this.getVehicleType().setRequired(false);
+    //            this.getDriverName().setRequired(false);
+    //            this.getDriverPhone().setRequired(false);
+              
+              this.getVehicleNo().setDisabled(true);
+              this.getVehicleType().setDisabled(true);
+              this.getDriverName().setDisabled(true);
+              this.getDriverPhone().setDisabled(true);
+              
+              this.getVehicleNo().setValue("N/A");
+              this.getVehicleType().setValue("N/A");
+              this.getDriverName().setValue("N/A");
+              this.getDriverPhone().setValue("N/A");
+              this.getSendForApproval().setDisabled(true);   
+              
+          }
+          else if (newValue.equals("false") ){
+    //            this.getVehicleNo().setVisible(true);
+    //            this.getVehicleType().setVisible(true);
+    //            this.getDriverName().setVisible(true);
+    //            this.getDriverPhone().setVisible(true);
+    //
+    //            this.getVehicleNo().setRequired(true);
+    //            this.getVehicleType().setRequired(true);
+    //            this.getDriverName().setRequired(true);
+    //            this.getDriverPhone().setRequired(true);
+              
+              this.getVehicleNo().setDisabled(false);
+              this.getVehicleType().setDisabled(false);
+              this.getDriverName().setDisabled(false);
+              this.getDriverPhone().setDisabled(false);
+              
+              this.getVehicleNo().setValue("");
+              this.getVehicleType().setValue("");
+              this.getDriverName().setValue("");
+              this.getDriverPhone().setValue("");
+              this.getSendForApproval().setDisabled(false);   
+              
+          }
+          
+          AdfFacesContext.getCurrentInstance().addPartialTarget(this.getVehicleNo());
+          AdfFacesContext.getCurrentInstance().addPartialTarget(this.getVehicleType());
+          AdfFacesContext.getCurrentInstance().addPartialTarget(this.getDriverName());
+          AdfFacesContext.getCurrentInstance().addPartialTarget(this.getDriverPhone());
+          AdfFacesContext.getCurrentInstance().addPartialTarget(this.getSendForApproval());
+      }
+    
+    public void setVehicleType(RichInputComboboxListOfValues vehicleType) {
+          this.vehicleType = vehicleType;
+      }
+
+      public RichInputComboboxListOfValues getVehicleType() {
+          return vehicleType;
+      }
+
+      public void setVehicleNo(RichInputText vehicleNo) {
+          this.vehicleNo = vehicleNo;
+      }
+
+      public RichInputText getVehicleNo() {
+          return vehicleNo;
+      }
+
+      public void setDriverName(RichInputText driverName) {
+          this.driverName = driverName;
+      }
+
+      public RichInputText getDriverName() {
+          return driverName;
+      }
+
+      public void setDriverPhone(RichInputText driverPhone) {
+          this.driverPhone = driverPhone;
+      }
+
+      public RichInputText getDriverPhone() {
+          return driverPhone;
+      }
+
+
+      public void setSendForApproval(RichButton sendForApproval) {
+          this.sendForApproval = sendForApproval;
+      }
+
+      public RichButton getSendForApproval() {
+          return sendForApproval;
+      }
 }

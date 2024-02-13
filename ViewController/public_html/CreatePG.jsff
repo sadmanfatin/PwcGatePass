@@ -31,14 +31,15 @@
         <af:button text="Save" id="b1"
                    action="#{backingBeanScope.Main.saveBtnAction}"
                    visible="#{sessionScope.timeOutMode eq 'Y' ? 'false' : 'true'}"
-                   disabled="#{sessionScope.gatePassClass eq 'OGP' &amp;&amp; sessionScope.timeOutMode eq 'Y' ||( bindings.ApprovalStatus.inputValue eq 'I' || bindings.ApprovalStatus.inputValue eq 'Y')}"
+                   disabled="#{sessionScope.gatePassClass eq 'OGP' &amp;&amp; sessionScope.timeOutMode eq 'Y' ||( bindings.ApprovalStatus.inputValue eq 'I' || ( bindings.ApprovalStatus.inputValue eq 'Y' &amp;&amp; bindings.Internal.inputValue eq 'false'))}"
                    partialTriggers="it26"/>
         <af:button text="Attachment" id="b3" disabled="#{sessionScope.timeOutMode eq 'Y'}"
                    actionListener="#{backingBeanScope.Main.AttachementActionListener}"/>
         <af:button text="Send For Approval" id="b4" partialTriggers="gatePassClass1Id it26"
                    visible="#{bindings.GatePassClass1.inputValue =='Time Out' ? 'false' : 'true'}"
-                   disabled="#{sessionScope.timeOutMode eq 'Y' || bindings.ApprovalStatus.inputValue eq 'I' ||bindings.ApprovalStatus.inputValue eq 'Y'}"
-                   actionListener="#{backingBeanScope.Main.GpWorkflowNotifyBean}"/>
+                   disabled="#{sessionScope.timeOutMode eq 'Y' || bindings.ApprovalStatus.inputValue eq 'I' ||bindings.ApprovalStatus.inputValue eq 'Y' }"
+                   actionListener="#{backingBeanScope.Main.GpWorkflowNotifyBean}"
+                   binding="#{backingBeanScope.Main.sendForApproval}"/>
         <af:button actionListener="#{bindings.Rollback.execute}" text="Back" immediate="true" id="b17" action="gotoSearch">
           <af:resetActionListener/>
         </af:button>
@@ -81,8 +82,8 @@
                   shortDesc="#{bindings.GatePassDate.hints.tooltip}" id="id1"
                   value="#{bindings.GatePassDate.inputValue}"
                   disabled="#{bindings.GatePassClass1.inputValue =='Time Out' ? 'true' : 'false'}"
-                  partialTriggers="gatePassClass1Id it26" showRequired="true" autoSubmit="true" immediate="true"
-                  readOnly="#{sessionScope.timeOutMode eq 'Y' || bindings.ApprovalStatus.inputValue eq 'I' || bindings.ApprovalStatus.inputValue eq 'Y'}"
+                  partialTriggers="gatePassClass1Id it26 sbc4" showRequired="true" autoSubmit="true" immediate="true"
+                  readOnly="#{sessionScope.timeOutMode eq 'Y' || bindings.ApprovalStatus.inputValue eq 'I' || ( bindings.ApprovalStatus.inputValue eq 'Y' &amp;&amp; bindings.Internal.inputValue eq 'false') }"
                   required="true">
       <f:validator binding="#{bindings.GatePassDate.validator}"/>
       <af:convertDateTime pattern="#{bindings.GatePassDate.format}"/>
@@ -119,7 +120,7 @@
                   visible="#{bindings.GatePassClass1.inputValue == 'IGP' ? 'true' : 'false'}"
                   partialTriggers="gatePassClass1Id sor1 partyFromNameId"
                   disabled="#{bindings.GatePassType1.inputValue == 'Generic' ? 'false' : 'true'}"
-                  readOnly="#{sessionScope.timeOutMode eq 'Y' || bindings.ApprovalStatus.inputValue eq 'I' || bindings.ApprovalStatus.inputValue eq 'Y'}">
+                  readOnly="#{sessionScope.timeOutMode eq 'Y' || bindings.ApprovalStatus.inputValue eq 'I' || ( bindings.ApprovalStatus.inputValue eq 'Y' &amp;&amp; bindings.Internal.inputValue eq 'false') }">
       <f:validator binding="#{bindings.PartyFromAddress.validator}"/>
     </af:inputText>
     <af:inputComboboxListOfValues id="partyToNameId" popupTitle="Search and Select: #{bindings.PartyToName.hints.label}"
@@ -131,7 +132,7 @@
                                   partialTriggers="gatePassClass1Id it26 sor1"
                                   disabled="#{bindings.GatePassClass1.inputValue =='Time Out' ? 'true' : 'false'}"
                                   autoSubmit="true"
-                                  readOnly="#{sessionScope.timeOutMode eq 'Y' || bindings.ApprovalStatus.inputValue eq 'I' || bindings.ApprovalStatus.inputValue eq 'Y'}"
+                                  readOnly="#{sessionScope.timeOutMode eq 'Y' || bindings.ApprovalStatus.inputValue eq 'I' || ( bindings.ApprovalStatus.inputValue eq 'Y' &amp;&amp; bindings.Internal.inputValue eq 'false')}"
                                   required="#{bindings.GatePassClass1.inputValue == 'OGP' &amp;&amp; bindings.GatePassType1.inputValue == 'Generic' ? 'false' : bindings.GatePassClass1.inputValue == 'OGP' &amp;&amp; bindings.GatePassType1.inputValue == 'Transactional' ? 'true' : 'false'}">
       <f:validator binding="#{bindings.PartyToName.validator}"/>
       <af:autoSuggestBehavior suggestedItems="#{bindings.PartyToName.suggestedItems}"/>
@@ -144,7 +145,7 @@
                   shortDesc="#{bindings.PartyToAddress.hints.tooltip}" id="it36" partialTriggers="partyToNameId sor1"
                   visible="#{bindings.GatePassClass1.inputValue == 'OGP' ? 'true' : 'false'}"
                   disabled="#{bindings.GatePassType1.inputValue == 'Generic' ? 'false' : 'true'}"
-                  readOnly="#{sessionScope.timeOutMode eq 'Y' || bindings.ApprovalStatus.inputValue eq 'I' || bindings.ApprovalStatus.inputValue eq 'Y'}">
+                  readOnly="#{sessionScope.timeOutMode eq 'Y' || bindings.ApprovalStatus.inputValue eq 'I' || ( bindings.ApprovalStatus.inputValue eq 'Y' &amp;&amp; bindings.Internal.inputValue eq 'false')}">
       <f:validator binding="#{bindings.PartyToAddress.validator}"/>
     </af:inputText>
     <af:inputText value="#{bindings.PartyAddressGeneric.inputValue}" label="Party To Address"
@@ -163,7 +164,8 @@
                                   disabled="#{bindings.GatePassClass1.inputValue =='Time Out' ? 'true' : 'false'}"
                                   partialTriggers="gatePassClass1Id it26" showRequired="true" autoSubmit="true"
                                   required="true"
-                                  readOnly="#{sessionScope.timeOutMode eq 'Y' || bindings.ApprovalStatus.inputValue eq 'I' || bindings.ApprovalStatus.inputValue eq 'Y'}">
+                                  readOnly="#{sessionScope.timeOutMode eq 'Y' || bindings.ApprovalStatus.inputValue eq 'I' || bindings.ApprovalStatus.inputValue eq 'Y'}"
+                                  binding="#{backingBeanScope.Main.vehicleType}">
       <f:validator binding="#{bindings.VehicleType1.validator}"/>
       <af:autoSuggestBehavior suggestedItems="#{bindings.VehicleType1.suggestedItems}"/>
     </af:inputComboboxListOfValues>
@@ -183,7 +185,7 @@
                                   shortDesc="#{bindings.OperatingUnit.hints.tooltip}"
                                   binding="#{backingBeanScope.Main.comboInputOperatingUnitBinding}" required="true"
                                   showRequired="true"
-                                  readOnly="#{sessionScope.timeOutMode eq 'Y' || bindings.ApprovalStatus.inputValue eq 'I' || bindings.ApprovalStatus.inputValue eq 'Y'}"
+                                  readOnly="#{sessionScope.timeOutMode eq 'Y' || bindings.ApprovalStatus.inputValue eq 'I' || ( bindings.ApprovalStatus.inputValue eq 'Y' &amp;&amp; bindings.Internal.inputValue eq 'false')}"
                                   valueChangeListener="#{backingBeanScope.Main.operatingUnitVCL}"
                                   disabled="#{bindings.GatePassNo.inputValue != null ? 'true' : 'false'}">
       <f:validator binding="#{bindings.OperatingUnit.validator}"/>
@@ -217,7 +219,7 @@
                   partialTriggers="gatePassClass1Id it26"
                   immediate="true"
                   readOnly="#{sessionScope.timeOutMode eq 'Y' || bindings.ApprovalStatus.inputValue eq 'I' || bindings.ApprovalStatus.inputValue eq 'Y'}"
-                  autoSubmit="true" showRequired="true" required="true">
+                  autoSubmit="true" showRequired="true" required="true" binding="#{backingBeanScope.Main.vehicleNo}">
       <f:validator binding="#{bindings.VehicleNo.validator}"/>
     </af:inputText>
     <af:inputText value="#{bindings.DriverName.inputValue}" label="Driver Name" columns="25"
@@ -226,7 +228,7 @@
                   disabled="#{bindings.GatePassClass1.inputValue =='Time Out' ? 'true' : 'false'}"
                   partialTriggers="gatePassClass1Id it26"
                   readOnly="#{sessionScope.timeOutMode eq 'Y' || bindings.ApprovalStatus.inputValue eq 'I' || bindings.ApprovalStatus.inputValue eq 'Y'}"
-                  autoSubmit="true" required="true" showRequired="true">
+                  autoSubmit="true" required="true" showRequired="true"  binding="#{backingBeanScope.Main.driverName}">
       <f:validator binding="#{bindings.DriverName.validator}"/>
     </af:inputText>
     <af:inputText value="#{bindings.DriverPhone.inputValue}" label="Driver Phone"
@@ -236,7 +238,7 @@
                   disabled="#{bindings.GatePassClass1.inputValue =='Time Out' ? 'true' : 'false'}"
                   partialTriggers="gatePassClass1Id it26"
                   readOnly="#{sessionScope.timeOutMode eq 'Y' || bindings.ApprovalStatus.inputValue eq 'I' || bindings.ApprovalStatus.inputValue eq 'Y'}"
-                  autoSubmit="true">
+                  autoSubmit="true" binding="#{backingBeanScope.Main.driverPhone}">
       <f:validator binding="#{bindings.DriverPhone.validator}"/>
     </af:inputText>
     <af:inputText value="#{bindings.ApproveStatusMeaning.inputValue}"
@@ -267,7 +269,7 @@
                   required="#{bindings.Remarks.hints.mandatory}" columns="30"
                   maximumLength="#{bindings.Remarks.hints.precision}" shortDesc="#{bindings.Remarks.hints.tooltip}"
                   id="it34"
-                  readOnly="#{sessionScope.timeOutMode eq 'Y' || bindings.ApprovalStatus.inputValue eq 'I' || bindings.ApprovalStatus.inputValue eq 'Y'}">
+                  readOnly="#{sessionScope.timeOutMode eq 'Y' || bindings.ApprovalStatus.inputValue eq 'I' || ( bindings.ApprovalStatus.inputValue eq 'Y' &amp;&amp; bindings.Internal.inputValue eq 'false')}">
       <f:validator binding="#{bindings.Remarks.validator}"/>
     </af:inputText>
     <af:inputText value="#{bindings.DisabledFlag.inputValue}" label="#{bindings.DisabledFlag.hints.label}"
@@ -295,7 +297,12 @@
                               readOnly="#{sessionScope.timeOutMode eq 'Y' || bindings.ApprovalStatus.inputValue eq 'I' || bindings.ApprovalStatus.inputValue eq 'Y' || !(bindings.Returnable1.inputValue eq 'Y')}"
                               rendered="true"/>
     <af:selectBooleanCheckbox value="#{bindings.Internal.inputValue}" label="#{bindings.Internal.label}"
-                              shortDesc="#{bindings.Internal.hints.tooltip}" id="sbc4"/>
+                              
+                              shortDesc="#{bindings.Internal.hints.tooltip}" id="sbc4"
+                              valueChangeListener="#{backingBeanScope.Main.internalFieldValueChangeListener}"
+                              autoSubmit="true"    partialTriggers="sbc1 "
+                              visible="#{bindings.GatePassType1.inputValue == 'Generic' ? 'true' : 'false'}"
+                              readOnly="#{sessionScope.timeOutMode eq 'Y' || bindings.ApprovalStatus.inputValue eq 'I' || bindings.ApprovalStatus.inputValue eq 'Y' || !(bindings.IsReturned1.inputValue eq 'Y')}"/>
     <af:inputComboboxListOfValues id="refGatePassNo1Id"
                                   popupTitle="Search and Select: #{bindings.RefGatePassNo1.hints.label}"
                                   value="#{bindings.RefGatePassNo1.inputValue}" label="Reference Gate Pass No"
@@ -553,8 +560,9 @@
       </af:panelCollection>
     </af:dialog>
   </af:popup>
-  <af:panelTabbed position="above" id="pt1">
-    <af:showDetailItem id="tab1" text="Delivery Challans">
+
+  <af:panelTabbed position="above" id="pt1" styleClass="AFStretchWidth">
+    <af:showDetailItem id="tab1" text="Delivery Challans" styleClass="AFStretchWidth">
       <af:panelCollection id="pc1" styleClass="AFStretchWidth"
                           binding="#{backingBeanScope.Main.deliveryLinesPanelBinding}">
         <f:facet name="menus"/>
@@ -562,7 +570,7 @@
           <af:toolbar id="t2">
             <af:button text="Create" id="b13" actionListener="#{backingBeanScope.Main.createBtnLines}"
                        binding="#{backingBeanScope.Main.customCreateLinesBtnBinding}"
-                       disabled="#{sessionScope.timeOutMode eq 'Y' || bindings.ApprovalStatus.inputValue eq 'I' || bindings.ApprovalStatus.inputValue eq 'Y'}"
+                       disabled="#{sessionScope.timeOutMode eq 'Y' || bindings.ApprovalStatus.inputValue eq 'I' || ( bindings.ApprovalStatus.inputValue eq 'Y' &amp;&amp; bindings.Internal.inputValue eq 'false')}"
                        partialTriggers="::gatePassClass1Id ::sor1 ::it26 ::refGatePassNo1Id" partialSubmit="false"
                        visible="#{(bindings.GatePassType1.inputValue eq 'Transactional' &amp;&amp; bindings.GatePassClass1.inputValue =='OGP') || bindings.RefGatePassNo1.inputValue != null ? 'false' : 'true'}"/>
             <af:button actionListener="#{bindings.CreateInsert.execute}" text="Create"
@@ -600,7 +608,7 @@
                   queryListener="#{bindings.PwcGatePassLinesVO1Query.processQuery}" varStatus="vs" id="t1"
                   styleClass="AFStretchWidth" partialTriggers=":::b1 :::it26 ::b5 ::b6 ::b13"
                   binding="#{backingBeanScope.Main.deliveryLinesTable}"
-                  editingMode="#{bindings.ApprovalStatus.inputValue eq 'Y' || bindings.ApprovalStatus.inputValue eq 'I' ? 'readOnly' : 'editAll'}">
+                  editingMode="#{ (bindings.ApprovalStatus.inputValue eq 'Y' || bindings.ApprovalStatus.inputValue eq 'I' ) &amp;&amp;  bindings.Internal.inputValue eq 'false' ? 'readOnly' : 'editAll'}">
           <af:column headerText="#{bindings.PwcGatePassLinesVO1.hints.LineId.label}" id="c11" visible="false">
             <af:outputText value="#{row.LineId}" shortDesc="#{bindings.PwcGatePassLinesVO1.hints.LineId.tooltip}"
                            id="ot9">
@@ -712,7 +720,8 @@
       </af:panelHeader>
     </af:showDetailItem>
   </af:panelTabbed>
-  <af:panelTabbed position="above" id="pt2">
+
+  <af:panelTabbed position="above" id="pt2" styleClass="AFStretchWidth">
     <af:showDetailItem id="tab2" text="Delivery Challan Details">
       <af:panelCollection id="pc2" binding="#{backingBeanScope.Main.deliveryDetailsPanelBinding}"
                           styleClass="AFStretchWidth">
@@ -720,7 +729,7 @@
         <f:facet name="toolbar">
           <af:toolbar id="t4">
             <af:button actionListener="#{backingBeanScope.Main.createDeatailAL}" text="Create"
-                       disabled="#{bindings.GatePassClass1.inputValue =='Time Out' || bindings.ApprovalStatus.inputValue eq 'I' || bindings.ApprovalStatus.inputValue eq 'Y' || (bindings.GatePassType1.inputValue eq 'Transactional' &amp;&amp; bindings.GatePassClass1.inputValue =='OGP')? 'true' : 'false'}" id="b8"
+                       disabled="#{bindings.GatePassClass1.inputValue =='Time Out' || bindings.ApprovalStatus.inputValue eq 'I' ||  ( bindings.ApprovalStatus.inputValue eq 'Y' &amp;&amp; bindings.Internal.inputValue eq 'false') || (bindings.GatePassType1.inputValue eq 'Transactional' &amp;&amp; bindings.GatePassClass1.inputValue =='OGP')? 'true' : 'false'}" id="b8"
                        partialTriggers="::gatePassClass1Id ::sor1 ::it26 ::refGatePassNo1Id"
                        visible="#{(bindings.GatePassType1.inputValue eq 'Transactional' &amp;&amp; bindings.GatePassClass1.inputValue =='OGP') || bindings.RefGatePassNo1.inputValue != null ? 'false' : 'true'}"
                        binding="#{backingBeanScope.Main.detaillinecreatebind}" rendered="true"/>
@@ -745,7 +754,8 @@
                   filterModel="#{bindings.PwcGatePassDetailsVO1Query.queryDescriptor}" filterVisible="true"
                   queryListener="#{bindings.PwcGatePassDetailsVO1Query.processQuery}" varStatus="vs" id="t3"
                   partialTriggers=":::b1 ::b8 ::b9 :::it26" binding="#{backingBeanScope.Main.deliveryDetailTableBinding}"
-                  editingMode="#{bindings.ApprovalStatus.inputValue eq 'Y' || bindings.ApprovalStatus.inputValue eq 'I' ? 'readOnly' : 'editAll'}">
+                  
+                  editingMode="#{ (bindings.ApprovalStatus.inputValue eq 'Y' || bindings.ApprovalStatus.inputValue eq 'I' ) &amp;&amp;  bindings.Internal.inputValue eq 'false' ? 'readOnly' : 'editAll'}">
           <af:column headerText="#{bindings.PwcGatePassDetailsVO1.hints.LineId.label}" id="c10" visible="false">
             <af:outputText value="#{row.LineId}" shortDesc="#{bindings.PwcGatePassDetailsVO1.hints.LineId.tooltip}"
                            id="ot8">

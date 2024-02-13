@@ -873,6 +873,14 @@ public class PwcGatePassHeaderEOImpl extends EntityImpl {
                             this.setGateInDate(Timestamp.toTimestamp(new java.sql.Timestamp(utilDate.getTime()).toString()));
                         }
             
+            if(this.getInternal().equals("Y")){
+                this.setApprovalStatus("Y");
+                System.out.println("================ ML_UPDATE  this.getInternal().equals(\"Y\") ");
+                }else  if(this.getInternal().equals("N")){
+                
+                 //   this.setApprovalStatus("");
+                }
+            
         } else if (DML_INSERT == operation) {
             System.out.println("In DML");
             
@@ -942,6 +950,15 @@ public class PwcGatePassHeaderEOImpl extends EntityImpl {
 //                this.setGateInDate(Timestamp.toTimestamp(new java.sql.Timestamp(utilDate.getTime()).toString()));
 //                this.getRefGatePassNo().set
             }
+            
+            if(this.getInternal().equals("Y")){
+                this.setApprovalStatus("Y");
+                System.out.println("================ ML_UPDATE  this.getInternal().equals(\"Y\") ");
+                }else  if(this.getInternal().equals("N")){
+                
+                 //   this.setApprovalStatus("");
+                }
+            
             
         }
         super.doDML(operation, e);

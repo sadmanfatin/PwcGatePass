@@ -304,6 +304,10 @@ public class PwcGatePassHeaderVORowImpl extends ViewRowImpl {
      */
     public void setGatePassType(String value) {
         setAttributeInternal(GATEPASSTYPE, value);
+        if (value.equals("Transactional")){
+            this.setInternal("N");
+            
+        }
     }
 
     /**
@@ -858,6 +862,21 @@ public class PwcGatePassHeaderVORowImpl extends ViewRowImpl {
      */
     public void setInternal(String value) {
         setAttributeInternal(INTERNAL, value);
+        
+        
+        if(value.equals("Y")){
+            this.setVehicleNo("N/A");
+            this.setVehicleType("N/A");
+            this.setDriverName("N/A");
+            this.setDriverPhone("N/A");
+            
+        }else{
+                this.setVehicleNo("");
+                this.setVehicleType("");
+                this.setDriverName("");
+                this.setDriverPhone("");
+            }
+        
     }
 
     /**

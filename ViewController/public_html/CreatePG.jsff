@@ -294,6 +294,8 @@
                               valueChangeListener="#{backingBeanScope.Main.isReturnedVCListener}"
                               readOnly="#{sessionScope.timeOutMode eq 'Y' || bindings.ApprovalStatus.inputValue eq 'I' || bindings.ApprovalStatus.inputValue eq 'Y' || !(bindings.Returnable1.inputValue eq 'Y')}"
                               rendered="true"/>
+    <af:selectBooleanCheckbox value="#{bindings.Internal.inputValue}" label="#{bindings.Internal.label}"
+                              shortDesc="#{bindings.Internal.hints.tooltip}" id="sbc4"/>
     <af:inputComboboxListOfValues id="refGatePassNo1Id"
                                   popupTitle="Search and Select: #{bindings.RefGatePassNo1.hints.label}"
                                   value="#{bindings.RefGatePassNo1.inputValue}" label="Reference Gate Pass No"

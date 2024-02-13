@@ -344,5 +344,14 @@
         <Item Value="OrganizationId"/>
       </AttrNames>
     </attributeValues>
+    <button IterBinding="PwcGatePassHeaderVO1Iterator" id="Internal" DTSupportsMRU="false" StaticList="true">
+      <AttrNames>
+        <Item Value="Internal"/>
+      </AttrNames>
+      <ValueList>
+        <Item Value="Y"/>
+        <Item Value="N"/>
+      </ValueList>
+    </button>
   </bindings>
 </pageDefinition>

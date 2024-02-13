@@ -76,6 +76,7 @@ public class PwcGatePassHeaderEOImpl extends EntityImpl {
         Remarks,
         PartyAddressGeneric,
         OrganizationId,
+        Internal,
         PwcGatePassLinesEO;
         private static AttributesEnum[] vals = null;
         private static final int firstIndex = 0;
@@ -138,6 +139,7 @@ public class PwcGatePassHeaderEOImpl extends EntityImpl {
     public static final int REMARKS = AttributesEnum.Remarks.index();
     public static final int PARTYADDRESSGENERIC = AttributesEnum.PartyAddressGeneric.index();
     public static final int ORGANIZATIONID = AttributesEnum.OrganizationId.index();
+    public static final int INTERNAL = AttributesEnum.Internal.index();
     public static final int PWCGATEPASSLINESEO = AttributesEnum.PwcGatePassLinesEO.index();
 
     /**
@@ -718,6 +720,22 @@ public class PwcGatePassHeaderEOImpl extends EntityImpl {
      */
     public void setOrganizationId(String value) {
         setAttributeInternal(ORGANIZATIONID, value);
+    }
+
+    /**
+     * Gets the attribute value for Internal, using the alias name Internal.
+     * @return the value of Internal
+     */
+    public String getInternal() {
+        return (String) getAttributeInternal(INTERNAL);
+    }
+
+    /**
+     * Sets <code>value</code> as the attribute value for Internal.
+     * @param value value to set the Internal
+     */
+    public void setInternal(String value) {
+        setAttributeInternal(INTERNAL, value);
     }
 
     /**

@@ -18,6 +18,8 @@ import model.LOV.SourcesDocNoLOVImpl;
 import model.VO.ExternalServerAddressVOImpl;
 import model.VO.PwcDeleteBtnValidateVOImpl;
 
+import model.VO.PwcGatePassHeaderVOImpl;
+
 import oracle.jbo.domain.TimestampLTZ;
 import model.LOV.PopulateLinesDataVOImpl;
 
@@ -62,8 +64,8 @@ public class AppModuleImpl extends ApplicationModuleImpl implements AppModule {
      * Container's getter for PwcGatePassHeaderVO1.
      * @return PwcGatePassHeaderVO1
      */
-    public ViewObjectImpl getPwcGatePassHeaderVO1() {
-        return (ViewObjectImpl) findViewObject("PwcGatePassHeaderVO1");
+    public PwcGatePassHeaderVOImpl getPwcGatePassHeaderVO1() {
+        return (PwcGatePassHeaderVOImpl) findViewObject("PwcGatePassHeaderVO1");
     }
 
     /**

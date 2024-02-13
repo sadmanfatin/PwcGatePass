@@ -876,7 +876,7 @@ public class AppModuleImpl extends ApplicationModuleImpl implements AppModule {
 
             ViewObject hdrVO = this.getPwcGatePassHeaderVO1();
 //            hdrVO.setWhereClause("TIME_OUT_FLAG i");
-            hdrVO.setWhereClause("APPROVAL_STATUS = 'Y'");
+              hdrVO.setWhereClause("APPROVAL_STATUS = 'Y' AND INTERNAL != 'Y'");
 //            hdrVO.setWhereClause("APPROVAL_STATUS = " +"Y");
             hdrVO.executeQuery();
         }

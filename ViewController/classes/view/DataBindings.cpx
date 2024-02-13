@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Application xmlns="http://xmlns.oracle.com/adfm/application" version="12.2.1.22.48" id="DataBindings"
+             SeparateXMLFiles="false" Package="view" ClientType="Generic">
+  <definitionFactories>
+    <factory nameSpace="http://xmlns.oracle.com/adf/controller/binding"
+             className="oracle.adf.controller.internal.binding.TaskFlowBindingDefFactoryImpl"/>
+    <dtfactory className="oracle.adf.controller.internal.dtrt.binding.BindingDTObjectFactory"/>
+  </definitionFactories>
+  <pageMap>
+    <page path="/MainPG.jsf" usageId="view_MainPGPageDef"/>
+    <page path="/CreatePG.jsff" usageId="view_CreatePGPageDef"/>
+    <page path="/SearchPG.jsff" usageId="view_SearchPGPageDef"/>
+    <page path="/WEB-INF/PwcGatePass-task-flow-definition.xml#PwcGatePass-task-flow-definition@getParameters"
+          usageId="view_PwcGatePass_task_flow_definition_PwcGatePass_task_flow_definition_getParametersPageDef"/>
+  </pageMap>
+  <pageDefinitionUsages>
+    <page id="view_MainPGPageDef" path="view.pageDefs.MainPGPageDef"/>
+    <page id="view_CreatePGPageDef" path="view.pageDefs.CreatePGPageDef"/>
+    <page id="view_SearchPGPageDef" path="view.pageDefs.SearchPGPageDef"/>
+    <page id="view_PwcGatePass_task_flow_definition_PwcGatePass_task_flow_definition_getParametersPageDef"
+          path="view.pageDefs.PwcGatePass_task_flow_definition_PwcGatePass_task_flow_definition_getParametersPageDef"/>
+  </pageDefinitionUsages>
+  <dataControlUsages>
+    <BC4JDataControl id="AppModuleDataControl" Package="model.AM"
+                     FactoryClass="oracle.adf.model.bc4j.DataControlFactoryImpl" SupportsTransactions="true"
+                     SupportsFindMode="true" SupportsRangesize="true" SupportsResetState="true"
+                     SupportsSortCollection="true" Configuration="AppModuleLocal" syncMode="Immediate"
+                     xmlns="http://xmlns.oracle.com/adfm/datacontrol"/>
+  </dataControlUsages>
+</Application>

@@ -1,0 +1,785 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<!DOCTYPE ViewObject SYSTEM "jbo_03_01.dtd">
+<!---->
+<ViewObject
+  xmlns="http://xmlns.oracle.com/bc4j"
+  Name="PopulateLinesDataVO"
+  Version="12.2.1.22.48"
+  InheritPersonalization="merge"
+  BindingStyle="OracleName"
+  CustomQuery="true"
+  RowClass="model.LOV.PopulateLinesDataVORowImpl"
+  ComponentClass="model.LOV.PopulateLinesDataVOImpl"
+  PageIterMode="Full">
+  <DesignTime>
+    <Attr Name="_codeGenFlag2" Value="Coll"/>
+    <Attr Name="_isExpertMode" Value="true"/>
+    <Attr Name="_isCodegen" Value="true"/>
+  </DesignTime>
+  <Properties>
+    <SchemaBasedProperties>
+      <LABEL
+        ResId="model.LOV.PopulateLinesDataVO_LABEL"/>
+    </SchemaBasedProperties>
+  </Properties>
+  <Variable
+    Name="pSource"
+    Kind="where"
+    Type="java.lang.String"/>
+  <Variable
+    Name="pOrgId"
+    Kind="where"
+    Type="java.lang.String"/>
+  <Variable
+    Name="pSourceDocNo"
+    Kind="where"
+    Type="java.lang.String"/>
+  <SQLQuery><![CDATA[SELECT * FROM (SELECT 'Sample Status (Dispatch)' SOURCE,                                              
+        HederEO.PROVISIONAL_SAMPLE_CODE SOURCE_DOC_NO,                                              
+        'RMG'||'/'||LineEO.SERIAL_NO||'/'||AWBEO.AWP_ID DELIVERY_CHALLAN_NO,                                              
+        LineEO.SERIAL_NO||'-'||FABRIC_TYPE||'-'||COMPOSITION||'-'||PIECE_NAME ITEM_DETAILS,                                              
+        NULL DESCRIPTION,                                              
+        TO_NUMBER(AWBEO.QTY) QUANTITY,                                              
+        'Piece' UOM,              
+        0 SOURCE_ID,           
+       Null Ship_to_location                                              
+FROM  PWC_ONT_SAM_STAT_AWP_DETAIL AWBEO,                                              
+      PWC_ONT_SAMPLE_STATUS_LINE LineEO,                                              
+      PWC_ONT_SAMPLE_STATUS HederEO                                                
+WHERE LineEO.LINE_ID = AWBEO.LINE_ID                                              
+AND HederEO.HEADER_ID = LineEO.HEADER_ID                                              
+AND 'Sample Status (Dispatch)' = :pSource                                              
+AND HederEO.PROVISIONAL_SAMPLE_CODE = :pSourceDocNo                                             
+AND HederEO.ORG_ID = :pOrgId                         
+UNION ALL                                                     
+SELECT 'Sample Status (Sending)' SOURCE,                                              
+        HederEO.PROVISIONAL_SAMPLE_CODE SOURCE_DOC_NO,                                              
+        'RMG'||'/'||LineEO.SERIAL_NO||'/'||ITEM_TYPE||'/'||ToPriDepEO.TO_PRI_DEP DELIVERY_CHALLAN_NO,                                              
+        LineEO.SERIAL_NO||'-'||FABRIC_TYPE||'-'||ITEM_TYPE||'-'||TO_PRINT_SIZE ITEM_DETAILS,                                              
+        NULL DESCRIPTION,                                              
+        TO_NUMBER(ToPriDepEO.Send_To_Printing_Qty) QUANTITY,                                              
+        'Piece' UOM,              
+        0 SOURCE_ID,           
+        Null Ship_to_location                         
+FROM  PWC_ONT_REQ_DET_TO_PRI_DEP ToPriDepEO,                                              
+      PWC_ONT_SAMPLE_STATUS_LINE LineEO,                                              
+      PWC_ONT_SAMPLE_STATUS HederEO                                              
+WHERE LineEO.LINE_ID = ToPriDepEO.LINE_ID                                              
+AND HederEO.HEADER_ID = LineEO.HEADER_ID                                              
+AND 'Sample Status (Sending)' = :pSource                                             
+AND HederEO.PROVISIONAL_SAMPLE_CODE = :pSourceDocNo                                               
+AND HederEO.ORG_ID = :pOrgId                         
+UNION ALL                                                     
+SELECT 'Sample Status (LOB-Dispatch)' SOURCE,                                              
+        HederEO.PROVISIONAL_SAMPLE_CODE SOURCE_DOC_NO,                                              
+        'PRNT'||'/'||LineEO.SERIAL_NO||'/'||FromPriDepEO.ITEM_TYPE||'/'||FromPriDepEO.FROM_PRI_DEP DELIVERY_CHALLAN_NO,                                              
+        LineEO.SERIAL_NO||'-'||FABRIC_TYPE||'-'||FromPriDepEO.ITEM_TYPE||'-'||TO_PRINT_SIZE ITEM_DETAILS,                                              
+        NULL DESCRIPTION,                                              
+        TO_NUMBER(FromPriDepEO.Receive_Qty) QUANTITY,                                              
+        'Piece' UOM,              
+        0 SOURCE_ID,           
+     Null Ship_to_location                                  
+FROM  PWC_ONT_REQ_DET_TO_PRI_DEP ToPriDepEO,                                              
+      PWC_ONT_REQ_DET_FROM_PRI_DEP FromPriDepEO,                                                
+      PWC_ONT_SAMPLE_STATUS_LINE LineEO,                                              
+      PWC_ONT_SAMPLE_STATUS HederEO                                              
+WHERE LineEO.LINE_ID = ToPriDepEO.LINE_ID                                              
+AND HederEO.HEADER_ID = LineEO.HEADER_ID                                               
+AND FromPriDepEO.TO_PRI_DEP = ToPriDepEO.TO_PRI_DEP                                              
+AND 'Sample Status (LOB-Dispatch)' = :pSource                                              
+AND HederEO.PROVISIONAL_SAMPLE_CODE = :pSourceDocNo                                             
+--AND HederEO.ORG_ID = :pOrgId                       
+AND FromPriDepEO.PRODUCTION_UNIT_ID = :pOrgId                          
+/*                
+UNION ALL                                                     
+SELECT 'Sample Status (LOB-Dispatch)' SOURCE,                                              
+        HederEO.PROVISIONAL_SAMPLE_CODE SOURCE_DOC_NO,                                              
+        'PRNT'||'/'||LineEO.SERIAL_NO||'/'||FromPriDepEO.ITEM_TYPE||'/'||FromPriDepEO.FROM_PRI_DEP DELIVERY_CHALLAN_NO,                                              
+        LineEO.SERIAL_NO||'-'||FABRIC_TYPE||'-'||FromPriDepEO.ITEM_TYPE||'-'||TO_PRINT_SIZE ITEM_DETAILS,                                              
+        NULL DESCRIPTION,                                              
+        TO_NUMBER(FromPriDepEO.Qty_Send_To_Merch) QUANTITY,                                              
+        'Piece' UOM                                               
+FROM  PWC_ONT_REQ_DET_TO_PRI_DEP ToPriDepEO,                                              
+      PWC_ONT_REQ_DET_FROM_PRI_DEP FromPriDepEO,                                                
+      PWC_ONT_SAMPLE_STATUS_LINE LineEO,                                              
+      PWC_ONT_SAMPLE_STATUS HederEO                                              
+WHERE LineEO.LINE_ID = ToPriDepEO.LINE_ID                                              
+AND HederEO.HEADER_ID = LineEO.HEADER_ID                                               
+AND FromPriDepEO.TO_PRI_DEP = ToPriDepEO.TO_PRI_DEP                                               
+AND FromPriDepEO.Qty_Send_To_Merch IS NOT NULL                                              
+AND 'Sample Status (LOB-Dispatch)' = :pSource                                              
+AND HederEO.PROVISIONAL_SAMPLE_CODE = :pSourceDocNo                                             
+--AND HederEO.ORG_ID = :pOrgId                       
+AND FromPriDepEO.PRODUCTION_UNIT_ID  = :pOrgId                           
+*/                
+UNION ALL                                              
+SELECT 'Sample Status (Sending)' SOURCE,                                              
+        HederEO.PROVISIONAL_SAMPLE_CODE SOURCE_DOC_NO,                                              
+        'RMG'||'/'||LineEO.SERIAL_NO||'/'||PwcOntReqToEmbDeptEO.ITEM_TYPE||'/'||PwcOntReqToEmbDeptEO.TO_EMB_ID DELIVERY_CHALLAN_NO,                                              
+        LineEO.SERIAL_NO||'-'||FABRIC_TYPE||'-'||PwcOntReqToEmbDeptEO.ITEM_TYPE||'-'||PwcOntReqToEmbDeptEO.SIZES ITEM_DETAILS,                                              
+        NULL DESCRIPTION,                                              
+        TO_NUMBER(PwcOntReqToEmbDeptEO.Printing_Qty) QUANTITY,                                              
+        'Piece' UOM,              
+        0 SOURCE_ID,           
+       Null Ship_to_location                                             
+FROM  PWC_ONT_REQ_TO_EMB_DEPT PwcOntReqToEmbDeptEO,                                              
+      PWC_ONT_SAMPLE_STATUS_LINE LineEO,                                              
+      PWC_ONT_SAMPLE_STATUS HederEO                                              
+WHERE LineEO.LINE_ID = PwcOntReqToEmbDeptEO.LINE_ID                                              
+AND HederEO.HEADER_ID = LineEO.HEADER_ID                                              
+AND 'Sample Status (Sending)' = :pSource                                              
+AND HederEO.PROVISIONAL_SAMPLE_CODE = :pSourceDocNo                                             
+AND HederEO.ORG_ID = :pOrgId                         
+UNION ALL                                              
+SELECT 'Sample Status (LOB-Dispatch)' SOURCE,                                              
+        HederEO.PROVISIONAL_SAMPLE_CODE SOURCE_DOC_NO,                                              
+        'EMB'||'/'||LineEO.SERIAL_NO||'/'||PwcOntReqToEmbDeptEO.ITEM_TYPE||'/'||PwcOntReqFromEmbDeptEO.FROM_EMB_ID DELIVERY_CHALLAN_NO,                                              
+        LineEO.SERIAL_NO||'-'||FABRIC_TYPE||'-'||PwcOntReqToEmbDeptEO.ITEM_TYPE||'-'||PwcOntReqToEmbDeptEO.SIZES ITEM_DETAILS,                                              
+        NULL DESCRIPTION,                                              
+        TO_NUMBER(PwcOntReqFromEmbDeptEO.RECEIVED_QTY) QUANTITY,                                              
+        'Piece' UOM,              
+        0 SOURCE_ID,           
+       Null Ship_to_location                                    
+FROM  PWC_ONT_REQ_TO_EMB_DEPT PwcOntReqToEmbDeptEO,                                              
+      PWC_ONT_REQ_FROM_EMB_DEPT PwcOntReqFromEmbDeptEO,                                              
+      PWC_ONT_SAMPLE_STATUS_LINE LineEO,                                              
+      PWC_ONT_SAMPLE_STATUS HederEO                                              
+WHERE LineEO.LINE_ID = PwcOntReqToEmbDeptEO.LINE_ID                                              
+AND HederEO.HEADER_ID = LineEO.HEADER_ID                                               
+AND PwcOntReqFromEmbDeptEO.TO_EMB_ID =  PwcOntReqToEmbDeptEO.TO_EMB_ID                                              
+AND 'Sample Status (LOB-Dispatch)' = :pSource                                              
+AND HederEO.PROVISIONAL_SAMPLE_CODE = :pSourceDocNo                                             
+--AND HederEO.ORG_ID = :pOrgId                         
+AND PwcOntReqFromEmbDeptEO.PRODUCTION_UNIT_ID  = :pOrgId                
+/*                 
+UNION ALL                                              
+SELECT 'Sample Status (LOB-Dispatch)' SOURCE,                                              
+        HederEO.PROVISIONAL_SAMPLE_CODE SOURCE_DOC_NO,                                              
+        'EMB'||'/'||LineEO.SERIAL_NO||'/'||PwcOntReqToEmbDeptEO.ITEM_TYPE||'/'||PwcOntReqFromEmbDeptEO.FROM_EMB_ID DELIVERY_CHALLAN_NO,                                              
+        LineEO.SERIAL_NO||'-'||FABRIC_TYPE||'-'||PwcOntReqToEmbDeptEO.ITEM_TYPE||'-'||PwcOntReqToEmbDeptEO.SIZES ITEM_DETAILS,                                              
+        NULL DESCRIPTION,                                              
+        TO_NUMBER(PwcOntReqFromEmbDeptEO.PRODUCTION_QTY) QUANTITY,                                              
+        'Piece' UOM                                               
+FROM  PWC_ONT_REQ_TO_EMB_DEPT PwcOntReqToEmbDeptEO,                                              
+      PWC_ONT_REQ_FROM_EMB_DEPT PwcOntReqFromEmbDeptEO,                                              
+      PWC_ONT_SAMPLE_STATUS_LINE LineEO,                                              
+      PWC_ONT_SAMPLE_STATUS HederEO                                              
+WHERE LineEO.LINE_ID = PwcOntReqToEmbDeptEO.LINE_ID                                              
+AND HederEO.HEADER_ID = LineEO.HEADER_ID                                               
+AND PwcOntReqFromEmbDeptEO.TO_EMB_ID =  PwcOntReqToEmbDeptEO.TO_EMB_ID                                              
+AND PwcOntReqFromEmbDeptEO.PRODUCTION_QTY IS NOT NULL                                              
+AND 'Sample Status (LOB-Dispatch)' = :pSource                                              
+AND HederEO.PROVISIONAL_SAMPLE_CODE = :pSourceDocNo                                             
+--AND HederEO.ORG_ID = :pOrgId                         
+AND PwcOntReqFromEmbDeptEO.PRODUCTION_UNIT_ID = :pOrgId                  
+*/                
+UNION ALL                                              
+SELECT 'Sample Status (Sending)' SOURCE,                                              
+        HederEO.PROVISIONAL_SAMPLE_CODE SOURCE_DOC_NO,                                              
+        'RMG'||'/'||LineEO.SERIAL_NO||'/'||ReqToWashingDetailsEO.ITEM_TYPE||'/'||ReqToWashingDetailsEO.REQ_DETAIL_ID DELIVERY_CHALLAN_NO,                                              
+        LineEO.SERIAL_NO||'-'||FABRIC_TYPE||'-'||ReqToWashingDetailsEO.ITEM_TYPE||'-'||ReqToWashingDetailsEO.SIZE_VAL ITEM_DETAILS,                                              
+        NULL DESCRIPTION,                                              
+        TO_NUMBER(ReqToWashingDetailsEO.Sent_Qty) QUANTITY,                                              
+        'Piece' UOM,              
+        0 SOURCE_ID,           
+        Null Ship_to_location                                              
+FROM  PWC_ONT_REQ_TO_WASH_DEP ReqToWashingDetailsEO,                                              
+      PWC_ONT_SAMPLE_STATUS_LINE LineEO,                                              
+      PWC_ONT_SAMPLE_STATUS HederEO                                              
+WHERE LineEO.LINE_ID = ReqToWashingDetailsEO.LINE_ID                                              
+AND HederEO.HEADER_ID = LineEO.HEADER_ID                                              
+AND 'Sample Status (Sending)' = :pSource                                              
+AND HederEO.PROVISIONAL_SAMPLE_CODE = :pSourceDocNo                                             
+AND HederEO.ORG_ID = :pOrgId                         
+UNION ALL                                              
+SELECT 'Sample Status (LOB-Dispatch)' SOURCE,                                              
+        HederEO.PROVISIONAL_SAMPLE_CODE SOURCE_DOC_NO,                                              
+        'WSH'||'/'||LineEO.SERIAL_NO||'/'||ReqToWashingDetailsEO.ITEM_TYPE||'/'||ReqFromWashingDetailsEO.WASH_RETURN_ID DELIVERY_CHALLAN_NO,                                              
+        LineEO.SERIAL_NO||'-'||FABRIC_TYPE||'-'||ReqToWashingDetailsEO.ITEM_TYPE||'-'||ReqToWashingDetailsEO.SIZE_VAL ITEM_DETAILS,                                              
+        NULL DESCRIPTION,                                              
+        TO_NUMBER(ReqFromWashingDetailsEO.Received_Qty) QUANTITY,                                              
+        'Piece' UOM,              
+        0 SOURCE_ID,           
+       Null Ship_to_location                                          
+FROM  PWC_ONT_REQ_TO_WASH_DEP ReqToWashingDetailsEO,                                              
+      PWC_ONT_REQ_FROM_WASH_DEP ReqFromWashingDetailsEO,                                                
+      PWC_ONT_SAMPLE_STATUS_LINE LineEO,                                              
+      PWC_ONT_SAMPLE_STATUS HederEO                                              
+WHERE LineEO.LINE_ID = ReqToWashingDetailsEO.LINE_ID                                              
+AND HederEO.HEADER_ID = LineEO.HEADER_ID                                               
+AND ReqFromWashingDetailsEO.REQ_DETAIL_ID = ReqToWashingDetailsEO.REQ_DETAIL_ID                                              
+AND 'Sample Status (LOB-Dispatch)' = :pSource                                              
+AND HederEO.PROVISIONAL_SAMPLE_CODE = :pSourceDocNo                                             
+--AND HederEO.ORG_ID = :pOrgId                 
+AND ReqFromWashingDetailsEO.PRODUCTION_UNIT_ID = :pOrgId                           
+UNION ALL                                              
+SELECT 'Sample Status (Dispatch)' SOURCE,                                              
+        HederEO.PROVISIONAL_SAMPLE_CODE SOURCE_DOC_NO,                                              
+        'WSH'||'/'||LineEO.SERIAL_NO||'/'||ReqToWashingDetailsEO.ITEM_TYPE||'/'||ReqFromWashingDetailsEO.WASH_RETURN_ID DELIVERY_CHALLAN_NO,                                              
+        LineEO.SERIAL_NO||'-'||FABRIC_TYPE||'-'||ReqToWashingDetailsEO.ITEM_TYPE||'-'||ReqToWashingDetailsEO.SIZE_VAL ITEM_DETAILS,                                              
+        NULL DESCRIPTION,                                              
+        TO_NUMBER(ReqFromWashingDetailsEO.Production_Qty) QUANTITY,                                              
+        'Piece' UOM,              
+        0 SOURCE_ID,           
+        Null Ship_to_location                                     
+FROM  PWC_ONT_REQ_TO_WASH_DEP ReqToWashingDetailsEO,                                              
+      PWC_ONT_REQ_FROM_WASH_DEP ReqFromWashingDetailsEO,                                                
+      PWC_ONT_SAMPLE_STATUS_LINE LineEO,                                              
+      PWC_ONT_SAMPLE_STATUS HederEO                                              
+WHERE LineEO.LINE_ID = ReqToWashingDetailsEO.LINE_ID                                              
+AND HederEO.HEADER_ID = LineEO.HEADER_ID                                               
+AND ReqFromWashingDetailsEO.REQ_DETAIL_ID = ReqToWashingDetailsEO.REQ_DETAIL_ID                                              
+AND ReqFromWashingDetailsEO.Production_Qty IS NOT NULL                                              
+AND 'Sample Status (Dispatch)' = :pSource                                              
+AND HederEO.PROVISIONAL_SAMPLE_CODE = :pSourceDocNo                                             
+--AND HederEO.ORG_ID = :pOrgId                         
+AND ReqFromWashingDetailsEO.PRODUCTION_UNIT_ID = :pOrgId                  
+UNION ALL                                               
+SELECT 'Sample Status (LOB-Dispatch)' SOURCE,                                              
+        HederEO.PROVISIONAL_SAMPLE_CODE SOURCE_DOC_NO,                                              
+        'PRNT'||'/'||LineEO.SERIAL_NO||'/'||FromPriDepEO.ITEM_TYPE||'/'||FromPriDepEO.FROM_PRI_DEP DELIVERY_CHALLAN_NO,                                              
+        LineEO.SERIAL_NO||'-'||FABRIC_TYPE||'-'||FromPriDepEO.ITEM_TYPE||'-'||SIZES ITEM_DETAILS,                                              
+        NULL DESCRIPTION,                                              
+        TO_NUMBER(FromPriDepEO.Receive_Qty) QUANTITY,                                              
+        'Piece' UOM,              
+        0 SOURCE_ID,           
+     Null Ship_to_location                                                
+FROM  PWC_ONT_REQ_DET_FROM_PRI_DEP FromPriDepEO,                                                
+      PWC_ONT_SAMPLE_STATUS_LINE LineEO,                                              
+      PWC_ONT_SAMPLE_STATUS HederEO                                              
+WHERE HederEO.HEADER_ID = LineEO.HEADER_ID                                               
+AND FromPriDepEO.LINE_ID = LineEO.LINE_ID                                               
+AND 'Sample Status (LOB-Dispatch)' = :pSource                                              
+AND HederEO.PROVISIONAL_SAMPLE_CODE = :pSourceDocNo                                             
+--AND HederEO.ORG_ID = :pOrgId                       
+AND FromPriDepEO.PRODUCTION_UNIT_ID = :pOrgId                    
+UNION ALL                                              
+SELECT 'Sample Status (Dispatch)' SOURCE,                                              
+        HederEO.PROVISIONAL_SAMPLE_CODE SOURCE_DOC_NO,                                              
+        'PRNT'||'/'||LineEO.SERIAL_NO||'/'||FromPriDepEO.ITEM_TYPE||'/'||FromPriDepEO.FROM_PRI_DEP DELIVERY_CHALLAN_NO,                                              
+        LineEO.SERIAL_NO||'-'||FABRIC_TYPE||'-'||FromPriDepEO.ITEM_TYPE||'-'||SIZES ITEM_DETAILS,                                              
+        NULL DESCRIPTION,                                              
+        TO_NUMBER(FromPriDepEO.Production_Qty) QUANTITY,                                              
+        'Piece' UOM,              
+        0 SOURCE_ID,           
+        Null Ship_to_location                                            
+FROM  PWC_ONT_REQ_DET_FROM_PRI_DEP FromPriDepEO,                                                
+      PWC_ONT_SAMPLE_STATUS_LINE LineEO,                                              
+      PWC_ONT_SAMPLE_STATUS HederEO                                              
+WHERE HederEO.HEADER_ID = LineEO.HEADER_ID                                               
+AND FromPriDepEO.LINE_ID = LineEO.LINE_ID                                               
+AND FromPriDepEO.Production_Qty IS NOT NULL                                              
+AND 'Sample Status (Dispatch)' = :pSource                                              
+AND HederEO.PROVISIONAL_SAMPLE_CODE = :pSourceDocNo                                             
+AND HederEO.ORG_ID = :pOrgId                         
+UNION ALL                                              
+SELECT 'Sample Status (LOB-Dispatch)' SOURCE,                                              
+        HederEO.PROVISIONAL_SAMPLE_CODE SOURCE_DOC_NO,                                              
+        'EMB'||'/'||LineEO.SERIAL_NO||'/'||PwcOntReqFromEmbDeptEO.ITEM_TYPE||'/'||PwcOntReqFromEmbDeptEO.FROM_EMB_ID DELIVERY_CHALLAN_NO,                                              
+        LineEO.SERIAL_NO||'-'||FABRIC_TYPE||'-'||PwcOntReqFromEmbDeptEO.ITEM_TYPE||'-'||PwcOntReqFromEmbDeptEO.SIZES ITEM_DETAILS,                                              
+        NULL DESCRIPTION,                                              
+        TO_NUMBER(PwcOntReqFromEmbDeptEO.RECEIVED_QTY) QUANTITY,                                              
+        'Piece' UOM,              
+        0 SOURCE_ID,           
+        Null Ship_to_location                                      
+FROM  PWC_ONT_REQ_FROM_EMB_DEPT PwcOntReqFromEmbDeptEO,                                              
+      PWC_ONT_SAMPLE_STATUS_LINE LineEO,                                              
+      PWC_ONT_SAMPLE_STATUS HederEO                                              
+WHERE HederEO.HEADER_ID = LineEO.HEADER_ID                                               
+AND PwcOntReqFromEmbDeptEO.LINE_ID =  LineEO.LINE_ID                                              
+AND 'Sample Status (LOB-Dispatch)' = :pSource                                              
+AND HederEO.PROVISIONAL_SAMPLE_CODE = :pSourceDocNo                                             
+--AND HederEO.ORG_ID = :pOrgId                         
+AND PwcOntReqFromEmbDeptEO.PRODUCTION_UNIT_ID = :pOrgId                   
+UNION ALL                                              
+SELECT 'Sample Status (Dispatch)' SOURCE,                                              
+        HederEO.PROVISIONAL_SAMPLE_CODE SOURCE_DOC_NO,                                              
+        'EMB'||'/'||LineEO.SERIAL_NO||'/'||PwcOntReqFromEmbDeptEO.ITEM_TYPE||'/'||PwcOntReqFromEmbDeptEO.FROM_EMB_ID DELIVERY_CHALLAN_NO,                                              
+        LineEO.SERIAL_NO||'-'||FABRIC_TYPE||'-'||PwcOntReqFromEmbDeptEO.ITEM_TYPE||'-'||PwcOntReqFromEmbDeptEO.SIZES ITEM_DETAILS,                                              
+        NULL DESCRIPTION,                                              
+        TO_NUMBER(PwcOntReqFromEmbDeptEO.PRODUCTION_QTY) QUANTITY,                                              
+        'Piece' UOM,              
+        0 SOURCE_ID,           
+      Null Ship_to_location                                                
+FROM  PWC_ONT_REQ_FROM_EMB_DEPT PwcOntReqFromEmbDeptEO,                                              
+      PWC_ONT_SAMPLE_STATUS_LINE LineEO,                                              
+      PWC_ONT_SAMPLE_STATUS HederEO                                              
+WHERE HederEO.HEADER_ID = LineEO.HEADER_ID                                               
+AND PwcOntReqFromEmbDeptEO.LINE_ID =  LineEO.LINE_ID                                              
+AND PwcOntReqFromEmbDeptEO.PRODUCTION_QTY IS NOT NULL                                              
+AND 'Sample Status (Dispatch)' = :pSource                                              
+AND HederEO.PROVISIONAL_SAMPLE_CODE = :pSourceDocNo                                             
+AND HederEO.ORG_ID = :pOrgId                         
+UNION ALL                                              
+SELECT 'Sample Status (LOB-Dispatch)' SOURCE,                                              
+        HederEO.PROVISIONAL_SAMPLE_CODE SOURCE_DOC_NO,                                              
+        'WSH'||'/'||LineEO.SERIAL_NO||'/'||ReqFromWashingDetailsEO.ITEM_TYPE||'/'||ReqFromWashingDetailsEO.WASH_RETURN_ID DELIVERY_CHALLAN_NO,                                              
+        LineEO.SERIAL_NO||'-'||FABRIC_TYPE||'-'||ReqFromWashingDetailsEO.ITEM_TYPE||'-'||ReqFromWashingDetailsEO.SIZES ITEM_DETAILS,                                              
+        NULL DESCRIPTION,                                              
+        TO_NUMBER(ReqFromWashingDetailsEO.Received_Qty) QUANTITY,                                              
+        'Piece' UOM,              
+        0 SOURCE_ID,           
+        Null Ship_to_location                                                
+FROM  PWC_ONT_REQ_FROM_WASH_DEP ReqFromWashingDetailsEO,                                                
+      PWC_ONT_SAMPLE_STATUS_LINE LineEO,                                              
+      PWC_ONT_SAMPLE_STATUS HederEO                                              
+WHERE HederEO.HEADER_ID = LineEO.HEADER_ID                                               
+AND ReqFromWashingDetailsEO.LINE_ID = LineEO.LINE_ID                                              
+AND 'Sample Status (LOB-Dispatch)' = :pSource                                              
+AND HederEO.PROVISIONAL_SAMPLE_CODE = :pSourceDocNo                                             
+--AND HederEO.ORG_ID = :pOrgId                       
+AND ReqFromWashingDetailsEO.PRODUCTION_UNIT_ID = :pOrgId                    
+UNION ALL                                              
+SELECT 'Sample Status (Dispatch)' SOURCE,                                              
+        HederEO.PROVISIONAL_SAMPLE_CODE SOURCE_DOC_NO,                                              
+        'WSH'||'/'||LineEO.SERIAL_NO||'/'||ReqFromWashingDetailsEO.ITEM_TYPE||'/'||ReqFromWashingDetailsEO.WASH_RETURN_ID DELIVERY_CHALLAN_NO,                                              
+        LineEO.SERIAL_NO||'-'||FABRIC_TYPE||'-'||ReqFromWashingDetailsEO.ITEM_TYPE||'-'||ReqFromWashingDetailsEO.SIZES ITEM_DETAILS,                                              
+        NULL DESCRIPTION,                                              
+        TO_NUMBER(ReqFromWashingDetailsEO.Production_Qty) QUANTITY,                                              
+        'Piece' UOM,              
+        0 SOURCE_ID,           
+       Null Ship_to_location                                                
+FROM  PWC_ONT_REQ_FROM_WASH_DEP ReqFromWashingDetailsEO,                                                
+      PWC_ONT_SAMPLE_STATUS_LINE LineEO,                                              
+      PWC_ONT_SAMPLE_STATUS HederEO                                              
+WHERE HederEO.HEADER_ID = LineEO.HEADER_ID                                               
+AND ReqFromWashingDetailsEO.LINE_ID = LineEO.LINE_ID                                              
+AND ReqFromWashingDetailsEO.Production_Qty IS NOT NULL                                              
+AND 'Sample Status (Dispatch)' = :pSource                                              
+AND HederEO.PROVISIONAL_SAMPLE_CODE = :pSourceDocNo                                             
+AND HederEO.ORG_ID = :pOrgId                         
+--AND ReqFromWashingDetailsEO.PRODUCTION_UNIT_ID = :pOrgId                 
+UNION ALL                                              
+SELECT 'Sample Tracking' SOURCE,                                              
+        SAMPLE_ORDER_NO SOURCE_DOC_NO,                                              
+        SAMPLE_ORDER_NO ||'/'|| CHALLAN_NO DELIVERY_CHALLAN_NO,                                              
+        CHALLAN_NO ||'-'|| CHALLAN_LINE_ID ||'-'|| MSIB.SEGMENT1 ITEM_DETAILS,                                              
+        MSIB.DESCRIPTION DESCRIPTION,                                              
+        TO_NUMBER(CURRENT_DELIVERY) QUANTITY,                                              
+        'Piece' UOM,              
+        0 SOURCE_ID,           
+        Null Ship_to_location                                              
+FROM XXPWC.PWC_ACCESS_SMPLE_TRCKNG_HDR PwcAccessSmpleTrckngHdrEO,                                              
+     PWC_ACCES_SMPLE_TRCKNG_RCD_HDR PwcAccessSmpleRcdHdrEO,                                              
+     PWC_ACCES_SMPLE_TRCKNG_RCD_LNS PwcAccessSmpleRcdLns,                                              
+     MTL_SYSTEM_ITEMS_B MSIB                                              
+WHERE PwcAccessSmpleTrckngHdrEO.HEADER_ID = PwcAccessSmpleRcdHdrEO.HEADER_ID                                               
+AND PwcAccessSmpleRcdHdrEO.CHALLAN_ID = PwcAccessSmpleRcdLns.CHALLAN_ID                                                  
+AND MSIB.INVENTORY_ITEM_ID = PwcAccessSmpleRcdLns.ITEM_ID                                              
+AND MSIB.organization_id = xxpwc.pwc_organization_name ('Item Master Organization')                                               
+AND CURRENT_DELIVERY IS NOT NULL                                              
+AND 'Sample Tracking' = :pSource                                             
+AND SAMPLE_ORDER_NO   = :pSourceDocNo                                              
+AND ACCESSORIES_UNIT_ID = :pOrgId                           
+UNION ALL                                              
+SELECT 'Bundle Movement' SOURCE,                                              
+        PwcMfgCutissuance.CUTISSUE_NO SOURCE_DOC_NO,                                              
+        PwcMfgCutissuance.CUTISSUE_NO ||'/'||PwcMfgCutissuance.ISSUE_TO  DELIVERY_CHALLAN_NO,                                              
+        NVL(LineEO.ATTRIBUTE1,LNS_EMBROIDERY_ITEMCODE)  ITEM_DETAILS,                                              
+        NULL DESCRIPTION,                                              
+        TO_NUMBER(ISSUED_QUANTITY) QUANTITY,                                              
+        'Piece' UOM,              
+        0 SOURCE_ID,           
+        Null Ship_to_location                                    
+FROM PWC_MFG_CUTISSUANCE PwcMfgCutissuance,                                              
+     PWC_MFG_CUTISSUANCE_LINE LineEO                                              
+WHERE PwcMfgCutissuance.CUTISSUE_ID = LineEO.CUTISSUE_ID                                                   
+AND 'Bundle Movement' = :pSource                                              
+AND PwcMfgCutissuance.CUTISSUE_NO = :pSourceDocNo                                             
+AND PwcMfgCutissuance.DIVISION_ID  = :pOrgId   
+AND PwcMfgCutissuance.POSTED_STATUS  = 'Y'   
+UNION ALL                                              
+SELECT 'Spreading Table Status (Sending)' SOURCE,                                               
+        HeaderEO.ATTRIBUTE1 SOURCE_DOC_NO,                                               
+        HeaderEO.ATTRIBUTE1 ||'/'|| LineEO.ATTRIBUTE1 DELIVERY_CHALLAN_NO,                                              
+        HeaderEO.ATTRIBUTE1 ||'/'|| LineEO.ATTRIBUTE1 ITEM_DETAILS,                                              
+        NULL DESCRIPTION,                                              
+        TO_NUMBER(LineEO.ACTUAL_FABRIC_WEIGHT) QUANTITY,                                              
+        'KG' UOM,              
+        0 SOURCE_ID,           
+        Null Ship_to_location                                             
+FROM PWC_MFG_SPREADING_T_H HeaderEO,                                                 
+     PWC_MFG_SPREADING_T_L LineEO                                               
+WHERE HeaderEO.HEADER_ID  = LineEO.HEADER_ID                                               
+AND TRANSACTION_TYPE = 'Send for Pre-wash'                                                    
+AND 'Spreading Table Status (Sending)' = :pSource                                              
+AND HeaderEO.ATTRIBUTE1 = :pSourceDocNo                                             
+AND HeaderEO.DIVISION_ID  = :pOrgId                                               
+UNION ALL                                              
+SELECT 'Spreading Table Status (Receiving)' SOURCE,                                               
+        NULL SOURCE_DOC_NO,                                               
+        HeaderEO.ATTRIBUTE1 ||'/'|| LineEO.ATTRIBUTE1||'/'||HeaderEO.CHALLAN_NO DELIVERY_CHALLAN_NO,                                              
+        HeaderEO.ATTRIBUTE1 ||'-'|| LineEO.ATTRIBUTE1||'-'||HeaderEO.CHALLAN_NO ITEM_DETAILS,                                              
+        NULL DESCRIPTION,                                              
+        TO_NUMBER(LineEO.ACTUAL_FABRIC_WEIGHT) QUANTITY,                                              
+        'KG' UOM,              
+        0 SOURCE_ID,           
+        null Ship_to_location                                           
+FROM PWC_MFG_SPREADING_T_H HeaderEO,                                                 
+     PWC_MFG_SPREADING_T_L LineEO                                               
+WHERE HeaderEO.HEADER_ID  = LineEO.HEADER_ID                                               
+AND TRANSACTION_TYPE = 'Receive from Pre-wash'                                                
+AND 'Spreading Table Status (Receiving)' = :pSource                                              
+AND HeaderEO.ATTRIBUTE1 = :pSourceDocNo                                             
+AND HeaderEO.DIVISION_ID  = :pOrgId                                              
+UNION ALL                                              
+SELECT 'Dye / Wash Receive and Delivery' SOURCE,                                              
+        RECEIVE_NO SOURCE_DOC_NO,                                              
+        RECEIVE_NO ||'/'|| ISSUANCE_CHALLAN_NO DELIVERY_CHALLAN_NO,                                              
+        WASH_ORDER_NO ||'-'||STYLE||'-'||DYE_TYPE ITEM_DETAILS,                                              
+        NULL DESCRIPTION,                                              
+        TO_NUMBER(QUANTITY),                                              
+        'Piece' UOM,              
+        0 SOURCE_ID,           
+          NULL Ship_to_location                                             
+FROM pwc_mfg_dye_ir_h HeaderEO,                                              
+     PWC_ISSUE_REC_DYE_DEL_L PWC_ISSUE_REC_DYE_DEL_L_EO                                              
+WHERE HeaderEO.IR_HEADER_ID = PWC_ISSUE_REC_DYE_DEL_L_EO.IR_HEADER_ID                                              
+AND TAB_SELECTION != 'Receive'                                              
+AND ISSUANCE_CHALLAN_NO IS NOT NULL  
+AND SO_STATUS = 'Ship Confirmed'  
+--AND AR_INVOICE_NO IS NOT NULL                                              
+AND 'Dye / Wash Receive and Delivery' = :pSource                                               
+AND RECEIVE_NO = :pSourceDocNo                                             
+AND HeaderEO.ORG_ID = :pOrgId                                 
+UNION ALL                                  
+SELECT 'Sales Order Dispatches' SOURCE,                                    
+   WDD.SOURCE_HEADER_NUMBER SOURCE_DOC_NO,                                    
+   TO_CHAR(WND.DELIVERY_ID) DELIVERY_CHALLAN_NO,                                    
+   MSIB.SEGMENT1 ITEM_DETAILS,                                    
+   WDD.ITEM_DESCRIPTION DESCRIPTION,                                    
+   TO_NUMBER(SHIPPED_QUANTITY) QUANTITY,                                    
+   REQUESTED_QUANTITY_UOM UOM,              
+   WDD.DELIVERY_DETAIL_ID SOURCE_ID,           
+    hl.address1        
+       || '-'        
+       || hl.address2        
+       || '-'        
+       || hl.address3        
+       || '-'        
+       || hl.address4        
+       || '-'        
+       || hl.city        
+       || '-'        
+       || hl.cOUNTRY  Ship_to_location                                   
+/*WDD.INVENTORY_ITEM_ID,*/                                    
+FROM WSH_DELIVERY_DETAILS WDD,                                    
+   WSH_DELIVERY_ASSIGNMENTS WDA,                                    
+   WSH_NEW_DELIVERIES WND,                                    
+   MTL_SYSTEM_ITEMS_B MSIB,        
+   hz_locations hl                                    
+WHERE     1 = 1                                    
+   AND WDA.DELIVERY_DETAIL_ID = WDD.DELIVERY_DETAIL_ID                                    
+   AND MSIB.INVENTORY_ITEM_ID = WDD.INVENTORY_ITEM_ID                                    
+   AND MSIB.ORGANIZATION_ID =                                    
+          XXPWC.PWC_ORGANIZATION_NAME ('Item Master Organization')                                    
+   AND WND.DELIVERY_ID = WDA.DELIVERY_ID        
+   AND WDD.Ship_to_Location_id = hl.location_id                                    
+   AND WND.STATUS_CODE = 'CL'                                    
+   AND 'Sales Order Dispatches' = :pSource                                    
+   AND WDD.SOURCE_HEADER_NUMBER = :pSourceDocNo                                    
+   AND WDD.ORG_ID = :pOrgId                         
+UNION ALL                         
+SELECT 'Spreading Table Status (Sending)' SOURCE,                          
+        NULL SOURCE_DOC_NO,                          
+        HeaderEO.ATTRIBUTE1 ||'/'|| LineEO.ATTRIBUTE1 DELIVERY_CHALLAN_NO,                         
+        HeaderEO.ATTRIBUTE1 ||'/'|| LineEO.ATTRIBUTE1 ITEM_DETAILS,                         
+        NULL DESCRIPTION,                         
+        TO_NUMBER(LineEO.ACTUAL_FABRIC_WEIGHT) QUANTITY,                         
+        'KG' UOM,              
+        0 SOURCE_ID,           
+   null Ship_to_location           
+     FROM PWC_MFG_SPREADING_T_H HeaderEO,                            
+     PWC_MFG_SPREADING_T_L LineEO                          
+WHERE HeaderEO.HEADER_ID  = LineEO.HEADER_ID                          
+AND TRANSACTION_TYPE = 'Send for Pre-wash'                               
+AND 'Spreading Table Status (Sending)' = :pSource                         
+AND HeaderEO.DIVISION_ID  = :pOrgId                            
+UNION ALL                         
+SELECT 'Spreading Table Status (Receiving)' SOURCE,                          
+        NULL SOURCE_DOC_NO,                          
+        HeaderEO.ATTRIBUTE1 ||'/'|| LineEO.ATTRIBUTE1||'/'||HeaderEO.CHALLAN_NO DELIVERY_CHALLAN_NO,                         
+        HeaderEO.ATTRIBUTE1 ||'-'|| LineEO.ATTRIBUTE1||'-'||HeaderEO.CHALLAN_NO ITEM_DETAILS,                         
+        NULL DESCRIPTION,                         
+        TO_NUMBER(LineEO.ACTUAL_FABRIC_WEIGHT) QUANTITY,                         
+        'KG' UOM,              
+        0 SOURCE_ID,           
+        null Ship_to_location                         
+FROM PWC_MFG_SPREADING_T_H HeaderEO,                            
+     PWC_MFG_SPREADING_T_L LineEO                          
+WHERE HeaderEO.HEADER_ID  = LineEO.HEADER_ID                          
+AND TRANSACTION_TYPE = 'Receive from Pre-wash'                           
+AND 'Spreading Table Status (Receiving)' = :pSource                         
+AND HeaderEO.DIVISION_ID  = :pOrgId                        
+UNION ALL                    
+SELECT DISTINCT 'Inter Orgs' SOURCE,                                              
+        (MTT.TRANSFER_TRANSACTION_ID || ' - ' || TRANSFER_SUBINVENTORY || ' To ' || SUBINVENTORY_CODE || ' - ' || TRANSACTION_DATE) AS SOURCE_DOC_NO,                    
+        (MTT.TRANSFER_TRANSACTION_ID || ' - ' || TRANSFER_SUBINVENTORY || ' To ' || SUBINVENTORY_CODE || ' - ' || TRANSACTION_DATE) AS DELIVERY_CHALLAN_NO,                    
+         MSIB.SEGMENT1 ITEM_DETAILS,                    
+         MSIB.DESCRIPTION,                    
+         ABS(TRANSACTION_QUANTITY) QUANTITY,                    
+         TRANSACTION_UOM UOM,              
+         0 SOURCE_ID,           
+         Null Ship_to_location                                     
+FROM  MTL_MATERIAL_TRANSACTIONS MTT,                    
+      MTL_SYSTEM_ITEMS MSIB                    
+WHERE MTT.INVENTORY_ITEM_ID = MSIB.INVENTORY_ITEM_ID                    
+AND 'Inter Orgs' = :pSource                                              
+AND MTT.TRANSFER_TRANSACTION_ID = :pSourceDocNo                                             
+AND EXISTS (SELECT OOD.ORGANIZATION_ID FROM ORG_ORGANIZATION_DEFINITIONS OOD, HR_OPERATING_UNITS HOU                     
+                            WHERE 1=1                    
+                            AND OOD.OPERATING_UNIT = HOU.ORGANIZATION_ID                    
+                            AND HOU.ORGANIZATION_ID = :pOrgId                    
+                            AND MTT.ORGANIZATION_ID = OOD.ORGANIZATION_ID                    
+                            )                    
+UNION ALL                    
+SELECT DISTINCT 'Move Order' SOURCE,                                              
+        MTRH.REQUEST_NUMBER AS SOURCE_DOC_NO,                    
+        MTRH.REQUEST_NUMBER AS DELIVERY_CHALLAN_NO,                    
+        MSIB.SEGMENT1 ITEM_DETAILS,                    
+        NULL DESCRIPTION,                    
+        TRANSACTION_QUANTITY QUANTITY,                    
+        TRANSACTION_UOM UOM,              
+        0 SOURCE_ID,           
+        Null Ship_to_location                            
+FROM  MTL_MATERIAL_TRANSACTIONS MTT,                    
+      MTL_SYSTEM_ITEMS MSIB,                    
+      MTL_TXN_REQUEST_HEADERS MTRH                    
+WHERE MTT.INVENTORY_ITEM_ID = MSIB.INVENTORY_ITEM_ID                    
+AND MTT.TRANSACTION_SOURCE_ID = MTRH.HEADER_ID                    
+AND 'Move Order' = :pSource                                              
+AND MTRH.REQUEST_NUMBER = :pSourceDocNo                    
+AND SIGN(TRANSACTION_QUANTITY) = 1                    
+AND EXISTS (SELECT OOD.ORGANIZATION_ID FROM ORG_ORGANIZATION_DEFINITIONS OOD, HR_OPERATING_UNITS HOU                     
+                            WHERE 1=1                    
+                            AND OOD.OPERATING_UNIT = HOU.ORGANIZATION_ID                    
+                            AND HOU.ORGANIZATION_ID = :pOrgId                    
+                            AND MTRH.ORGANIZATION_ID = OOD.ORGANIZATION_ID                    
+                            )                    
+UNION ALL                        
+SELECT 'Issue / Receive Garments - Issue' SOURCE,                        
+        HeaderEO.RECEIVE_NO SOURCE_DOC_NO,                        
+        HeaderEO.RECEIVE_NO DELIVERY_CHALLAN_NO,                        
+        LineEO.ATTRIBUTE2||'-'||PIECE_NAME ITEM_DETAILS,                        
+        NULL DESCRIPTION,                        
+        TO_NUMBER(LineEO.QUANTITY) QUANTITY,                        
+        'Piece' UOM,              
+        0 SOURCE_ID,          
+       Null  Ship_to_location                        
+FROM PWC_MFG_ISSUE_REC_WASH_H HeaderEO,                     
+       PWC_MFG_ISSUE_REC_WASH_L_H LineHeaderEO,                     
+       PWC_MFG_ISSUE_REC_WASH_L LineEO                     
+ WHERE HeaderEO.HEADER_ID = LineHeaderEO.HEADER_ID                     
+   AND  LineHeaderEO.LINE_ID =  LineEO.HEADER_ID                         
+AND 'Issue / Receive Garments - Issue' = :pSource                     
+AND HeaderEO.RECEIVE_NO = :pSourceDocNo                        
+AND HeaderEO.ORG_ID = :pOrgId                        
+UNION ALL                        
+SELECT 'Issue / Receive Garments - Receive' SOURCE,                        
+        HeaderEO.RECEIVE_NO SOURCE_DOC_NO,                        
+        HeaderEO.RECEIVE_NO DELIVERY_CHALLAN_NO,                        
+        LineEO.ATTRIBUTE2 ITEM_DETAILS,                        
+        NULL DESCRIPTION,                        
+        TO_NUMBER(LineEO.ATTRIBUTE4) QUANTITY,                        
+        'Piece' UOM,              
+        0 SOURCE_ID,           
+       Null Ship_to_location                         
+FROM PWC_MFG_ISSUE_REC_WASH_H HeaderEO,                     
+       PWC_MFG_ISSUE_REC_WASH_L_H LineHeaderEO,                      
+       PWC_MFG_ISSUE_REC_WASH_D LineEO                        
+ WHERE     HeaderEO.HEADER_ID = LineHeaderEO.HEADER_ID                     
+       AND LineEO.HEADER_ID = LineHeaderEO.LINE_ID                            
+AND 'Issue / Receive Garments - Receive' = :pSource                     
+AND HeaderEO.RECEIVE_NO = :pSourceDocNo                        
+AND HeaderEO.ORG_ID = :pOrgId         
+UNION ALL       
+SELECT 'Accessories Movement' SOURCE,      
+       HederEO.DOCUMENT_NO SOURCE_DOC_NO,      
+        HederEO.UNIT_NAME || ' : ' || HederEO.DOCUMENT_NO      
+          DELIVERY_CHALLAN_NO,      
+        (LineEO.GREIGE_ITEM) ITEM_DETAILS,      
+       LineEO.GREIGE_ITEM_DESC DESCRIPTION,      
+       TO_NUMBER (GREIGE_QUANTITY) QUANTITY,      
+       LineEO.GREIGE_UOM UOM,    
+       0 SOURCE_ID,      
+       NULL Ship_to_location      
+  FROM PWC_ACCESSORIES_MOVEMENT_HDR HederEO,      
+       PWC_ACCESSORIES_MOVEMENT_LNS LineEO      
+ WHERE     1 = 1      
+       AND HederEO.HEADER_ID = LineEO.HEADER_ID      
+       AND 'Accessories Movement' = :pSource      
+       AND HederEO.DOCUMENT_NO = :pSourceDocNo      
+       And HEDEREO.TRANSACTION_TYPE = 'Send to Dyeing'      
+AND HederEO.ORG_ID  = :pOrgId      
+)ABC                          
+WHERE 1=1                          
+AND NOT EXISTS(SELECT * FROM XXPWC.PWC_GATE_PASS_LINES GPL, XXPWC.PWC_GATE_PASS_DETAILS GPD                       
+                WHERE 1=1                      
+                AND GPL.LINE_ID = GPD.LINE_ID                       
+                AND GPL.DELIVERY_CHALLAN_NO = ABC.DELIVERY_CHALLAN_NO                       
+                AND GPL.SOURCE_DOC_NO = ABC.SOURCE_DOC_NO                      
+                AND GPD.ITEM_DETAILS = ABC.ITEM_DETAILS              
+                AND GPD.SOURCE_ID = ABC.SOURCE_ID                      
+                )]]></SQLQuery>
+  <ViewAttribute
+    Name="Source"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="255"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="SOURCE"
+    Expression="SOURCE"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="34"/>
+    </DesignTime>
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYWIDTH
+          Value="20"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="SourceDocNo"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="250"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="SOURCE_DOC_NO"
+    Expression="SOURCE_DOC_NO"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="250"/>
+    </DesignTime>
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYWIDTH
+          Value="15"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="DeliveryChallanNo"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="757"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="DELIVERY_CHALLAN_NO"
+    Expression="DELIVERY_CHALLAN_NO"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="757"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="ItemDetails"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="1023"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="ITEM_DETAILS"
+    Expression="ITEM_DETAILS"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="1023"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="Description"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="DESCRIPTION"
+    Expression="DESCRIPTION"
+    SQLType="VARCHAR"/>
+  <ViewAttribute
+    Name="Quantity"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Type="java.math.BigDecimal"
+    ColumnType="NUMBER"
+    AliasName="QUANTITY"
+    Expression="QUANTITY"
+    SQLType="NUMERIC">
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYWIDTH
+          Value="13"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="Uom"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="5"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="UOM"
+    Expression="UOM"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="5"/>
+    </DesignTime>
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYWIDTH
+          Value="15"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="SourceId"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Type="java.math.BigDecimal"
+    ColumnType="NUMBER"
+    AliasName="SOURCE_ID"
+    Expression="SOURCE_ID"
+    SQLType="NUMERIC"/>
+  <ViewAttribute
+    Name="ShipToLocation"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="SHIP_TO_LOCATION"
+    Expression="SHIP_TO_LOCATION"
+    SQLType="VARCHAR"/>
+  <ViewAttribute
+    Name="selectFlag"
+    IsSelected="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="255"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="VIEW_ATTR"
+    SQLType="VARCHAR">
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYWIDTH
+          Value="10"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ResourceBundle>
+    <PropertiesBundle
+      PropertiesFile="model.ModelBundle"/>
+  </ResourceBundle>
+</ViewObject>

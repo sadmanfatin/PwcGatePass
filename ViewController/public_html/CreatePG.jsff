@@ -1,0 +1,887 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
+                xmlns:f="http://java.sun.com/jsf/core">
+  <af:panelHeader text="Gate Pass - IGP" id="ph1"
+                  rendered="#{sessionScope.gatePassClass eq 'IGP'}">
+    <f:facet name="context"/>
+    <f:facet name="toolbar"/>
+    <f:facet name="menuBar"/>
+    <f:facet name="legend"/>
+    <f:facet name="info"/>
+  </af:panelHeader>
+  <af:panelHeader text="Gate Pass - OGP" id="ph4"
+                  rendered="#{sessionScope.gatePassClass eq 'OGP' &amp;&amp; !(sessionScope.timeOutMode eq 'Y')}">
+    <f:facet name="context"/>
+    <f:facet name="toolbar"/>
+    <f:facet name="menuBar"/>
+    <f:facet name="legend"/>
+    <f:facet name="info"/>
+  </af:panelHeader>
+  <af:panelHeader text="Gate Pass - Time Out" id="ph5" rendered="#{sessionScope.timeOutMode eq 'Y'}">
+    <f:facet name="context"/>
+    <f:facet name="toolbar"/>
+    <f:facet name="menuBar"/>
+    <f:facet name="legend"/>
+    <f:facet name="info"/>
+  </af:panelHeader>
+  <af:panelFormLayout id="pfl2" partialTriggers="b1" maxColumns="3" rows="8">
+    <f:facet name="footer">
+      <af:toolbar id="t5">
+        <af:spacer id="s4" width="250"/>
+        <af:button text="Save" id="b1"
+                   action="#{backingBeanScope.Main.saveBtnAction}"
+                   visible="#{sessionScope.timeOutMode eq 'Y' ? 'false' : 'true'}"
+                   disabled="#{sessionScope.gatePassClass eq 'OGP' &amp;&amp; sessionScope.timeOutMode eq 'Y' ||( bindings.ApprovalStatus.inputValue eq 'I' || bindings.ApprovalStatus.inputValue eq 'Y')}"
+                   partialTriggers="it26"/>
+        <af:button text="Attachment" id="b3" disabled="#{sessionScope.timeOutMode eq 'Y'}"
+                   actionListener="#{backingBeanScope.Main.AttachementActionListener}"/>
+        <af:button text="Send For Approval" id="b4" partialTriggers="gatePassClass1Id it26"
+                   visible="#{bindings.GatePassClass1.inputValue =='Time Out' ? 'false' : 'true'}"
+                   disabled="#{sessionScope.timeOutMode eq 'Y' || bindings.ApprovalStatus.inputValue eq 'I' ||bindings.ApprovalStatus.inputValue eq 'Y'}"
+                   actionListener="#{backingBeanScope.Main.GpWorkflowNotifyBean}"/>
+        <af:button actionListener="#{bindings.Rollback.execute}" text="Back" immediate="true" id="b17" action="gotoSearch">
+          <af:resetActionListener/>
+        </af:button>
+        <af:button actionListener="#{bindings.Rollback.execute}" text="Back" immediate="true" id="b2"
+                   action="gotoSearch   " visible="false">
+          <af:resetActionListener/>
+        </af:button>
+        <af:button actionListener="#{bindings.Commit.execute}" text="Gate Out" id="b12"
+                   visible="#{sessionScope.timeOutMode eq 'Y'}"
+                   partialTriggers="gatePassClass1Id b12 it24" action="#{backingBeanScope.Main.gateOutAction}"
+                   binding="#{backingBeanScope.Main.gateoutBtnBinding}"
+                   disabled="#{bindings.GateInDate.inputValue != null ? 'true' : 'false' &amp;&amp; (sessionScope.timeOutMode eq 'Y')}"/>
+      </af:toolbar>
+    </f:facet>
+    <af:inputComboboxListOfValues id="gatePassClass1Id"
+                                  popupTitle="Search and Select: #{bindings.GatePassClass1.hints.label}"
+                                  value="#{bindings.GatePassClass1.inputValue}" label="Gate Pass Class"
+                                  model="#{bindings.GatePassClass1.listOfValuesModel}" columns="25"
+                                  shortDesc="#{bindings.GatePassClass1.hints.tooltip}"
+                                  disabled="#{bindings.GatePassClass1.inputValue =='Time Out' ? 'true' : 'false'}"
+                                  binding="#{backingBeanScope.Main.gatePassClassHeader}" autoSubmit="true"
+                                  showRequired="true"
+                                  required="#{bindings.GatePassClass1.inputValue eq 'OGP' ? 'false' : 'true'}"
+                                  readOnly="true">
+      <f:validator binding="#{bindings.GatePassClass1.validator}"/>
+      <af:autoSuggestBehavior suggestedItems="#{bindings.GatePassClass1.suggestedItems}"/>
+    </af:inputComboboxListOfValues>
+    <af:selectOneRadio value="#{bindings.GatePassType1.inputValue}" label="Gate Pass Type"
+                       shortDesc="#{bindings.GatePassType1.hints.tooltip}" id="sor1" autoSubmit="true"
+                       disabled="#{bindings.GatePassClass1.inputValue =='Time Out' ? 'true' : 'false'}"
+                       partialTriggers="gatePassClass1Id it26 pc1:b13 pc1:b7"
+                       valueChangeListener="#{backingBeanScope.Main.gatePassVCListener}" showRequired="true"
+                       binding="#{backingBeanScope.Main.gatePassTypeBinding}" required="true" immediate="true"
+                       readOnly="#{sessionScope.timeOutMode eq 'Y' || bindings.ApprovalStatus.inputValue eq 'I' || bindings.ApprovalStatus.inputValue eq 'Y'}"
+                       rendered="true">
+      <f:selectItems value="#{bindings.GatePassType1.items}" id="si1"/>
+      <f:validator binding="#{bindings.GatePassType1.validator}"/>
+    </af:selectOneRadio>
+    <af:inputDate label="Gate Pass Date" columns="#{bindings.GatePassDate.hints.displayWidth}"
+                  shortDesc="#{bindings.GatePassDate.hints.tooltip}" id="id1"
+                  value="#{bindings.GatePassDate.inputValue}"
+                  disabled="#{bindings.GatePassClass1.inputValue =='Time Out' ? 'true' : 'false'}"
+                  partialTriggers="gatePassClass1Id it26" showRequired="true" autoSubmit="true" immediate="true"
+                  readOnly="#{sessionScope.timeOutMode eq 'Y' || bindings.ApprovalStatus.inputValue eq 'I' || bindings.ApprovalStatus.inputValue eq 'Y'}"
+                  required="true">
+      <f:validator binding="#{bindings.GatePassDate.validator}"/>
+      <af:convertDateTime pattern="#{bindings.GatePassDate.format}"/>
+    </af:inputDate>
+    <af:inputText value="#{bindings.GatePassNo.inputValue}" label="Gate Pass No"
+                  required="#{bindings.GatePassNo.hints.mandatory}" columns="25"
+                  maximumLength="#{bindings.GatePassNo.hints.precision}"
+                  shortDesc="#{bindings.GatePassNo.hints.tooltip}" id="it3"
+                  disabled="#{bindings.GatePassClass1.inputValue =='Time Out' ? 'true' : 'false'}"
+                  partialTriggers="gatePassClass1Id" showRequired="true" readOnly="true">
+      <f:validator binding="#{bindings.GatePassNo.validator}"/>
+    </af:inputText>
+    <af:inputComboboxListOfValues id="partyFromNameId"
+                                  popupTitle="Search and Select: #{bindings.PartyFromName.hints.label}"
+                                  value="#{bindings.PartyFromName.inputValue}" label="Party Name"
+                                  model="#{bindings.PartyFromName.listOfValuesModel}" columns="25"
+                                  shortDesc="#{bindings.PartyFromName.hints.tooltip}"
+                                  visible="#{bindings.GatePassClass1.inputValue == 'IGP' ? 'true' : 'false'}"
+                                  partialTriggers="gatePassClass1Id it26"
+                                  disabled="#{bindings.GatePassClass1.inputValue =='Time Out' ? 'true' : 'false'}"
+                                  autoSubmit="true"
+                                  required="#{bindings.GatePassClass1.inputValue == 'IGP' &amp;&amp; bindings.GatePassType1.inputValue == 'Generic' ? 'false' : bindings.GatePassClass1.inputValue == 'IGP' &amp;&amp; bindings.GatePassType1.inputValue == 'Transactional' ? 'true' : 'false'}"
+                                  readOnly="#{sessionScope.timeOutMode eq 'Y' || bindings.ApprovalStatus.inputValue eq 'I' || bindings.ApprovalStatus.inputValue eq 'Y'}"
+                                  showRequired="#{bindings.GatePassClass1.inputValue == 'IGP' &amp;&amp; bindings.GatePassType1.inputValue == 'Generic' ? 'false' : bindings.GatePassClass1.inputValue == 'IGP' &amp;&amp; bindings.GatePassType1.inputValue == 'Transactional' ? 'true' : 'false'}">
+      <f:validator binding="#{bindings.PartyFromName.validator}"/>
+      <af:autoSuggestBehavior suggestedItems="#{bindings.PartyFromName.suggestedItems}"/>
+    </af:inputComboboxListOfValues>
+    <af:inputText value="#{bindings.PartyFromAddress.inputValue}"
+                  label="#{bindings.GatePassType1.inputValue == 'Generic' ? 'Deliver to Address' : 'Party From Address'}"
+                  required="#{bindings.GatePassClass1.inputValue == 'IGP' &amp;&amp; bindings.GatePassType1.inputValue == 'Generic' ? 'false' : (bindings.GatePassClass1.inputValue == 'IGP' &amp;&amp;  bindings.GatePassType1.inputValue == 'Transactional' ? 'true' : 'false')}"
+                  columns="#{bindings.PartyFromAddress.hints.displayWidth}"
+                  maximumLength="#{bindings.PartyFromAddress.hints.precision}"
+                  shortDesc="#{bindings.PartyFromAddress.hints.tooltip}" id="it37"
+                  visible="#{bindings.GatePassClass1.inputValue == 'IGP' ? 'true' : 'false'}"
+                  partialTriggers="gatePassClass1Id sor1 partyFromNameId"
+                  disabled="#{bindings.GatePassType1.inputValue == 'Generic' ? 'false' : 'true'}"
+                  readOnly="#{sessionScope.timeOutMode eq 'Y' || bindings.ApprovalStatus.inputValue eq 'I' || bindings.ApprovalStatus.inputValue eq 'Y'}">
+      <f:validator binding="#{bindings.PartyFromAddress.validator}"/>
+    </af:inputText>
+    <af:inputComboboxListOfValues id="partyToNameId" popupTitle="Search and Select: #{bindings.PartyToName.hints.label}"
+                                  value="#{bindings.PartyToName.inputValue}" label="Party Name"
+                                  model="#{bindings.PartyToName.listOfValuesModel}" columns="25"
+                                  shortDesc="#{bindings.PartyToName.hints.tooltip}"
+                                  showRequired="#{bindings.GatePassClass1.inputValue == 'OGP' &amp;&amp; bindings.GatePassType1.inputValue == 'Generic' ? 'false' : bindings.GatePassClass1.inputValue == 'OGP' &amp;&amp; bindings.GatePassType1.inputValue == 'Transactional' ? 'true' : 'false'}"
+                                  visible="#{bindings.GatePassClass1.inputValue == 'OGP' || bindings.GatePassClass1.inputValue == 'Time Out' ? 'true' : 'false'}"
+                                  partialTriggers="gatePassClass1Id it26 sor1"
+                                  disabled="#{bindings.GatePassClass1.inputValue =='Time Out' ? 'true' : 'false'}"
+                                  autoSubmit="true"
+                                  readOnly="#{sessionScope.timeOutMode eq 'Y' || bindings.ApprovalStatus.inputValue eq 'I' || bindings.ApprovalStatus.inputValue eq 'Y'}"
+                                  required="#{bindings.GatePassClass1.inputValue == 'OGP' &amp;&amp; bindings.GatePassType1.inputValue == 'Generic' ? 'false' : bindings.GatePassClass1.inputValue == 'OGP' &amp;&amp; bindings.GatePassType1.inputValue == 'Transactional' ? 'true' : 'false'}">
+      <f:validator binding="#{bindings.PartyToName.validator}"/>
+      <af:autoSuggestBehavior suggestedItems="#{bindings.PartyToName.suggestedItems}"/>
+    </af:inputComboboxListOfValues>
+    <af:inputText value="#{bindings.PartyToAddress.inputValue}"
+                  label="#{bindings.GatePassType1.inputValue == 'Generic' ? 'Deliver to Address' : 'Party To Address'}"
+                  required="#{bindings.GatePassClass1.inputValue == 'OGP' &amp;&amp; bindings.GatePassType1.inputValue == 'Generic' ? 'false' : bindings.GatePassClass1.inputValue == 'OGP' &amp;&amp; bindings.GatePassType1.inputValue == 'Transactional' ? 'true' : 'false'}"
+                  columns="#{bindings.PartyToAddress.hints.displayWidth}"
+                  maximumLength="#{bindings.PartyToAddress.hints.precision}"
+                  shortDesc="#{bindings.PartyToAddress.hints.tooltip}" id="it36" partialTriggers="partyToNameId sor1"
+                  visible="#{bindings.GatePassClass1.inputValue == 'OGP' ? 'true' : 'false'}"
+                  disabled="#{bindings.GatePassType1.inputValue == 'Generic' ? 'false' : 'true'}"
+                  readOnly="#{sessionScope.timeOutMode eq 'Y' || bindings.ApprovalStatus.inputValue eq 'I' || bindings.ApprovalStatus.inputValue eq 'Y'}">
+      <f:validator binding="#{bindings.PartyToAddress.validator}"/>
+    </af:inputText>
+    <af:inputText value="#{bindings.PartyAddressGeneric.inputValue}" label="Party To Address"
+                  required="#{bindings.PartyAddressGeneric.hints.mandatory}"
+                  columns="30"
+                  maximumLength="#{bindings.PartyAddressGeneric.hints.precision}"
+                  shortDesc="#{bindings.PartyAddressGeneric.hints.tooltip}" id="it35"
+                  binding="#{backingBeanScope.Main.partyaddressgeneric}" partialTriggers="sor1" visible="false">
+      <f:validator binding="#{bindings.PartyAddressGeneric.validator}"/>
+    </af:inputText>
+    <af:inputComboboxListOfValues id="vehicleType1Id"
+                                  popupTitle="Search and Select: #{bindings.VehicleType1.hints.label}"
+                                  value="#{bindings.VehicleType1.inputValue}" label="Vehicle Type"
+                                  model="#{bindings.VehicleType1.listOfValuesModel}" columns="25"
+                                  shortDesc="#{bindings.VehicleType1.hints.tooltip}"
+                                  disabled="#{bindings.GatePassClass1.inputValue =='Time Out' ? 'true' : 'false'}"
+                                  partialTriggers="gatePassClass1Id it26" showRequired="true" autoSubmit="true"
+                                  required="true"
+                                  readOnly="#{sessionScope.timeOutMode eq 'Y' || bindings.ApprovalStatus.inputValue eq 'I' || bindings.ApprovalStatus.inputValue eq 'Y'}">
+      <f:validator binding="#{bindings.VehicleType1.validator}"/>
+      <af:autoSuggestBehavior suggestedItems="#{bindings.VehicleType1.suggestedItems}"/>
+    </af:inputComboboxListOfValues>
+    <af:inputText value="#{bindings.OuId.inputValue}" label="#{bindings.OuId.hints.label}"
+                  required="#{bindings.OuId.hints.mandatory}" columns="#{bindings.OuId.hints.displayWidth}"
+                  maximumLength="#{bindings.OuId.hints.precision}" shortDesc="#{bindings.OuId.hints.tooltip}" id="it1"
+                  readOnly="true" visible="false">
+      <f:validator binding="#{bindings.OuId.validator}"/>
+      <af:convertNumber groupingUsed="false" pattern="#{bindings.OuId.format}"/>
+    </af:inputText>
+    <af:inputComboboxListOfValues id="operatingUnitId"
+                                  popupTitle="Search and Select: #{bindings.OperatingUnit.hints.label}"
+                                  value="#{bindings.OperatingUnit.inputValue}"
+                                  label="Operating Unit"
+                                  model="#{bindings.OperatingUnit.listOfValuesModel}"
+                                  columns="25"
+                                  shortDesc="#{bindings.OperatingUnit.hints.tooltip}"
+                                  binding="#{backingBeanScope.Main.comboInputOperatingUnitBinding}" required="true"
+                                  showRequired="true"
+                                  readOnly="#{sessionScope.timeOutMode eq 'Y' || bindings.ApprovalStatus.inputValue eq 'I' || bindings.ApprovalStatus.inputValue eq 'Y'}"
+                                  valueChangeListener="#{backingBeanScope.Main.operatingUnitVCL}"
+                                  disabled="#{bindings.GatePassNo.inputValue != null ? 'true' : 'false'}">
+      <f:validator binding="#{bindings.OperatingUnit.validator}"/>
+      <af:autoSuggestBehavior suggestedItems="#{bindings.OperatingUnit.suggestedItems}"/>
+    </af:inputComboboxListOfValues>
+    <af:inputText value="#{bindings.OperatingUnit1.inputValue}" label="Operating Unit"
+                  required="#{bindings.OperatingUnit1.hints.mandatory}" columns="25"
+                  maximumLength="#{bindings.OperatingUnit1.hints.precision}"
+                  shortDesc="#{bindings.OperatingUnit1.hints.tooltip}" id="it15" showRequired="true"
+                  binding="#{backingBeanScope.Main.inputOperatingUnitBinding}" readOnly="true" visible="false"
+                  rendered="false">
+      <f:validator binding="#{bindings.OperatingUnit1.validator}"/>
+    </af:inputText>
+    <af:inputComboboxListOfValues id="org_NamId" popupTitle="Search and Select: #{bindings.Org_Nam.hints.label}"
+                                  value="#{bindings.Org_Nam.inputValue}" label="Organization Name"
+                                  model="#{bindings.Org_Nam.listOfValuesModel}"
+                                  required="#{bindings.Org_Nam.hints.mandatory}"
+                                  columns="25"
+                                  shortDesc="#{bindings.Org_Nam.hints.tooltip}" autoSubmit="true"
+                                  readOnly="#{sessionScope.timeOutMode eq 'Y' || bindings.ApprovalStatus.inputValue eq 'I' || bindings.ApprovalStatus.inputValue eq 'Y'}">
+      <f:validator binding="#{bindings.Org_Nam.validator}"/>
+      <af:autoSuggestBehavior suggestedItems="#{bindings.Org_Nam.suggestedItems}"/>
+    </af:inputComboboxListOfValues>
+    <af:panelLabelAndMessage label="#{bindings.OrganizationId.hints.label}" id="plam8" visible="false">
+      <af:outputText value="#{bindings.OrganizationId.inputValue}" shortDesc="#{bindings.OrganizationId.hints.tooltip}"
+                     id="ot7"/>
+    </af:panelLabelAndMessage>
+    <af:inputText value="#{bindings.VehicleNo.inputValue}" label="Vehicle No" columns="25"
+                  maximumLength="#{bindings.VehicleNo.hints.precision}" shortDesc="#{bindings.VehicleNo.hints.tooltip}"
+                  id="it10" disabled="#{bindings.GatePassClass1.inputValue =='Time Out' ? 'true' : 'false'}"
+                  partialTriggers="gatePassClass1Id it26"
+                  immediate="true"
+                  readOnly="#{sessionScope.timeOutMode eq 'Y' || bindings.ApprovalStatus.inputValue eq 'I' || bindings.ApprovalStatus.inputValue eq 'Y'}"
+                  autoSubmit="true" showRequired="true" required="true">
+      <f:validator binding="#{bindings.VehicleNo.validator}"/>
+    </af:inputText>
+    <af:inputText value="#{bindings.DriverName.inputValue}" label="Driver Name" columns="25"
+                  maximumLength="#{bindings.DriverName.hints.precision}"
+                  shortDesc="#{bindings.DriverName.hints.tooltip}" id="it11"
+                  disabled="#{bindings.GatePassClass1.inputValue =='Time Out' ? 'true' : 'false'}"
+                  partialTriggers="gatePassClass1Id it26"
+                  readOnly="#{sessionScope.timeOutMode eq 'Y' || bindings.ApprovalStatus.inputValue eq 'I' || bindings.ApprovalStatus.inputValue eq 'Y'}"
+                  autoSubmit="true" required="true" showRequired="true">
+      <f:validator binding="#{bindings.DriverName.validator}"/>
+    </af:inputText>
+    <af:inputText value="#{bindings.DriverPhone.inputValue}" label="Driver Phone"
+                  required="true" columns="25"
+                  maximumLength="#{bindings.DriverPhone.hints.precision}"
+                  shortDesc="#{bindings.DriverPhone.hints.tooltip}" id="it12"
+                  disabled="#{bindings.GatePassClass1.inputValue =='Time Out' ? 'true' : 'false'}"
+                  partialTriggers="gatePassClass1Id it26"
+                  readOnly="#{sessionScope.timeOutMode eq 'Y' || bindings.ApprovalStatus.inputValue eq 'I' || bindings.ApprovalStatus.inputValue eq 'Y'}"
+                  autoSubmit="true">
+      <f:validator binding="#{bindings.DriverPhone.validator}"/>
+    </af:inputText>
+    <af:inputText value="#{bindings.ApproveStatusMeaning.inputValue}"
+                  label="Approval Status"
+                  required="#{bindings.ApproveStatusMeaning.hints.mandatory}"
+                  columns="#{bindings.ApproveStatusMeaning.hints.displayWidth}"
+                  maximumLength="#{bindings.ApproveStatusMeaning.hints.precision}"
+                  shortDesc="#{bindings.ApproveStatusMeaning.hints.tooltip}" id="it28" readOnly="true"
+                  partialTriggers="it26" binding="#{backingBeanScope.Main.approvastatusbnd}">
+      <f:validator binding="#{bindings.ApproveStatusMeaning.validator}"/>
+    </af:inputText>
+    <af:inputText value="#{bindings.ApprovalStatus.inputValue}" label="Approval Status"
+                  required="#{bindings.ApprovalStatus.hints.mandatory}"
+                  columns="#{bindings.ApprovalStatus.hints.displayWidth}"
+                  maximumLength="#{bindings.ApprovalStatus.hints.precision}"
+                  shortDesc="#{bindings.ApprovalStatus.hints.tooltip}" id="it26" readOnly="true" partialTriggers="b4"
+                  visible="false" autoSubmit="true">
+      <f:validator binding="#{bindings.ApprovalStatus.validator}"/>
+    </af:inputText>
+    <af:inputText value="#{bindings.SumofLineQty.inputValue}" label=" OGP Total Quantity"
+                  required="#{bindings.SumofLineQty.hints.mandatory}"
+                  columns="#{bindings.SumofLineQty.hints.displayWidth}"
+                  maximumLength="#{bindings.SumofLineQty.hints.precision}"
+                  shortDesc="#{bindings.SumofLineQty.hints.tooltip}" id="it30" inlineStyle="font-size:large;">
+      <f:validator binding="#{bindings.SumofLineQty.validator}"/>
+    </af:inputText>
+    <af:inputText value="#{bindings.Remarks.inputValue}" label="#{bindings.Remarks.hints.label}"
+                  required="#{bindings.Remarks.hints.mandatory}" columns="30"
+                  maximumLength="#{bindings.Remarks.hints.precision}" shortDesc="#{bindings.Remarks.hints.tooltip}"
+                  id="it34"
+                  readOnly="#{sessionScope.timeOutMode eq 'Y' || bindings.ApprovalStatus.inputValue eq 'I' || bindings.ApprovalStatus.inputValue eq 'Y'}">
+      <f:validator binding="#{bindings.Remarks.validator}"/>
+    </af:inputText>
+    <af:inputText value="#{bindings.DisabledFlag.inputValue}" label="#{bindings.DisabledFlag.hints.label}"
+                  required="#{bindings.DisabledFlag.hints.mandatory}"
+                  columns="#{bindings.DisabledFlag.hints.displayWidth}"
+                  maximumLength="#{bindings.DisabledFlag.hints.precision}"
+                  shortDesc="#{bindings.DisabledFlag.hints.tooltip}" id="it25"
+                  binding="#{backingBeanScope.Main.disabledFlagBinding}" visible="false">
+      <f:validator binding="#{bindings.DisabledFlag.validator}"/>
+    </af:inputText>
+    <af:selectBooleanCheckbox value="#{bindings.Returnable1.inputValue}" label="Returnable"
+                              shortDesc="#{bindings.Returnable1.hints.tooltip}" id="sbc2"
+                              partialTriggers="sor1 gatePassClass1Id sbc1 it26"
+                              visible="#{bindings.GatePassType1.inputValue == 'Generic' ? 'true' : 'false'}"
+                              autoSubmit="true" binding="#{backingBeanScope.Main.returnableBinding}"
+                              disabled="#{bindings.GatePassClass1.inputValue eq 'Time Out' ||!( bindings.IsReturned1.inputValue eq 'Y')} "
+                              readOnly="#{sessionScope.timeOutMode eq 'Y' || bindings.ApprovalStatus.inputValue eq 'I' || bindings.ApprovalStatus.inputValue eq 'Y' || !(bindings.IsReturned1.inputValue eq 'Y')}"/>
+    <af:selectBooleanCheckbox value="#{bindings.IsReturned1.inputValue}" label="Is Returned"
+                              shortDesc="#{bindings.IsReturned1.hints.tooltip}" id="sbc1" showRequired="false"
+                              autoSubmit="true" partialTriggers="gatePassClass1Id sor1 it26 sbc2 sbc1"
+                              visible="#{bindings.GatePassType1.inputValue == 'Generic' ? 'true' : 'false'}"
+                              disabled="#{bindings.GatePassClass1.inputValue eq 'Time Out' || !(bindings.Returnable1.inputValue eq 'Y')}"
+                              binding="#{backingBeanScope.Main.isReturnedBinding}"
+                              valueChangeListener="#{backingBeanScope.Main.isReturnedVCListener}"
+                              readOnly="#{sessionScope.timeOutMode eq 'Y' || bindings.ApprovalStatus.inputValue eq 'I' || bindings.ApprovalStatus.inputValue eq 'Y' || !(bindings.Returnable1.inputValue eq 'Y')}"
+                              rendered="true"/>
+    <af:inputComboboxListOfValues id="refGatePassNo1Id"
+                                  popupTitle="Search and Select: #{bindings.RefGatePassNo1.hints.label}"
+                                  value="#{bindings.RefGatePassNo1.inputValue}" label="Reference Gate Pass No"
+                                  model="#{bindings.RefGatePassNo1.listOfValuesModel}"
+                                  required="#{bindings.RefGatePassNo1.hints.mandatory}" columns="25"
+                                  shortDesc="#{bindings.RefGatePassNo1.hints.tooltip}"
+                                  valueChangeListener="#{backingBeanScope.Main.comboSearchFieldPopulateData}"
+                                  autoSubmit="true" binding="#{backingBeanScope.Main.refGatePassNoBinding}"
+                                  partialTriggers="b12 it24 it26"
+                                  disabled="#{bindings.GateInDate.inputValue != null || sessionScope.timeOutMode eq 'Y'}"
+                                  readOnly="#{bindings.ApprovalStatus.inputValue eq 'Y' || bindings.ApprovalStatus.inputValue eq 'I'}">
+      <f:validator binding="#{bindings.RefGatePassNo1.validator}"/>
+      <af:autoSuggestBehavior suggestedItems="#{bindings.RefGatePassNo1.suggestedItems}"/>
+    </af:inputComboboxListOfValues>
+    <af:showDetail id="sd1" disclosed="true">
+      <af:panelLabelAndMessage label="Created By" id="plam6">
+        <af:outputText value="#{bindings.CreaterName.inputValue}" shortDesc="#{bindings.CreaterName.hints.tooltip}"
+                       id="ot10"/>
+      </af:panelLabelAndMessage>
+      <af:panelLabelAndMessage label="Created By" id="plam1" visible="false">
+        <af:outputText value="#{bindings.CreatedBy.inputValue}" shortDesc="#{bindings.CreatedBy.hints.tooltip}"
+                       id="ot2">
+          <af:convertNumber groupingUsed="false" pattern="#{bindings.CreatedBy.format}"/>
+        </af:outputText>
+      </af:panelLabelAndMessage>
+      <af:panelLabelAndMessage label="Creation Date" id="plam2">
+        <af:outputText value="#{bindings.CreationDate.inputValue}" shortDesc="#{bindings.CreationDate.hints.tooltip}"
+                       id="ot3">
+          <af:convertDateTime pattern="#{bindings.CreationDate.format}"/>
+        </af:outputText>
+      </af:panelLabelAndMessage>
+      <af:panelLabelAndMessage label="Last Updated By" id="plam7">
+        <af:outputText value="#{bindings.LastEditorName.inputValue}"
+                       shortDesc="#{bindings.LastEditorName.hints.tooltip}" id="ot11"/>
+      </af:panelLabelAndMessage>
+      <af:panelLabelAndMessage label="Last Updated By" id="plam5" visible="false">
+        <af:outputText value="#{bindings.LastUpdatedBy.inputValue}" shortDesc="#{bindings.LastUpdatedBy.hints.tooltip}"
+                       id="ot4">
+          <af:convertNumber groupingUsed="false" pattern="#{bindings.LastUpdatedBy.format}"/>
+        </af:outputText>
+      </af:panelLabelAndMessage>
+      <af:panelLabelAndMessage label="Gate Out Date" id="plam3" partialTriggers="gatePassClass1Id"
+                               visible="#{(bindings.GatePassClass1.inputValue eq 'Time Out' || bindings.GatePassClass1.inputValue eq 'OGP')}"
+                               binding="#{backingBeanScope.Main.gateInDateFieldBinding}">
+        <af:inputText value="#{bindings.GateInDate.inputValue}" required="#{bindings.GateInDate.hints.mandatory}"
+                      columns="#{bindings.GateInDate.hints.displayWidth}"
+                      maximumLength="#{bindings.GateInDate.hints.precision}"
+                      shortDesc="#{bindings.GateInDate.hints.tooltip}" id="it24" readOnly="true"
+                      partialTriggers="gatePassClass1Id"
+                      valueChangeListener="#{backingBeanScope.Main.gateOutDateVCListener}" rendered="false"
+                      visible="false">
+          <f:validator binding="#{bindings.GateInDate.validator}"/>
+          <af:convertDateTime pattern="#{bindings.GateInDate.format}"/>
+        </af:inputText>
+        <af:inputDate value="#{bindings.GateInDate.inputValue}" required="#{bindings.GateInDate.hints.mandatory}"
+                      columns="#{bindings.GateInDate.hints.displayWidth}"
+                      shortDesc="#{bindings.GateInDate.hints.tooltip}" id="id2" partialTriggers="b12" readOnly="true"
+                      binding="#{backingBeanScope.Main.gateInBinding}">
+          <f:validator binding="#{bindings.GateInDate.validator}"/>
+          <af:convertDateTime pattern="#{bindings.GateInDate.format}"/>
+        </af:inputDate>
+      </af:panelLabelAndMessage>
+      <af:panelLabelAndMessage label="Gate In / Gate Out Date" id="plam4"
+                               visible="#{!(bindings.GatePassClass1.inputValue eq 'Time Out')}"
+                               partialTriggers="gatePassClass1Id" rendered="false">
+        <af:outputText value="#{bindings.GateOutDate.inputValue}" shortDesc="#{bindings.GateOutDate.hints.tooltip}"
+                       id="ot6" binding="#{backingBeanScope.Main.gateOutDateBinding}"
+                       partialTriggers="gatePassClass1Id">
+          <af:convertDateTime pattern="#{bindings.GateOutDate.format}"/>
+        </af:outputText>
+      </af:panelLabelAndMessage>
+    </af:showDetail>
+    <af:inputText value="#{bindings.PartFromId.inputValue}" label="#{bindings.PartFromId.hints.label}"
+                  required="#{bindings.PartFromId.hints.mandatory}" columns="#{bindings.PartFromId.hints.displayWidth}"
+                  maximumLength="#{bindings.PartFromId.hints.precision}"
+                  shortDesc="#{bindings.PartFromId.hints.tooltip}" id="it4" readOnly="true" visible="false">
+      <f:validator binding="#{bindings.PartFromId.validator}"/>
+      <af:convertNumber groupingUsed="false" pattern="#{bindings.PartFromId.format}"/>
+    </af:inputText>
+    <af:inputText value="#{bindings.PartyToId.inputValue}" label="#{bindings.PartyToId.hints.label}"
+                  required="#{bindings.PartyToId.hints.mandatory}" columns="#{bindings.PartyToId.hints.displayWidth}"
+                  maximumLength="#{bindings.PartyToId.hints.precision}" shortDesc="#{bindings.PartyToId.hints.tooltip}"
+                  id="it5" readOnly="true" visible="false">
+      <f:validator binding="#{bindings.PartyToId.validator}"/>
+      <af:convertNumber groupingUsed="false" pattern="#{bindings.PartyToId.format}"/>
+    </af:inputText>
+    <af:inputText value="#{bindings.LocationId.inputValue}" label="#{bindings.LocationId.hints.label}"
+                  required="#{bindings.LocationId.hints.mandatory}" columns="#{bindings.LocationId.hints.displayWidth}"
+                  maximumLength="#{bindings.LocationId.hints.precision}"
+                  shortDesc="#{bindings.LocationId.hints.tooltip}" id="it32"
+                  binding="#{backingBeanScope.Main.shipToLocationBind}" partialTriggers="partyToNameId" visible="false">
+      <f:validator binding="#{bindings.LocationId.validator}"/>
+      <af:convertNumber groupingUsed="false" pattern="#{bindings.LocationId.format}"/>
+    </af:inputText>
+  </af:panelFormLayout>
+  <af:popup childCreation="deferred" autoCancel="disabled" id="p1"
+            popupFetchListener="#{backingBeanScope.Main.popupFetchListener}" contentDelivery="lazyUncached">
+    <af:dialog id="d1" dialogListener="#{backingBeanScope.Main.populateLinesDialogListener}"
+               title="Populate Delivery Challan &amp; Items">
+      <f:facet name="buttonBar"/>
+      <af:panelFormLayout id="pfl1" binding="#{backingBeanScope.Main.searchFormPanelBinding}">
+        <af:inputComboboxListOfValues id="sourcesId" popupTitle="Search and Select: #{bindings.Sources.hints.label}"
+                                      value="#{bindings.Sources.inputValue}" label="#{bindings.Sources.hints.label}"
+                                      model="#{bindings.Sources.listOfValuesModel}"
+                                      required="#{bindings.Sources.hints.mandatory}"
+                                      columns="#{bindings.Sources.hints.displayWidth}"
+                                      shortDesc="#{bindings.Sources.hints.tooltip}" visible="false" rendered="false">
+          <f:validator binding="#{bindings.Sources.validator}"/>
+        </af:inputComboboxListOfValues>
+        <af:inputComboboxListOfValues id="sourcesDocNoId"
+                                      popupTitle="Search and Select: #{bindings.SourcesDocNo.hints.label}"
+                                      value="#{bindings.SourcesDocNo.inputValue}"
+                                      label="Source Doc No."
+                                      model="#{bindings.SourcesDocNo.listOfValuesModel}"
+                                      required="#{bindings.SourcesDocNo.hints.mandatory}"
+                                      columns="#{bindings.SourcesDocNo.hints.displayWidth}"
+                                      shortDesc="#{bindings.SourcesDocNo.hints.tooltip}" visible="false"
+                                      rendered="false">
+          <f:validator binding="#{bindings.SourcesDocNo.validator}"/>
+        </af:inputComboboxListOfValues>
+        <f:facet name="footer">
+          <af:panelGroupLayout layout="horizontal" id="pgl1">
+            <af:spacer id="s2" width="200"/>
+            <af:button actionListener="#{bindings.CreateInsert2.execute}" text="Search Option"
+                       disabled="#{!bindings.CreateInsert2.enabled}" id="b16" rendered="false"/>
+            <af:button text="Search Option" id="b11" actionListener="#{backingBeanScope.Main.resetSourceDocFields}"/>
+            <af:spacer id="s1" width="10"/>
+            <af:button text="Go" id="b10" actionListener="#{backingBeanScope.Main.populateGoBtnBinding}"/>
+          </af:panelGroupLayout>
+        </f:facet>
+        <af:inputComboboxListOfValues id="sourceId" popupTitle="Search and Select: #{bindings.Source.hints.label}"
+                                      value="#{bindings.Source.inputValue}" label="#{bindings.Source.hints.label}"
+                                      model="#{bindings.Source.listOfValuesModel}"
+                                      required="#{bindings.Source.hints.mandatory}" columns="30"
+                                      shortDesc="#{bindings.Source.hints.tooltip}" autoSubmit="true"
+                                      binding="#{backingBeanScope.Main.searchSourceBinding}">
+          <f:validator binding="#{bindings.Source.validator}"/>
+          <af:autoSuggestBehavior suggestedItems="#{bindings.Source.suggestedItems}"/>
+        </af:inputComboboxListOfValues>
+        <af:inputComboboxListOfValues id="sourceDocNoId"
+                                      popupTitle="Search and Select: #{bindings.SourceDocNo.hints.label}"
+                                      value="#{bindings.SourceDocNo.inputValue}"
+                                      label="Source Doc No."
+                                      model="#{bindings.SourceDocNo.listOfValuesModel}"
+                                      required="#{bindings.SourceDocNo.hints.mandatory}" columns="30"
+                                      shortDesc="#{bindings.SourceDocNo.hints.tooltip}" partialTriggers="sourceId"
+                                      binding="#{backingBeanScope.Main.searchSourceDocNoBinding}" autoSubmit="true">
+          <f:validator binding="#{bindings.SourceDocNo.validator}"/>
+          <af:autoSuggestBehavior suggestedItems="#{bindings.SourceDocNo.suggestedItems}"/>
+        </af:inputComboboxListOfValues>
+      </af:panelFormLayout>
+      <af:spacer id="s3" height="20"/>
+      <af:panelCollection id="pc3" styleClass="AFStretchWidth" inlineStyle="width :1200px;">
+        <f:facet name="menus"/>
+        <f:facet name="toolbar"/>
+        <f:facet name="statusbar"/>
+        <af:table value="#{bindings.PopulateLinesDataVO1.collectionModel}" var="row"
+                  rows="#{bindings.PopulateLinesDataVO1.rangeSize}"
+                  emptyText="#{bindings.PopulateLinesDataVO1.viewable ? 'No data to display.' : 'Access Denied.'}"
+                  rowBandingInterval="0" selectedRowKeys="#{bindings.PopulateLinesDataVO1.collectionModel.selectedRow}"
+                  selectionListener="#{bindings.PopulateLinesDataVO1.collectionModel.makeCurrent}" rowSelection="single"
+                  fetchSize="#{bindings.PopulateLinesDataVO1.rangeSize}"
+                  filterModel="#{bindings.PopulateLinesDataVO1Query.queryDescriptor}" filterVisible="true"
+                  queryListener="#{bindings.PopulateLinesDataVO1Query.processQuery}" varStatus="vs" id="t6"
+                  binding="#{backingBeanScope.Main.populateSearchTableBinding}" inlineStyle="width :1200px;">
+          <af:column id="c19" headerText="Select" align="center">
+            <af:selectBooleanCheckbox value="#{row.bindings.selectFlag.inputValue}"
+                                      label="#{row.bindings.selectFlag.label}"
+                                      shortDesc="#{bindings.PopulateLinesDataVO1.hints.selectFlag.tooltip}" id="sbc3"/>
+          </af:column>
+          <af:column headerText="Source" id="c12" align="center">
+            <af:inputText value="#{row.bindings.Source.inputValue}"
+                          label="#{bindings.PopulateLinesDataVO1.hints.Source.label}"
+                          required="#{bindings.PopulateLinesDataVO1.hints.Source.mandatory}"
+                          columns="#{bindings.PopulateLinesDataVO1.hints.Source.displayWidth}"
+                          maximumLength="#{bindings.PopulateLinesDataVO1.hints.Source.precision}"
+                          shortDesc="#{bindings.PopulateLinesDataVO1.hints.Source.tooltip}" id="it2" readOnly="true">
+              <f:validator binding="#{row.bindings.Source.validator}"/>
+            </af:inputText>
+          </af:column>
+          <af:column headerText="Source Doc No." id="c13" align="center" width="240">
+            <af:inputText value="#{row.bindings.SourceDocNo.inputValue}"
+                          label="#{bindings.PopulateLinesDataVO1.hints.SourceDocNo.label}"
+                          required="#{bindings.PopulateLinesDataVO1.hints.SourceDocNo.mandatory}"
+                          columns="#{bindings.PopulateLinesDataVO1.hints.SourceDocNo.displayWidth}"
+                          maximumLength="#{bindings.PopulateLinesDataVO1.hints.SourceDocNo.precision}"
+                          shortDesc="#{bindings.PopulateLinesDataVO1.hints.SourceDocNo.tooltip}" id="it8"
+                          readOnly="true">
+              <f:validator binding="#{row.bindings.SourceDocNo.validator}"/>
+            </af:inputText>
+          </af:column>
+          <af:column sortProperty="#{bindings.PopulateLinesDataVO1.hints.DeliveryChallanNo.name}" filterable="true"
+                     sortable="true" headerText="Delivery Challan No." id="c14" align="center" width="240">
+            <af:inputText value="#{row.bindings.DeliveryChallanNo.inputValue}"
+                          label="#{bindings.PopulateLinesDataVO1.hints.DeliveryChallanNo.label}"
+                          required="#{bindings.PopulateLinesDataVO1.hints.DeliveryChallanNo.mandatory}"
+                          columns="#{bindings.PopulateLinesDataVO1.hints.DeliveryChallanNo.displayWidth}"
+                          maximumLength="#{bindings.PopulateLinesDataVO1.hints.DeliveryChallanNo.precision}"
+                          shortDesc="#{bindings.PopulateLinesDataVO1.hints.DeliveryChallanNo.tooltip}" id="it13">
+              <f:validator binding="#{row.bindings.DeliveryChallanNo.validator}"/>
+            </af:inputText>
+          </af:column>
+          <af:column sortProperty="#{bindings.PopulateLinesDataVO1.hints.ItemDetails.name}" filterable="true"
+                     sortable="true" headerText="Item Details" id="c15" align="center" width="240">
+            <af:inputText value="#{row.bindings.ItemDetails.inputValue}"
+                          label="#{bindings.PopulateLinesDataVO1.hints.ItemDetails.label}"
+                          required="#{bindings.PopulateLinesDataVO1.hints.ItemDetails.mandatory}"
+                          columns="#{bindings.PopulateLinesDataVO1.hints.ItemDetails.displayWidth}"
+                          maximumLength="#{bindings.PopulateLinesDataVO1.hints.ItemDetails.precision}"
+                          shortDesc="#{bindings.PopulateLinesDataVO1.hints.ItemDetails.tooltip}" id="it14">
+              <f:validator binding="#{row.bindings.ItemDetails.validator}"/>
+            </af:inputText>
+          </af:column>
+          <af:column sortProperty="#{bindings.PopulateLinesDataVO1.hints.Description.name}" filterable="true"
+                     sortable="true" headerText="Description" id="c16" align="center" width="240">
+            <af:inputText value="#{row.bindings.Description.inputValue}"
+                          label="#{bindings.PopulateLinesDataVO1.hints.Description.label}"
+                          required="#{bindings.PopulateLinesDataVO1.hints.Description.mandatory}"
+                          columns="#{bindings.PopulateLinesDataVO1.hints.Description.displayWidth}"
+                          maximumLength="#{bindings.PopulateLinesDataVO1.hints.Description.precision}"
+                          shortDesc="#{bindings.PopulateLinesDataVO1.hints.Description.tooltip}" id="it16">
+              <f:validator binding="#{row.bindings.Description.validator}"/>
+            </af:inputText>
+          </af:column>
+          <af:column sortProperty="#{bindings.PopulateLinesDataVO1.hints.Quantity.name}" filterable="true"
+                     sortable="true" headerText="#{bindings.PopulateLinesDataVO1.hints.Quantity.label}" id="c17"
+                     align="center">
+            <af:inputText value="#{row.bindings.Quantity.inputValue}"
+                          label="#{bindings.PopulateLinesDataVO1.hints.Quantity.label}"
+                          required="#{bindings.PopulateLinesDataVO1.hints.Quantity.mandatory}"
+                          columns="#{bindings.PopulateLinesDataVO1.hints.Quantity.displayWidth}"
+                          maximumLength="#{bindings.PopulateLinesDataVO1.hints.Quantity.precision}"
+                          shortDesc="#{bindings.PopulateLinesDataVO1.hints.Quantity.tooltip}" id="it17">
+              <f:validator binding="#{row.bindings.Quantity.validator}"/>
+              <af:convertNumber groupingUsed="false" pattern="#{bindings.PopulateLinesDataVO1.hints.Quantity.format}"/>
+            </af:inputText>
+          </af:column>
+          <af:column sortProperty="#{bindings.PopulateLinesDataVO1.hints.Uom.name}" filterable="true" sortable="true"
+                     headerText="#{bindings.PopulateLinesDataVO1.hints.Uom.label}" id="c18" align="center">
+            <af:inputText value="#{row.bindings.Uom.inputValue}"
+                          label="#{bindings.PopulateLinesDataVO1.hints.Uom.label}"
+                          required="#{bindings.PopulateLinesDataVO1.hints.Uom.mandatory}"
+                          columns="#{bindings.PopulateLinesDataVO1.hints.Uom.displayWidth}"
+                          maximumLength="#{bindings.PopulateLinesDataVO1.hints.Uom.precision}"
+                          shortDesc="#{bindings.PopulateLinesDataVO1.hints.Uom.tooltip}" id="it21">
+              <f:validator binding="#{row.bindings.Uom.validator}"/>
+            </af:inputText>
+          </af:column>
+          <af:column headerText="Ship To Location" id="c24" width="250"
+                     align="center">
+            <af:outputText value="#{row.ShipToLocation}"
+                           shortDesc="#{bindings.PopulateLinesDataVO1.hints.ShipToLocation.tooltip}" id="ot5"/>
+          </af:column>
+        </af:table>
+      </af:panelCollection>
+    </af:dialog>
+  </af:popup>
+  <af:panelTabbed position="above" id="pt1">
+    <af:showDetailItem id="tab1" text="Delivery Challans">
+      <af:panelCollection id="pc1" styleClass="AFStretchWidth"
+                          binding="#{backingBeanScope.Main.deliveryLinesPanelBinding}">
+        <f:facet name="menus"/>
+        <f:facet name="toolbar">
+          <af:toolbar id="t2">
+            <af:button text="Create" id="b13" actionListener="#{backingBeanScope.Main.createBtnLines}"
+                       binding="#{backingBeanScope.Main.customCreateLinesBtnBinding}"
+                       disabled="#{sessionScope.timeOutMode eq 'Y' || bindings.ApprovalStatus.inputValue eq 'I' || bindings.ApprovalStatus.inputValue eq 'Y'}"
+                       partialTriggers="::gatePassClass1Id ::sor1 ::it26 ::refGatePassNo1Id" partialSubmit="false"
+                       visible="#{(bindings.GatePassType1.inputValue eq 'Transactional' &amp;&amp; bindings.GatePassClass1.inputValue =='OGP') || bindings.RefGatePassNo1.inputValue != null ? 'false' : 'true'}"/>
+            <af:button actionListener="#{bindings.CreateInsert.execute}" text="Create"
+                       disabled="#{bindings.GatePassClass1.inputValue =='Time Out' ? 'true' : 'false'}" id="b5"
+                       visible="#{bindings.GatePassType1.inputValue eq 'Generic' || bindings.ApprovalStatus.inputValue eq 'I' || bindings.ApprovalStatus.inputValue eq 'Y' || bindings.GatePassClass1.inputValue eq 'IGP' || !(sessionScope.timeOutMode) eq 'Y'}"
+                       partialTriggers="::gatePassClass1Id ::sor1 ::it26 b5 ::refGatePassNo1Id"
+                       binding="#{backingBeanScope.Main.createLinesBtnBinding}" rendered="false"/>
+            <af:button text="Populate" id="b7" partialTriggers="::gatePassClass1Id ::sor1 ::it26 ::si1"
+                       disabled="#{sessionScope.timeOutMode eq 'Y' || bindings.ApprovalStatus.inputValue eq 'I' || bindings.ApprovalStatus.inputValue eq 'Y'}"
+                       binding="#{backingBeanScope.Main.populateLinesBtnBinding}"
+                       visible="#{(sessionScope.gatePassClass eq 'OGP') &amp;&amp; (bindings.GatePassType1.inputValue eq 'Transactional')}">
+              <af:showPopupBehavior popupId="::p1"/>
+            </af:button>
+            <af:button text="Delete" id="b14" visible="#{!(sessionScope.timeOutMode eq 'Y')}"
+                       disabled="#{bindings.GatePassClass1.inputValue =='Time Out' || bindings.ApprovalStatus.inputValue eq 'I' || bindings.ApprovalStatus.inputValue eq 'Y' ? 'true' : 'false'}"
+                       partialTriggers="::gatePassClass1Id ::it26" inlineStyle="color:Red;"
+                       rendered="#{sessionScope.deleteBtnFlag}">
+              <af:showPopupBehavior popupId="p2"/>
+            </af:button>
+            <af:button actionListener="#{bindings.Delete.execute}" text="Delete" id="b6"
+                       disabled="#{bindings.GatePassClass1.inputValue =='Time Out' || bindings.ApprovalStatus.inputValue eq 'I' || bindings.ApprovalStatus.inputValue eq 'Y' ? 'true' : 'false'}"
+                       partialTriggers="::gatePassClass1Id ::it26"
+                       inlineStyle="color:red;" visible="false"/>
+            <af:spacer id="s5" width="100"/>
+          </af:toolbar>
+        </f:facet>
+        <f:facet name="statusbar"/>
+        <af:table value="#{bindings.PwcGatePassLinesVO1.collectionModel}" var="row"
+                  rows="#{bindings.PwcGatePassLinesVO1.rangeSize}"
+                  emptyText="#{bindings.PwcGatePassLinesVO1.viewable ? 'No data to display.' : 'Access Denied.'}"
+                  rowBandingInterval="0" selectedRowKeys="#{bindings.PwcGatePassLinesVO1.collectionModel.selectedRow}"
+                  selectionListener="#{bindings.PwcGatePassLinesVO1.collectionModel.makeCurrent}" rowSelection="single"
+                  fetchSize="#{bindings.PwcGatePassLinesVO1.rangeSize}"
+                  filterModel="#{bindings.PwcGatePassLinesVO1Query.queryDescriptor}" filterVisible="true"
+                  queryListener="#{bindings.PwcGatePassLinesVO1Query.processQuery}" varStatus="vs" id="t1"
+                  styleClass="AFStretchWidth" partialTriggers=":::b1 :::it26 ::b5 ::b6 ::b13"
+                  binding="#{backingBeanScope.Main.deliveryLinesTable}"
+                  editingMode="#{bindings.ApprovalStatus.inputValue eq 'Y' || bindings.ApprovalStatus.inputValue eq 'I' ? 'readOnly' : 'editAll'}">
+          <af:column headerText="#{bindings.PwcGatePassLinesVO1.hints.LineId.label}" id="c11" visible="false">
+            <af:outputText value="#{row.LineId}" shortDesc="#{bindings.PwcGatePassLinesVO1.hints.LineId.tooltip}"
+                           id="ot9">
+              <af:convertNumber groupingUsed="false" pattern="#{bindings.PwcGatePassLinesVO1.hints.LineId.format}"/>
+            </af:outputText>
+          </af:column>
+          <af:column headerText="#{bindings.PwcGatePassLinesVO1.hints.LineCode.label}" id="c22" rendered="false">
+            <af:inputText value="#{row.bindings.LineCode.inputValue == null ? row.bindings.LineCode.inputValue.index+1 : row.bindings.LineCode.inputValue}"
+                          label="#{bindings.PwcGatePassLinesVO1.hints.LineCode.label}"
+                          required="#{bindings.PwcGatePassLinesVO1.hints.LineCode.mandatory}"
+                          columns="#{bindings.PwcGatePassLinesVO1.hints.LineCode.displayWidth}"
+                          maximumLength="#{bindings.PwcGatePassLinesVO1.hints.LineCode.precision}"
+                          shortDesc="#{bindings.PwcGatePassLinesVO1.hints.LineCode.tooltip}" id="it27">
+              <f:validator binding="#{row.bindings.LineCode.validator}"/>
+            </af:inputText>
+          </af:column>
+          <af:column sortProperty="#{bindings.PwcGatePassLinesVO1.hints.LineCode.name}" filterable="true"
+                     sortable="true" headerText="Line Code" id="c1" align="center">
+            <af:outputText value="#{row.LineCode}" shortDesc="#{bindings.PwcGatePassLinesVO1.hints.LineCode.tooltip}"
+                           id="ot1"/>
+          </af:column>
+          <af:column sortProperty="#{bindings.PwcGatePassLinesVO1.hints.DeliveryChallanNo.name}" filterable="true"
+                     sortable="true" headerText="Delivery Challan No" id="c2" align="center" width="300">
+            <af:inputText value="#{row.bindings.DeliveryChallanNo.inputValue}"
+                          label="#{bindings.PwcGatePassLinesVO1.hints.DeliveryChallanNo.label}"
+                          required="#{bindings.PwcGatePassLinesVO1.hints.DeliveryChallanNo.mandatory}"
+                          columns="#{bindings.PwcGatePassLinesVO1.hints.DeliveryChallanNo.displayWidth}"
+                          maximumLength="#{bindings.PwcGatePassLinesVO1.hints.DeliveryChallanNo.precision}"
+                          shortDesc="#{bindings.PwcGatePassLinesVO1.hints.DeliveryChallanNo.tooltip}" id="it18"
+                          partialTriggers=":gatePassClass1Id" readOnly="true">
+              <f:validator binding="#{row.bindings.DeliveryChallanNo.validator}"/>
+            </af:inputText>
+          </af:column>
+          <af:column sortProperty="#{bindings.PwcGatePassLinesVO1.hints.Source.name}" filterable="true" sortable="true"
+                     headerText="Source" id="c3" align="center" width="200">
+            <af:inputText value="#{row.bindings.Source.inputValue}"
+                          label="#{bindings.PwcGatePassLinesVO1.hints.Source.label}"
+                          required="#{bindings.PwcGatePassLinesVO1.hints.Source.mandatory}"
+                          columns="#{bindings.PwcGatePassLinesVO1.hints.Source.displayWidth}"
+                          maximumLength="#{bindings.PwcGatePassLinesVO1.hints.Source.precision}"
+                          shortDesc="#{bindings.PwcGatePassLinesVO1.hints.Source.tooltip}" id="it19"
+                          partialTriggers=":gatePassClass1Id"
+                          readOnly="#{sessionScope.timeOutMode eq 'Y' || bindings.DisabledFlag.inputValue eq 'Y'}">
+              <f:validator binding="#{row.bindings.Source.validator}"/>
+            </af:inputText>
+          </af:column>
+          <af:column sortProperty="#{bindings.PwcGatePassLinesVO1.hints.SourceDocNo.name}" filterable="true"
+                     sortable="true" headerText="Source Document No" id="c4" align="center" width="300">
+            <af:inputText value="#{row.bindings.SourceDocNo.inputValue}"
+                          label="#{bindings.PwcGatePassLinesVO1.hints.SourceDocNo.label}"
+                          required="#{bindings.PwcGatePassLinesVO1.hints.SourceDocNo.mandatory}"
+                          columns="#{bindings.PwcGatePassLinesVO1.hints.SourceDocNo.displayWidth}"
+                          maximumLength="#{bindings.PwcGatePassLinesVO1.hints.SourceDocNo.precision}"
+                          shortDesc="#{bindings.PwcGatePassLinesVO1.hints.SourceDocNo.tooltip}" id="it20"
+                          partialTriggers=":gatePassClass1Id"
+                          readOnly="#{sessionScope.timeOutMode eq 'Y' || bindings.DisabledFlag.inputValue eq 'Y'}">
+              <f:validator binding="#{row.bindings.SourceDocNo.validator}"/>
+            </af:inputText>
+          </af:column>
+          <af:column headerText="Quantity" id="c23" align="center" sortable="true" filterable="true"
+                     sortProperty="SumofDetQty" width="100">
+            <af:inputText value="#{row.bindings.SumofDetQty.inputValue}"
+                          label="#{bindings.PwcGatePassLinesVO1.hints.SumofDetQty.label}"
+                          required="#{bindings.PwcGatePassLinesVO1.hints.SumofDetQty.mandatory}"
+                          columns="#{bindings.PwcGatePassLinesVO1.hints.SumofDetQty.displayWidth}"
+                          maximumLength="#{bindings.PwcGatePassLinesVO1.hints.SumofDetQty.precision}"
+                          shortDesc="#{bindings.PwcGatePassLinesVO1.hints.SumofDetQty.tooltip}" id="it29"
+                          readOnly="true">
+              <f:validator binding="#{row.bindings.SumofDetQty.validator}"/>
+            </af:inputText>
+            <f:facet name="footer">
+              <af:panelGroupLayout id="pgl2" inlineStyle="font-weight:bold;">
+                <af:inputText value="#{bindings.SumofLineQty.inputValue}"
+                              required="#{bindings.SumofLineQty.hints.mandatory}"
+                              columns="#{bindings.SumofLineQty.hints.displayWidth}"
+                              maximumLength="#{bindings.SumofLineQty.hints.precision}"
+                              shortDesc="#{bindings.SumofLineQty.hints.tooltip}" id="it31"
+                              inlineStyle="font-weight:bold; color:black; font-size:20.0px;" label="Total:">
+                  <f:validator binding="#{bindings.SumofLineQty.validator}"/>
+                </af:inputText>
+              </af:panelGroupLayout>
+            </f:facet>
+          </af:column>
+          <af:column headerText="Ship To Location" id="c25" width="550">
+            <af:inputText value="#{row.bindings.ShipToLocation.inputValue}"
+                          label="#{bindings.PwcGatePassLinesVO1.hints.ShipToLocation.label}"
+                          required="#{bindings.PwcGatePassLinesVO1.hints.ShipToLocation.mandatory}"
+                          columns="#{bindings.PwcGatePassLinesVO1.hints.ShipToLocation.displayWidth}"
+                          maximumLength="#{bindings.PwcGatePassLinesVO1.hints.ShipToLocation.precision}"
+                          shortDesc="#{bindings.PwcGatePassLinesVO1.hints.ShipToLocation.tooltip}" id="it33"
+                          readOnly="true">
+              <f:validator binding="#{row.bindings.ShipToLocation.validator}"/>
+            </af:inputText>
+          </af:column>
+        </af:table>
+        <af:popup childCreation="deferred" autoCancel="disabled" id="p2">
+          <af:dialog id="d2" title="Do you want to delete the record ?" type="yesNo"
+                     dialogListener="#{backingBeanScope.Main.p2DialogListner}">
+            <f:facet name="buttonBar"/>
+          </af:dialog>
+        </af:popup>
+      </af:panelCollection>
+      <af:panelHeader text="Delivery Challans" id="ph2" visible="false">
+        <f:facet name="context"/>
+        <f:facet name="toolbar"/>
+        <f:facet name="menuBar"/>
+        <f:facet name="legend"/>
+        <f:facet name="info"/>
+      </af:panelHeader>
+    </af:showDetailItem>
+  </af:panelTabbed>
+  <af:panelTabbed position="above" id="pt2">
+    <af:showDetailItem id="tab2" text="Delivery Challan Details">
+      <af:panelCollection id="pc2" binding="#{backingBeanScope.Main.deliveryDetailsPanelBinding}"
+                          styleClass="AFStretchWidth">
+        <f:facet name="menus"/>
+        <f:facet name="toolbar">
+          <af:toolbar id="t4">
+            <af:button actionListener="#{backingBeanScope.Main.createDeatailAL}" text="Create"
+                       disabled="#{bindings.GatePassClass1.inputValue =='Time Out' || bindings.ApprovalStatus.inputValue eq 'I' || bindings.ApprovalStatus.inputValue eq 'Y' || (bindings.GatePassType1.inputValue eq 'Transactional' &amp;&amp; bindings.GatePassClass1.inputValue =='OGP')? 'true' : 'false'}" id="b8"
+                       partialTriggers="::gatePassClass1Id ::sor1 ::it26 ::refGatePassNo1Id"
+                       visible="#{(bindings.GatePassType1.inputValue eq 'Transactional' &amp;&amp; bindings.GatePassClass1.inputValue =='OGP') || bindings.RefGatePassNo1.inputValue != null ? 'false' : 'true'}"
+                       binding="#{backingBeanScope.Main.detaillinecreatebind}" rendered="true"/>
+            <af:button text="Delete" id="b15" inlineStyle="color:red;" visible="#{!(sessionScope.timeOutMode eq 'Y')}"
+                       disabled="#{bindings.GatePassClass1.inputValue =='Time Out' || bindings.ApprovalStatus.inputValue eq 'I' || bindings.ApprovalStatus.inputValue eq 'Y' ? 'true' : 'false'}"
+                       partialTriggers="::gatePassClass1Id ::sor1 ::it26" rendered="#{sessionScope.deleteBtnFlag}">
+              <af:showPopupBehavior popupId="p3"/>
+            </af:button>
+            <af:button actionListener="#{bindings.Delete1.execute}" text="Delete" id="b9"
+                       partialTriggers="::gatePassClass1Id ::sor1 ::it26"
+                       disabled="#{bindings.GatePassClass1.inputValue =='Time Out' || bindings.ApprovalStatus.inputValue eq 'I' || bindings.ApprovalStatus.inputValue eq 'Y' || (bindings.GatePassType1.inputValue eq 'Transactional' &amp;&amp; bindings.GatePassClass1.inputValue =='OGP')? 'true' : 'false'}" inlineStyle="color:red;"
+                       visible="false"/>
+          </af:toolbar>
+        </f:facet>
+        <f:facet name="statusbar"/>
+        <af:table value="#{bindings.PwcGatePassDetailsVO1.collectionModel}" var="row"
+                  rows="#{bindings.PwcGatePassDetailsVO1.rangeSize}"
+                  emptyText="#{bindings.PwcGatePassDetailsVO1.viewable ? 'No data to display.' : 'Access Denied.'}"
+                  rowBandingInterval="0" selectedRowKeys="#{bindings.PwcGatePassDetailsVO1.collectionModel.selectedRow}"
+                  selectionListener="#{bindings.PwcGatePassDetailsVO1.collectionModel.makeCurrent}"
+                  rowSelection="single" fetchSize="#{bindings.PwcGatePassDetailsVO1.rangeSize}"
+                  filterModel="#{bindings.PwcGatePassDetailsVO1Query.queryDescriptor}" filterVisible="true"
+                  queryListener="#{bindings.PwcGatePassDetailsVO1Query.processQuery}" varStatus="vs" id="t3"
+                  partialTriggers=":::b1 ::b8 ::b9 :::it26" binding="#{backingBeanScope.Main.deliveryDetailTableBinding}"
+                  editingMode="#{bindings.ApprovalStatus.inputValue eq 'Y' || bindings.ApprovalStatus.inputValue eq 'I' ? 'readOnly' : 'editAll'}">
+          <af:column headerText="#{bindings.PwcGatePassDetailsVO1.hints.LineId.label}" id="c10" visible="false">
+            <af:outputText value="#{row.LineId}" shortDesc="#{bindings.PwcGatePassDetailsVO1.hints.LineId.tooltip}"
+                           id="ot8">
+              <af:convertNumber groupingUsed="false" pattern="#{bindings.PwcGatePassDetailsVO1.hints.LineId.format}"/>
+            </af:outputText>
+          </af:column>
+          <af:column sortProperty="#{bindings.PwcGatePassDetailsVO1.hints.LineCode.name}" filterable="true"
+                     sortable="true" headerText="Line Code" id="c5" align="center">
+            <af:inputText value="#{row.bindings.LineCode.inputValue}"
+                          label="#{bindings.PwcGatePassDetailsVO1.hints.LineCode.label}"
+                          required="#{bindings.PwcGatePassDetailsVO1.hints.LineCode.mandatory}"
+                          columns="#{bindings.PwcGatePassDetailsVO1.hints.LineCode.displayWidth}"
+                          maximumLength="#{bindings.PwcGatePassDetailsVO1.hints.LineCode.precision}"
+                          shortDesc="#{bindings.PwcGatePassDetailsVO1.hints.LineCode.tooltip}" id="it6"
+                          partialTriggers=":gatePassClass1Id uomId" readOnly="true" autoSubmit="true">
+              <f:validator binding="#{row.bindings.LineCode.validator}"/>
+            </af:inputText>
+          </af:column>
+          <af:column sortProperty="#{bindings.PwcGatePassDetailsVO1.hints.ItemId.name}" filterable="true"
+                     sortable="true" headerText="Item Id" id="c6" align="center" visible="false">
+            <af:inputText value="#{row.bindings.ItemId.inputValue}"
+                          label="#{bindings.PwcGatePassDetailsVO1.hints.ItemId.label}"
+                          required="#{bindings.PwcGatePassDetailsVO1.hints.ItemId.mandatory}"
+                          columns="#{bindings.PwcGatePassDetailsVO1.hints.ItemId.displayWidth}"
+                          maximumLength="#{bindings.PwcGatePassDetailsVO1.hints.ItemId.precision}"
+                          shortDesc="#{bindings.PwcGatePassDetailsVO1.hints.ItemId.tooltip}" id="it7"
+                          partialTriggers=":gatePassClass1Id uomId"
+                          readOnly="#{bindings.GatePassClass1.inputValue =='Time Out' ? 'true' : 'false'}">
+              <f:validator binding="#{row.bindings.ItemId.validator}"/>
+              <af:convertNumber groupingUsed="false" pattern="#{bindings.PwcGatePassDetailsVO1.hints.ItemId.format}"/>
+            </af:inputText>
+          </af:column>
+          <af:column headerText="Item Details" id="c21" align="center" width="300" sortable="true" filterable="true"
+                     sortProperty="ItemDetails" partialTriggers="c9">
+            <af:inputText value="#{row.bindings.ItemDetails.inputValue}"
+                          label="#{bindings.PwcGatePassDetailsVO1.hints.ItemDetails.label}"
+                          required="#{bindings.PwcGatePassDetailsVO1.hints.ItemDetails.mandatory}"
+                          columns="#{bindings.PwcGatePassDetailsVO1.hints.ItemDetails.displayWidth}"
+                          maximumLength="#{bindings.PwcGatePassDetailsVO1.hints.ItemDetails.precision}"
+                          shortDesc="#{bindings.PwcGatePassDetailsVO1.hints.ItemDetails.tooltip}" id="it23"
+                          readOnly="#{sessionScope.timeOutMode eq 'Y' || bindings.DisabledFlag.inputValue eq 'Y'}"
+                          partialTriggers="uomId" autoSubmit="true">
+              <f:validator binding="#{row.bindings.ItemDetails.validator}"/>
+            </af:inputText>
+          </af:column>
+          <af:column headerText="Description" id="c20" align="center" width="300" sortProperty="ItemDesc"
+                     sortable="true" filterable="true" partialTriggers="c9">
+            <af:inputText value="#{row.bindings.ItemDesc.inputValue}"
+                          label="#{bindings.PwcGatePassDetailsVO1.hints.ItemDesc.label}"
+                          required="#{bindings.PwcGatePassDetailsVO1.hints.ItemDesc.mandatory}"
+                          columns="#{bindings.PwcGatePassDetailsVO1.hints.ItemDesc.displayWidth}"
+                          maximumLength="#{bindings.PwcGatePassDetailsVO1.hints.ItemDesc.precision}"
+                          shortDesc="#{bindings.PwcGatePassDetailsVO1.hints.ItemDesc.tooltip}" id="it22"
+                          readOnly="#{sessionScope.timeOutMode eq 'Y'}"
+                          partialTriggers="uomId" autoSubmit="true">
+              <f:validator binding="#{row.bindings.ItemDesc.validator}"/>
+            </af:inputText>
+          </af:column>
+          <af:column sortProperty="#{bindings.PwcGatePassDetailsVO1.hints.Quantity.name}" filterable="true"
+                     sortable="true" headerText="Quantity" id="c7" align="center" partialTriggers=":::sor1 c9">
+            <af:inputText value="#{row.bindings.Quantity.inputValue}"
+                          label="#{bindings.PwcGatePassDetailsVO1.hints.Quantity.label}"
+                          required="#{bindings.PwcGatePassDetailsVO1.hints.Quantity.mandatory}"
+                          columns="#{bindings.PwcGatePassDetailsVO1.hints.Quantity.displayWidth}"
+                          maximumLength="#{bindings.PwcGatePassDetailsVO1.hints.Quantity.precision}"
+                          shortDesc="#{bindings.PwcGatePassDetailsVO1.hints.Quantity.tooltip}" id="it9"
+                          readOnly="#{sessionScope.timeOutMode eq 'Y' || bindings.DisabledFlag.inputValue eq 'Y'}"
+                          partialTriggers=":::sor1 :gatePassClass1Id uomId" autoSubmit="true">
+              <f:validator binding="#{row.bindings.Quantity.validator}"/>
+              <af:convertNumber groupingUsed="false" pattern="#{bindings.PwcGatePassDetailsVO1.hints.Quantity.format}"/>
+            </af:inputText>
+          </af:column>
+          <af:column headerText="UOM" id="c9" align="center" sortable="true" filterable="true">
+            <af:inputComboboxListOfValues id="uomId"
+                                          popupTitle="Search and Select: #{bindings.PwcGatePassDetailsVO1.hints.Uom.label}"
+                                          value="#{row.bindings.Uom.inputValue}"
+                                          model="#{row.bindings.Uom.listOfValuesModel}"
+                                          required="#{bindings.PwcGatePassDetailsVO1.hints.Uom.mandatory}"
+                                          columns="#{row.bindings.Uom.hints.displayWidth}"
+                                          shortDesc="#{bindings.PwcGatePassDetailsVO1.hints.Uom.tooltip}"
+                                          readOnly="#{sessionScope.timeOutMode eq 'Y' || bindings.DisabledFlag.inputValue eq 'Y'}"
+                                          autoSubmit="true">
+              <f:validator binding="#{row.bindings.Uom.validator}"/>
+              <af:autoSuggestBehavior suggestedItems="#{row.bindings.Uom.suggestedItems}"/>
+            </af:inputComboboxListOfValues>
+          </af:column>
+          <af:column headerText="Secondary Qty" id="c8" visible="true"
+                     align="center">
+            <af:inputText value="#{row.bindings.SecondaryQty.inputValue}"
+                          label="#{bindings.PwcGatePassDetailsVO1.hints.SecondaryQty.label}"
+                          required="#{bindings.PwcGatePassDetailsVO1.hints.SecondaryQty.mandatory}"
+                          columns="#{bindings.PwcGatePassDetailsVO1.hints.SecondaryQty.displayWidth}"
+                          maximumLength="#{bindings.PwcGatePassDetailsVO1.hints.SecondaryQty.precision}"
+                          shortDesc="#{bindings.PwcGatePassDetailsVO1.hints.SecondaryQty.tooltip}" id="it38"
+                          autoSubmit="true">
+              <f:validator binding="#{row.bindings.SecondaryQty.validator}"/>
+              <af:convertNumber groupingUsed="false"
+                                pattern="#{bindings.PwcGatePassDetailsVO1.hints.SecondaryQty.format}"/>
+            </af:inputText>
+          </af:column>
+          <af:column headerText="Secondary Uom" id="c26" align="center"
+                     sortable="true" filterable="true">
+            <af:inputComboboxListOfValues id="secondaryUomId"
+                                          popupTitle="Search and Select: #{bindings.PwcGatePassDetailsVO1.hints.SecondaryUom.label}"
+                                          value="#{row.bindings.SecondaryUom.inputValue}"
+                                          model="#{row.bindings.SecondaryUom.listOfValuesModel}"
+                                          required="#{bindings.PwcGatePassDetailsVO1.hints.SecondaryUom.mandatory}"
+                                          columns="#{row.bindings.SecondaryUom.hints.displayWidth}"
+                                          shortDesc="#{bindings.PwcGatePassDetailsVO1.hints.SecondaryUom.tooltip}">
+              <f:validator binding="#{row.bindings.SecondaryUom.validator}"/>
+              <af:autoSuggestBehavior suggestedItems="#{row.bindings.SecondaryUom.suggestedItems}"/>
+            </af:inputComboboxListOfValues>
+          </af:column>
+          <af:column headerText="#{bindings.PwcGatePassDetailsVO1.hints.Remarks.label}" id="c27" align="center">
+            <af:inputText value="#{row.bindings.Remarks.inputValue}"
+                          label="#{bindings.PwcGatePassDetailsVO1.hints.Remarks.label}"
+                          required="#{bindings.PwcGatePassDetailsVO1.hints.Remarks.mandatory}"
+                          columns="#{bindings.PwcGatePassDetailsVO1.hints.Remarks.displayWidth}"
+                          maximumLength="#{bindings.PwcGatePassDetailsVO1.hints.Remarks.precision}"
+                          shortDesc="#{bindings.PwcGatePassDetailsVO1.hints.Remarks.tooltip}" id="it39">
+              <f:validator binding="#{row.bindings.Remarks.validator}"/>
+            </af:inputText>
+          </af:column>
+        </af:table>
+        <af:popup childCreation="deferred" autoCancel="disabled" id="p3">
+          <af:dialog id="d3" title="Do you want to delete the record ?" type="yesNo"
+                     dialogListener="#{backingBeanScope.Main.p3dialoglistner}">
+            <f:facet name="buttonBar"/>
+          </af:dialog>
+        </af:popup>
+      </af:panelCollection>
+      <af:panelHeader text="Delivery Challan Details" id="ph3" visible="false">
+        <f:facet name="context"/>
+        <f:facet name="toolbar"/>
+        <f:facet name="menuBar"/>
+        <f:facet name="legend"/>
+        <f:facet name="info"/>
+      </af:panelHeader>
+    </af:showDetailItem>
+  </af:panelTabbed>
+</ui:composition>

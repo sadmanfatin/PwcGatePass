@@ -1,0 +1,12 @@
+//Groovy Scripts for model.VO.PwcGatePassLinesVO
+
+package model.VO
+
+import oracle.jbo.script.annotation.TransientValueExpression;
+
+@TransientValueExpression(attributeName="SumofDetQty")
+def SumofDetQty_ExpressionScript_Expression()
+{
+(PwcGatePassDetailsVO.sum("Quantity")==null?0:PwcGatePassDetailsVO.sum("Quantity"))
+}
+

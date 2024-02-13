@@ -1,0 +1,1124 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<!DOCTYPE ViewObject SYSTEM "jbo_03_01.dtd">
+<!---->
+<ViewObject
+  xmlns="http://xmlns.oracle.com/bc4j"
+  Name="PwcGatePassHeaderVO"
+  Version="12.2.1.22.48"
+  InheritPersonalization="merge"
+  BindingStyle="OracleName"
+  CustomQuery="true"
+  PageIterMode="Full"
+  FetchMode="FETCH_AS_NEEDED"
+  MaxFetchSize="10"
+  AccessMode="DEFAULT">
+  <DesignTime>
+    <Attr Name="_isExpertMode" Value="true"/>
+  </DesignTime>
+  <Variable
+    Name="GP_NO"
+    Kind="viewcriteria"
+    Type="java.lang.String">
+    <Properties>
+      <SchemaBasedProperties>
+        <LABEL
+          ResId="model.VO.PwcGatePassHeaderVO.GP_NO_LABEL"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </Variable>
+  <Variable
+    Name="Vehicle"
+    Kind="viewcriteria"
+    Type="java.lang.String">
+    <Properties>
+      <SchemaBasedProperties>
+        <LABEL
+          ResId="model.VO.PwcGatePassHeaderVO.Vehicle_LABEL"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </Variable>
+  <Variable
+    Name="p_gatePassClass"
+    Kind="where"
+    Type="java.lang.String">
+    <!--<TransientExpression
+      Name="VariableScript"
+      trustMode="untrusted"
+      CodeSourceName="PwcGatePassHeaderVO"/>-->
+      <TransientExpression
+          Name="BindVariable"><![CDATA[adf.context.sessionScope.gatePassClass]]></TransientExpression>
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYHINT
+          Value="Hide"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </Variable>
+  <Variable
+    Name="pOrgId"
+    Kind="where"
+    Type="java.lang.String">
+    <TransientExpression
+      Name="ExpressionScript"><![CDATA[adf.context.sessionScope.OrgId]]></TransientExpression>
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYHINT
+          Value="Hide"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </Variable>
+  <Variable
+    Name="p_resp_id"
+    Kind="where"
+    Type="java.lang.String">
+    <TransientExpression
+      Name="VariableScript"><![CDATA[adf.context.sessionScope.RespId]]></TransientExpression>
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYHINT
+          Value="Hide"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </Variable>
+  <Variable
+    Name="p_ref_gatepass_no"
+    Kind="viewcriteria"
+    Type="java.lang.String">
+    <Properties>
+      <SchemaBasedProperties>
+        <LABEL
+          ResId="model.VO.PwcGatePassHeaderVO.p_ref_gatepass_no_LABEL"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </Variable>
+  <ViewAccessor
+    Name="PartiesAddressLOV1"
+    ViewObjectName="model.LOV.PartiesAddressLOV"
+    RowLevelBinds="true">
+    <ParameterMap>
+      <PIMap Variable="P_PARTY_ID">
+        <!--<TransientExpression
+          Name="ExpressionScript"
+          trustMode="untrusted"
+          CodeSourceName="PwcGatePassHeaderVO"/>-->
+          <TransientExpression
+          Name="BindVariable"><![CDATA[PartFromId]]></TransientExpression>
+      </PIMap>
+    </ParameterMap>
+  </ViewAccessor>
+  <ViewAccessor
+    Name="PartiesAddressLOV2"
+    ViewObjectName="model.LOV.PartiesAddressLOV"
+    RowLevelBinds="true">
+    <ParameterMap>
+      <PIMap Variable="P_PARTY_ID">
+        <!--<TransientExpression
+          Name="ExpressionScript"
+          trustMode="untrusted"
+          CodeSourceName="PwcGatePassHeaderVO"/>-->
+         <TransientExpression
+          Name="BindVariable"><![CDATA[PartyToId]]></TransientExpression>
+      </PIMap>
+      <PIMap Variable="P_ORG_ID">
+        <TransientExpression
+          Name="BindVariable"><![CDATA[OuId]]></TransientExpression>
+      </PIMap>
+    </ParameterMap>
+  </ViewAccessor>
+  <ViewAccessor
+    Name="PartiesLOV1"
+    ViewObjectName="model.LOV.PartiesLOV"
+    RowLevelBinds="true">
+    <ParameterMap>
+      <PIMap Variable="P_ORG_ID">
+        <TransientExpression
+          Name="BindVariable"><![CDATA[OuId]]></TransientExpression>
+      </PIMap>
+      <PIMap Variable="P_GATE_PASS_TYPE">
+        <TransientExpression
+          trustMode="untrusted"
+          Name="ExpressionScript"><![CDATA[GatePassType]]></TransientExpression>
+      </PIMap>
+    </ParameterMap>
+  </ViewAccessor>
+  <ViewAccessor
+    Name="PartiesLOV2"
+    ViewObjectName="model.LOV.PartiesLOV"
+    RowLevelBinds="true">
+    <ParameterMap>
+      <PIMap Variable="P_ORG_ID">
+        <TransientExpression
+          Name="BindVariable"><![CDATA[OuId]]></TransientExpression>
+      </PIMap>
+      <PIMap Variable="P_GATE_PASS_TYPE">
+        <TransientExpression
+          trustMode="untrusted"
+          Name="ExpressionScript"><![CDATA[GatePassType]]></TransientExpression>
+      </PIMap>
+    </ParameterMap>
+  </ViewAccessor>
+  <ViewAccessor
+    Name="VehicleTypeLOV1"
+    ViewObjectName="model.LOV.VehicleTypeLOV"
+    RowLevelBinds="true"/>
+  <ViewAccessor
+    Name="GatePassTypeLOV1"
+    ViewObjectName="model.LOV.GatePassTypeLOV"
+    RowLevelBinds="true"/>
+  <ViewAccessor
+    Name="GatePassClass1"
+    ViewObjectName="model.LOV.GatePassClass"
+    RowLevelBinds="true"/>
+  <ViewAccessor
+    Name="OperatingUnitsLOV1"
+    ViewObjectName="model.LOV.OperatingUnitsLOV"
+    RowLevelBinds="true"/>
+  <ViewAccessor
+    Name="RefGatePassLOV1"
+    ViewObjectName="model.LOV.RefGatePassLOV"
+    RowLevelBinds="true">
+    <ParameterMap>
+      <PIMap Variable="P_PARTY_TO_ID">
+        <!--<TransientExpression
+          Name="ExpressionScript"
+          trustMode="untrusted"
+          CodeSourceName="PwcGatePassHeaderVO"/>-->
+          <TransientExpression
+          Name="BindVariable"><![CDATA[GatePassClass]]></TransientExpression>
+      </PIMap>
+    </ParameterMap>
+  </ViewAccessor>
+  <ViewAccessor
+    Name="SourceLOV1"
+    ViewObjectName="model.LOV.SourceLOV"
+    RowLevelBinds="true"/>
+  <ViewAccessor
+    Name="SourcesDocNoLOV1"
+    ViewObjectName="model.LOV.SourcesDocNoLOV"
+    RowLevelBinds="true">
+    <ParameterMap>
+      <PIMap Variable="pSource">
+        <TransientExpression
+          Name="BindVariable"><![CDATA[Source]]></TransientExpression>
+      </PIMap>
+      <PIMap Variable="pOrgId">
+        <TransientExpression
+          Name="BindVariable"><![CDATA[OuId]]></TransientExpression>
+      </PIMap>
+    </ParameterMap>
+  </ViewAccessor>
+  <ViewAccessor
+    Name="ORG_NAME_LOV1"
+    ViewObjectName="model.LOV.ORG_NAME_LOV"
+    RowLevelBinds="true"/>
+  <ViewAccessor
+    Name="ORG_NAME_LOV2"
+    ViewObjectName="model.LOV.ORG_NAME_LOV"
+    RowLevelBinds="true"/>
+  <ViewAccessor
+    Name="ORG_NAME_LOV3"
+    ViewObjectName="model.LOV.ORG_NAME_LOV"
+    RowLevelBinds="true"/>
+  <ViewAccessor
+    Name="ORG_NAME_LOV4"
+    ViewObjectName="model.LOV.ORG_NAME_LOV"
+    RowLevelBinds="true"/>
+  <ViewAccessor
+    Name="ORG_NAME_LOV5"
+    ViewObjectName="model.LOV.ORG_NAME_LOV"
+    RowLevelBinds="true"/>
+  <ViewAccessor
+    Name="ORG_NAME_LOV6"
+    ViewObjectName="model.LOV.ORG_NAME_LOV"
+    RowLevelBinds="true"/>
+  <ViewAccessor
+    Name="ORG_NAME_LOV7"
+    ViewObjectName="model.LOV.ORG_NAME_LOV"
+    RowLevelBinds="true"/>
+  <ViewAccessor
+    Name="ORG_NAME_LOV8"
+    ViewObjectName="model.LOV.ORG_NAME_LOV"
+    RowLevelBinds="true">
+    <ParameterMap>
+      <PIMap Variable="P_OU">
+        <TransientExpression
+          Name="ExpressionScript"><![CDATA[OuId]]></TransientExpression>
+      </PIMap>
+    </ParameterMap>
+  </ViewAccessor>
+  <ListBinding
+    Name="LOV_PartyFromAddress"
+    ListVOName="PartiesAddressLOV1"
+    NullValueFlag="none"
+    MRUCount="0"
+    ComboRowCountHint="10">
+    <AttrArray Name="AttrNames">
+      <Item Value="PartyFromAddress"/>
+    </AttrArray>
+    <AttrArray Name="AttrExpressions"/>
+    <AttrArray Name="ListAttrNames">
+      <Item Value="Address"/>
+    </AttrArray>
+    <AttrArray Name="ListDisplayAttrNames">
+      <Item Value="Address"/>
+      <Item Value="PartyId"/>
+    </AttrArray>
+    <DisplayCriteria/>
+  </ListBinding>
+  <ListBinding
+    Name="LOV_PartyToAddress"
+    ListVOName="PartiesAddressLOV2"
+    ComboRowCountHint="10"
+    NullValueFlag="none"
+    MRUCount="0">
+    <AttrArray Name="AttrNames">
+      <Item Value="PartyToAddress"/>
+    </AttrArray>
+    <AttrArray Name="AttrExpressions"/>
+    <AttrArray Name="ListAttrNames">
+      <Item Value="Address"/>
+    </AttrArray>
+    <AttrArray Name="ListDisplayAttrNames">
+      <Item Value="Address"/>
+      <Item Value="PartyId"/>
+    </AttrArray>
+    <DisplayCriteria/>
+  </ListBinding>
+  <ListBinding
+    Name="LOV_PartyFromName"
+    ListVOName="PartiesLOV1"
+    NullValueFlag="start"
+    NullValueId="${adfBundle['oracle.javatools.resourcebundle.SystemBundle']['NULL_VALUE_RESID']}"
+    MRUCount="0">
+    <AttrArray Name="AttrNames">
+      <Item Value="PartyFromName"/>
+    </AttrArray>
+    <AttrArray Name="AttrExpressions"/>
+    <AttrArray Name="DerivedAttrNames">
+      <Item Value="PartFromId"/>
+      <Item Value="PartyFromAddress"/>
+      <Item Value="LocationId"/>
+    </AttrArray>
+    <AttrArray Name="ListAttrNames">
+      <Item Value="PartyName"/>
+      <Item Value="PartyId"/>
+      <Item Value="Address"/>
+      <Item Value="LocationId"/>
+    </AttrArray>
+    <DisplayCriteria/>
+  </ListBinding>
+  <ListBinding
+    Name="LOV_PartyToName"
+    ListVOName="PartiesLOV2"
+    NullValueFlag="start"
+    NullValueId="${adfBundle['oracle.javatools.resourcebundle.SystemBundle']['NULL_VALUE_RESID']}"
+    MRUCount="0">
+    <AttrArray Name="AttrNames">
+      <Item Value="PartyToName"/>
+    </AttrArray>
+    <AttrArray Name="AttrExpressions"/>
+    <AttrArray Name="DerivedAttrNames">
+      <Item Value="PartyToId"/>
+      <Item Value="PartyToAddress"/>
+      <Item Value="LocationId"/>
+    </AttrArray>
+    <AttrArray Name="ListAttrNames">
+      <Item Value="PartyName"/>
+      <Item Value="PartyId"/>
+      <Item Value="Address"/>
+      <Item Value="LocationId"/>
+    </AttrArray>
+    <DisplayCriteria/>
+  </ListBinding>
+  <ListBinding
+    Name="LOV_VehicleType"
+    ListVOName="VehicleTypeLOV1"
+    NullValueFlag="start"
+    NullValueId="${adfBundle['oracle.javatools.resourcebundle.SystemBundle']['NULL_VALUE_RESID']}"
+    MRUCount="0">
+    <AttrArray Name="AttrNames">
+      <Item Value="VehicleType"/>
+    </AttrArray>
+    <AttrArray Name="AttrExpressions"/>
+    <AttrArray Name="ListAttrNames">
+      <Item Value="Description"/>
+    </AttrArray>
+    <DisplayCriteria/>
+  </ListBinding>
+  <ListBinding
+    Name="LOV_GatePassType"
+    ListVOName="GatePassTypeLOV1"
+    NullValueFlag="none"
+    MRUCount="0">
+    <AttrArray Name="AttrNames">
+      <Item Value="GatePassType"/>
+    </AttrArray>
+    <AttrArray Name="AttrExpressions"/>
+    <AttrArray Name="ListAttrNames">
+      <Item Value="GpType"/>
+    </AttrArray>
+    <AttrArray Name="ListDisplayAttrNames">
+      <Item Value="GpType"/>
+    </AttrArray>
+    <DisplayCriteria/>
+  </ListBinding>
+  <ListBinding
+    Name="LOV_GatePassClass"
+    ListVOName="GatePassClass1"
+    ComboRowCountHint="10"
+    NullValueFlag="none"
+    MRUCount="0">
+    <AttrArray Name="AttrNames">
+      <Item Value="GatePassClass"/>
+    </AttrArray>
+    <AttrArray Name="AttrExpressions"/>
+    <AttrArray Name="ListAttrNames">
+      <Item Value="Ogp"/>
+    </AttrArray>
+    <AttrArray Name="ListDisplayAttrNames">
+      <Item Value="Ogp"/>
+    </AttrArray>
+    <DisplayCriteria/>
+  </ListBinding>
+  <ListBinding
+    Name="LOV_OperatingUnit"
+    ListVOName="OperatingUnitsLOV1"
+    ComboRowCountHint="10"
+    NullValueFlag="none"
+    MRUCount="0">
+    <AttrArray Name="AttrNames">
+      <Item Value="OperatingUnit"/>
+    </AttrArray>
+    <AttrArray Name="AttrExpressions"/>
+    <AttrArray Name="DerivedAttrNames">
+      <Item Value="OuId"/>
+    </AttrArray>
+    <AttrArray Name="ListAttrNames">
+      <Item Value="OperatingUnits"/>
+      <Item Value="OrganizationId"/>
+    </AttrArray>
+    <AttrArray Name="ListDisplayAttrNames">
+      <Item Value="OperatingUnits"/>
+    </AttrArray>
+    <DisplayCriteria
+      Hint="showAndExecute"/>
+  </ListBinding>
+  <ListBinding
+    Name="LOV_RefGatePassNo"
+    ListVOName="RefGatePassLOV1"
+    ComboRowCountHint="10"
+    NullValueFlag="none"
+    MRUCount="0">
+    <AttrArray Name="AttrNames">
+      <Item Value="RefGatePassNo"/>
+    </AttrArray>
+    <AttrArray Name="AttrExpressions"/>
+    <AttrArray Name="ListAttrNames">
+      <Item Value="GatePassNo"/>
+    </AttrArray>
+    <AttrArray Name="ListDisplayAttrNames">
+      <Item Value="GatePassNo"/>
+    </AttrArray>
+    <DisplayCriteria/>
+  </ListBinding>
+  <ListBinding
+    Name="LOV_Source"
+    ListVOName="SourceLOV1"
+    ComboRowCountHint="10"
+    NullValueFlag="none"
+    MRUCount="0">
+    <AttrArray Name="AttrNames">
+      <Item Value="Source"/>
+    </AttrArray>
+    <AttrArray Name="AttrExpressions"/>
+    <AttrArray Name="ListAttrNames">
+      <Item Value="Sources"/>
+    </AttrArray>
+    <AttrArray Name="ListDisplayAttrNames">
+      <Item Value="Sources"/>
+    </AttrArray>
+    <DisplayCriteria
+      Hint="showAndExecute"/>
+  </ListBinding>
+  <ListBinding
+    Name="LOV_SourceDocNo"
+    ListVOName="SourcesDocNoLOV1"
+    ComboRowCountHint="10"
+    NullValueFlag="none"
+    MRUCount="0">
+    <AttrArray Name="AttrNames">
+      <Item Value="SourceDocNo"/>
+    </AttrArray>
+    <AttrArray Name="AttrExpressions"/>
+    <AttrArray Name="ListAttrNames">
+      <Item Value="SourceDocNo"/>
+    </AttrArray>
+    <AttrArray Name="ListDisplayAttrNames">
+      <Item Value="SourceDocNo"/>
+    </AttrArray>
+    <DisplayCriteria
+      Hint="showAndExecute"/>
+  </ListBinding>
+  <ListBinding
+    Name="LOV_Org_Nam"
+    ListVOName="ORG_NAME_LOV8"
+    ComboRowCountHint="10"
+    NullValueFlag="none"
+    MRUCount="0">
+    <AttrArray Name="AttrNames">
+      <Item Value="Org_Nam"/>
+    </AttrArray>
+    <AttrArray Name="AttrExpressions"/>
+    <AttrArray Name="DerivedAttrNames">
+      <Item Value="OrganizationId"/>
+    </AttrArray>
+    <AttrArray Name="ListAttrNames">
+      <Item Value="Name"/>
+      <Item Value="OrganizationId"/>
+    </AttrArray>
+    <AttrArray Name="ListDisplayAttrNames">
+      <Item Value="Name"/>
+    </AttrArray>
+    <DisplayCriteria/>
+  </ListBinding>
+  <SQLQuery><![CDATA[SELECT PwcGatePassHeaderEO.HEADER_ID,                            
+       PwcGatePassHeaderEO.CREATED_BY,                            
+       PwcGatePassHeaderEO.CREATION_DATE,                            
+       PwcGatePassHeaderEO.LAST_UPDATE_DATE,                            
+       PwcGatePassHeaderEO.LAST_UPDATED_BY,                            
+       PwcGatePassHeaderEO.GATE_PASS_CLASS,                            
+       PwcGatePassHeaderEO.GATE_PASS_DATE,                            
+       PwcGatePassHeaderEO.GATE_PASS_TYPE,                            
+       PwcGatePassHeaderEO.GATE_PASS_NO,                            
+       PwcGatePassHeaderEO.PART_FROM_ID,                            
+       PwcGatePassHeaderEO.PARTY_TO_ID,                            
+       PwcGatePassHeaderEO.PARTY_FROM_ADDRESS,                            
+       PwcGatePassHeaderEO.PARTY_TO_ADDRESS,                            
+       PwcGatePassHeaderEO.OU_ID,                            
+       PwcGatePassHeaderEO.VEHICLE_TYPE,                            
+       PwcGatePassHeaderEO.VEHICLE_NO,                            
+       PwcGatePassHeaderEO.DRIVER_NAME,                            
+       PwcGatePassHeaderEO.DRIVER_PHONE,                            
+       PwcGatePassHeaderEO.RETURNABLE,                            
+       PwcGatePassHeaderEO.IS_RETURNED,                            
+       PwcGatePassHeaderEO.REF_GATE_PASS_NO,                            
+       PwcGatePassHeaderEO.GATE_IN_DATE,                            
+       PwcGatePassHeaderEO.GATE_OUT_DATE,                            
+       PwcGatePassHeaderEO.GATE_IN_FLAG,                            
+       PwcGatePassHeaderEO.GATE_OUT_FLAG,                            
+       (SELECT PARTY_NAME    FROM HZ_PARTIES      WHERE PARTY_ID = PwcGatePassHeaderEO.PART_FROM_ID) AS PARTY_FROM_NAME,                            
+       (SELECT PARTY_NAME    FROM HZ_PARTIES      WHERE PARTY_ID = PwcGatePassHeaderEO.PARTY_TO_ID) AS PARTY_TO_NAME,                            
+       (SELECT NAME FROM HR_OPERATING_UNITS WHERE PwcGatePassHeaderEO.OU_ID = ORGANIZATION_ID) AS OPERATING_UNIT,                            
+       PwcGatePassHeaderEO.CREATER_NAME,                            
+       PwcGatePassHeaderEO.LAST_EDITOR_NAME,                            
+       PwcGatePassHeaderEO.OPERATING_UNIT AS OPERATING_UNIT1,                            
+       PwcGatePassHeaderEO.TIME_OUT_FLAG,                       
+       PwcGatePassHeaderEO.DISABLED_FLAG,                     
+       PwcGatePassHeaderEO.APPROVAL_STATUS,              
+       PwcGatePassHeaderEO.SOURCE,              
+       PwcGatePassHeaderEO.SOURCE_DOC_NO,            
+       (select a1.meaning             
+          from apps.fnd_lookup_values a1,apps.fnd_lookup_types_VL a2            
+          where a1.lookup_type='XXPWC_APPROVAL_STATUS_GP_TRF'            
+          and a1.lookup_type=a2.lookup_type            
+          and a1.LOOKUP_CODE =   PwcGatePassHeaderEO.APPROVAL_STATUS) Approve_Status_Meaning,          
+          PwcGatePassHeaderEO.LOCATION_ID ,         
+          PwcGatePassHeaderEO.REMARKS ,         
+          PwcGatePassHeaderEO.PARTY_ADDRESS_GENERIC ,        
+          PwcGatePassHeaderEO.ORGANIZATION_ID  ,  
+          (SELECT NAME FROM hr_organization_units where ORGANIZATION_ID = PwcGatePassHeaderEO.ORGANIZATION_ID) AS Org_Nam  
+FROM  XXPWC.PWC_GATE_PASS_HEADER PwcGatePassHeaderEO                           
+WHERE ( (UPPER(PwcGatePassHeaderEO.GATE_PASS_CLASS) LIKE UPPER('%' || :p_gatePassClass || '%') ) )                         
+AND PwcGatePassHeaderEO.OU_ID IN                
+                                         ((SELECT  HOU.ORGANIZATION_ID                     
+                            FROM APPS.FND_PROFILE_OPTIONS_VL PO,                     
+                                 APPS.FND_PROFILE_OPTION_VALUES POV,                     
+                                 APPS.FND_RESPONSIBILITY_TL RSP,                       
+                                 PER_SECURITY_PROFILES   PSP,                     
+                                 PER_SECURITY_ORGANIZATIONS PSO,                       
+                                 HR_ORGANIZATION_UNITS HOU                     
+                            WHERE     1 = 1                     
+                                 AND TO_CHAR(PSP.SECURITY_PROFILE_ID) = POV.PROFILE_OPTION_VALUE                     
+                                 AND PSO.SECURITY_PROFILE_ID = PSP.SECURITY_PROFILE_ID                     
+                                 AND PSO.ORGANIZATION_ID = HOU.ORGANIZATION_ID                      
+                                 AND POV.APPLICATION_ID = PO.APPLICATION_ID                     
+                                 AND POV.PROFILE_OPTION_ID = PO.PROFILE_OPTION_ID                       
+                                 AND RSP.RESPONSIBILITY_ID(+) = POV.LEVEL_VALUE                      
+                                 AND PO.USER_PROFILE_OPTION_NAME LIKE 'MO: Security Profile'                     
+                                 AND RSP.RESPONSIBILITY_ID  = :p_resp_id                     
+                                 AND PSP.ORG_SECURITY_MODE <> 'NONE'                  
+                                 AND TO_CHAR (POV.LEVEL_ID) = '10003')                     
+                                 UNION ALL                      
+                                 (SELECT  HOU.ORGANIZATION_ID                   
+                                    FROM HR_OPERATING_UNITS HOU WHERE EXISTS (SELECT 1                    
+                            FROM APPS.FND_PROFILE_OPTIONS_VL PO,                     
+                                 APPS.FND_PROFILE_OPTION_VALUES POV,                     
+                                 APPS.FND_RESPONSIBILITY_TL RSP,                       
+                                 PER_SECURITY_PROFILES   PSP                    
+                            WHERE     1 = 1                     
+                                 AND TO_CHAR(PSP.SECURITY_PROFILE_ID) = POV.PROFILE_OPTION_VALUE                       
+                                 AND POV.APPLICATION_ID = PO.APPLICATION_ID                     
+                                 AND POV.PROFILE_OPTION_ID = PO.PROFILE_OPTION_ID                       
+                                 AND RSP.RESPONSIBILITY_ID(+) = POV.LEVEL_VALUE                      
+                                 AND PO.USER_PROFILE_OPTION_NAME LIKE 'MO: Security Profile'                     
+                                 AND RSP.RESPONSIBILITY_ID  = :p_resp_id                     
+                                 AND PSP.ORG_SECURITY_MODE = 'NONE'                  
+                                 AND TO_CHAR (POV.LEVEL_ID) = '10003'))                     
+                                 UNION ALL                  
+                                 SELECT  TO_NUMBER(:pOrgId)                     
+                                 FROM DUAL                     
+                                 )                         
+ORDER BY PwcGatePassHeaderEO.HEADER_ID DESC]]></SQLQuery>
+  <EntityUsage
+    Name="PwcGatePassHeaderEO"
+    Entity="model.EO.PwcGatePassHeaderEO"/>
+  <ViewAttribute
+    Name="HeaderId"
+    PrecisionRule="true"
+    EntityAttrName="HeaderId"
+    EntityUsage="PwcGatePassHeaderEO"
+    AliasName="HEADER_ID"/>
+  <ViewAttribute
+    Name="CreatedBy"
+    PrecisionRule="true"
+    EntityAttrName="CreatedBy"
+    EntityUsage="PwcGatePassHeaderEO"
+    AliasName="CREATED_BY"/>
+  <ViewAttribute
+    Name="CreationDate"
+    PrecisionRule="true"
+    EntityAttrName="CreationDate"
+    EntityUsage="PwcGatePassHeaderEO"
+    AliasName="CREATION_DATE"
+    IsUpdateable="false"/>
+  <ViewAttribute
+    Name="LastUpdateDate"
+    PrecisionRule="true"
+    EntityAttrName="LastUpdateDate"
+    EntityUsage="PwcGatePassHeaderEO"
+    AliasName="LAST_UPDATE_DATE"
+    IsUpdateable="false"/>
+  <ViewAttribute
+    Name="LastUpdatedBy"
+    PrecisionRule="true"
+    EntityAttrName="LastUpdatedBy"
+    EntityUsage="PwcGatePassHeaderEO"
+    AliasName="LAST_UPDATED_BY"/>
+  <ViewAttribute
+    Name="GatePassClass"
+    PrecisionRule="true"
+    EntityAttrName="GatePassClass"
+    EntityUsage="PwcGatePassHeaderEO"
+    AliasName="GATE_PASS_CLASS"
+    LOVName="LOV_GatePassClass">
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYWIDTH
+          Value="25"/>
+        <CONTROLTYPE
+          Value="combo_lov"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="GatePassDate"
+    PrecisionRule="true"
+    EntityAttrName="GatePassDate"
+    EntityUsage="PwcGatePassHeaderEO"
+    AliasName="GATE_PASS_DATE"/>
+  <ViewAttribute
+    Name="GatePassType"
+    PrecisionRule="true"
+    EntityAttrName="GatePassType"
+    EntityUsage="PwcGatePassHeaderEO"
+    AliasName="GATE_PASS_TYPE"
+    LOVName="LOV_GatePassType"
+    DefaultValue="Generic">
+    <Properties>
+      <SchemaBasedProperties>
+        <CONTROLTYPE
+          Value="radio"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="GatePassNo"
+    PrecisionRule="true"
+    EntityAttrName="GatePassNo"
+    EntityUsage="PwcGatePassHeaderEO"
+    AliasName="GATE_PASS_NO"/>
+  <ViewAttribute
+    Name="PartFromId"
+    PrecisionRule="true"
+    EntityAttrName="PartFromId"
+    EntityUsage="PwcGatePassHeaderEO"
+    AliasName="PART_FROM_ID"/>
+  <ViewAttribute
+    Name="PartyToId"
+    PrecisionRule="true"
+    EntityAttrName="PartyToId"
+    EntityUsage="PwcGatePassHeaderEO"
+    AliasName="PARTY_TO_ID"/>
+  <ViewAttribute
+    Name="PartyFromAddress"
+    PrecisionRule="true"
+    EntityAttrName="PartyFromAddress"
+    EntityUsage="PwcGatePassHeaderEO"
+    AliasName="PARTY_FROM_ADDRESS"
+    LOVName="LOV_PartyFromAddress">
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYWIDTH
+          Value="25"/>
+        <CONTROLTYPE
+          Value="combo_lov"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="PartyToAddress"
+    PrecisionRule="true"
+    EntityAttrName="PartyToAddress"
+    EntityUsage="PwcGatePassHeaderEO"
+    AliasName="PARTY_TO_ADDRESS"
+    LOVName="LOV_PartyToAddress">
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYWIDTH
+          Value="25"/>
+        <CONTROLTYPE
+          Value="combo_lov"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="OuId"
+    PrecisionRule="true"
+    EntityAttrName="OuId"
+    EntityUsage="PwcGatePassHeaderEO"
+    AliasName="OU_ID"/>
+  <ViewAttribute
+    Name="VehicleType"
+    PrecisionRule="true"
+    EntityAttrName="VehicleType"
+    EntityUsage="PwcGatePassHeaderEO"
+    AliasName="VEHICLE_TYPE"
+    LOVName="LOV_VehicleType">
+    <Properties>
+      <SchemaBasedProperties>
+        <CONTROLTYPE
+          Value="choice"/>
+        <DISPLAYWIDTH
+          Value="25"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="VehicleNo"
+    PrecisionRule="true"
+    EntityAttrName="VehicleNo"
+    EntityUsage="PwcGatePassHeaderEO"
+    AliasName="VEHICLE_NO"/>
+  <ViewAttribute
+    Name="DriverName"
+    PrecisionRule="true"
+    EntityAttrName="DriverName"
+    EntityUsage="PwcGatePassHeaderEO"
+    AliasName="DRIVER_NAME"/>
+  <ViewAttribute
+    Name="DriverPhone"
+    PrecisionRule="true"
+    EntityAttrName="DriverPhone"
+    EntityUsage="PwcGatePassHeaderEO"
+    AliasName="DRIVER_PHONE"/>
+  <ViewAttribute
+    Name="Returnable"
+    PrecisionRule="true"
+    EntityAttrName="Returnable"
+    EntityUsage="PwcGatePassHeaderEO"
+    AliasName="RETURNABLE"
+    DefaultValue="N"/>
+  <ViewAttribute
+    Name="IsReturned"
+    PrecisionRule="true"
+    EntityAttrName="IsReturned"
+    EntityUsage="PwcGatePassHeaderEO"
+    AliasName="IS_RETURNED"
+    DefaultValue="N"/>
+  <ViewAttribute
+    Name="RefGatePassNo"
+    PrecisionRule="true"
+    EntityAttrName="RefGatePassNo"
+    EntityUsage="PwcGatePassHeaderEO"
+    AliasName="REF_GATE_PASS_NO"
+    LOVName="LOV_RefGatePassNo">
+    <Properties>
+      <SchemaBasedProperties>
+        <CONTROLTYPE
+          Value="combo_lov"/>
+        <DISPLAYWIDTH
+          Value="30"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="GateInDate"
+    PrecisionRule="true"
+    EntityAttrName="GateInDate"
+    EntityUsage="PwcGatePassHeaderEO"
+    AliasName="GATE_IN_DATE"/>
+  <ViewAttribute
+    Name="GateOutDate"
+    PrecisionRule="true"
+    EntityAttrName="GateOutDate"
+    EntityUsage="PwcGatePassHeaderEO"
+    AliasName="GATE_OUT_DATE"
+    IsUpdateable="false"/>
+  <ViewAttribute
+    Name="GateInFlag"
+    PrecisionRule="true"
+    EntityAttrName="GateInFlag"
+    EntityUsage="PwcGatePassHeaderEO"
+    AliasName="GATE_IN_FLAG"/>
+  <ViewAttribute
+    Name="GateOutFlag"
+    PrecisionRule="true"
+    EntityAttrName="GateOutFlag"
+    EntityUsage="PwcGatePassHeaderEO"
+    AliasName="GATE_OUT_FLAG"/>
+  <ViewAttribute
+    Name="PartyFromName"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="255"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="PARTY_FROM_NAME"
+    SQLType="VARCHAR"
+    IsQueriable="false"
+    LOVName="LOV_PartyFromName"
+    Expression="SELECT PARTY_NAME    FROM HZ_PARTIES      WHERE PARTY_ID = PwcGatePassHeaderEO.PART_FROM_ID">
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYWIDTH
+          Value="30"/>
+        <CONTROLTYPE
+          Value="choice"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="PartyToName"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="255"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="PARTY_TO_NAME"
+    SQLType="VARCHAR"
+    LOVName="LOV_PartyToName"
+    Expression="SELECT PARTY_NAME    FROM HZ_PARTIES      WHERE PARTY_ID = PwcGatePassHeaderEO.PARTY_TO_ID"
+    IsQueriable="false">
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYWIDTH
+          Value="30"/>
+        <CONTROLTYPE
+          Value="choice"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="OperatingUnit"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="255"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="OPERATING_UNIT"
+    SQLType="VARCHAR"
+    LOVName="LOV_OperatingUnit"
+    IsQueriable="false"
+    Expression="(SELECT NAME FROM HR_OPERATING_UNITS WHERE PwcGatePassHeaderEO.OU_ID = ORGANIZATION_ID)">
+    <!--<TransientExpression
+      Name="ExpressionScript"
+      trustMode="untrusted"
+      CodeSourceName="PwcGatePassHeaderVORow"/>-->
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYWIDTH
+          Value="25"/>
+        <CONTROLTYPE
+          Value="combo_lov"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="CreaterName"
+    PrecisionRule="true"
+    EntityAttrName="CreaterName"
+    EntityUsage="PwcGatePassHeaderEO"
+    AliasName="CREATER_NAME"/>
+  <ViewAttribute
+    Name="LastEditorName"
+    PrecisionRule="true"
+    EntityAttrName="LastEditorName"
+    EntityUsage="PwcGatePassHeaderEO"
+    AliasName="LAST_EDITOR_NAME"/>
+  <ViewAttribute
+    Name="OperatingUnit1"
+    PrecisionRule="true"
+    EntityAttrName="OperatingUnit"
+    EntityUsage="PwcGatePassHeaderEO"
+    AliasName="OPERATING_UNIT1"/>
+  <ViewAttribute
+    Name="TimeOutFlag"
+    PrecisionRule="true"
+    EntityAttrName="TimeOutFlag"
+    EntityUsage="PwcGatePassHeaderEO"
+    AliasName="TIME_OUT_FLAG"/>
+  <ViewAttribute
+    Name="DisabledFlag"
+    PrecisionRule="true"
+    EntityAttrName="DisabledFlag"
+    EntityUsage="PwcGatePassHeaderEO"
+    AliasName="DISABLED_FLAG"/>
+  <ViewAttribute
+    Name="ApprovalStatus"
+    PrecisionRule="true"
+    EntityAttrName="ApprovalStatus"
+    EntityUsage="PwcGatePassHeaderEO"
+    AliasName="APPROVAL_STATUS"/>
+  <ViewAttribute
+    Name="Source"
+    PrecisionRule="true"
+    AliasName="SOURCE"
+    EntityAttrName="Source"
+    EntityUsage="PwcGatePassHeaderEO"
+    LOVName="LOV_Source">
+    <Properties>
+      <SchemaBasedProperties>
+        <CONTROLTYPE
+          Value="combo_lov"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="SourceDocNo"
+    PrecisionRule="true"
+    AliasName="SOURCE_DOC_NO"
+    EntityAttrName="SourceDocNo"
+    EntityUsage="PwcGatePassHeaderEO"
+    LOVName="LOV_SourceDocNo">
+    <Properties>
+      <SchemaBasedProperties>
+        <CONTROLTYPE
+          Value="combo_lov"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="ApproveStatusMeaning"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="80"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="APPROVE_STATUS_MEANING"
+    Expression="APPROVE_STATUS_MEANING"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="80"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="LocationId"
+    PrecisionRule="true"
+    EntityAttrName="LocationId"
+    EntityUsage="PwcGatePassHeaderEO"
+    AliasName="LOCATION_ID"/>
+  <ViewAttribute
+    Name="Remarks"
+    PrecisionRule="true"
+    EntityAttrName="Remarks"
+    EntityUsage="PwcGatePassHeaderEO"
+    AliasName="REMARKS"/>
+  <ViewAttribute
+    Name="PartyAddressGeneric"
+    PrecisionRule="true"
+    EntityAttrName="PartyAddressGeneric"
+    EntityUsage="PwcGatePassHeaderEO"
+    AliasName="PARTY_ADDRESS_GENERIC"/>
+  <ViewAttribute
+    Name="OrganizationId"
+    PrecisionRule="true"
+    EntityAttrName="OrganizationId"
+    EntityUsage="PwcGatePassHeaderEO"
+    AliasName="ORGANIZATION_ID">
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYWIDTH
+          Value="25"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="SumofLineQty"
+    IsUpdateable="false"
+    IsSelected="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="255"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="VIEW_ATTR"
+    SQLType="VARCHAR">
+    <TransientExpression
+      trustMode="untrusted"
+      Name="ExpressionScript"><![CDATA[(PwcGatePassLinesVO.sum("SumofDetQty")==null?0:PwcGatePassLinesVO.sum("SumofDetQty"))]]></TransientExpression>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="Org_Nam"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="255"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="VIEW_ATTR"
+    SQLType="VARCHAR"
+    Expression="Org_Nam"
+    LOVName="LOV_Org_Nam">
+    <Properties>
+      <SchemaBasedProperties>
+        <CONTROLTYPE
+          Value="combo_lov"/>
+        <DISPLAYWIDTH
+          Value="25"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewCriteria
+    Name="PwcGatePassHeaderVOCriteria"
+    ViewObjectName="model.VO.PwcGatePassHeaderVO"
+    Conjunction="AND">
+    <Properties Name="_Props">
+      <CustomProperties>
+        <Property
+          Name="autoExecute"
+          Value="true"/>
+        <Property
+          Name="mode"
+          Value="Basic"/>
+        <Property
+          Name="allowConjunctionOverride"
+          Value="true"/>
+        <Property
+          Name="showInList"
+          Value="true"/>
+        <Property
+          Name="displayOperators"
+          Value="InAdvancedMode"/>
+      </CustomProperties>
+    </Properties>
+    <ViewCriteriaRow
+      Name="PwcGatePassHeaderVOCriteria_row_0"
+      UpperColumns="1">
+      <ViewCriteriaItem
+        Name="GatePassNo"
+        ViewAttribute="GatePassNo"
+        Operator="CONTAINS"
+        Conjunction="OR"
+        Value=":GP_NO"
+        IsBindVarValue="true"
+        Required="Optional">
+        <Properties>
+          <SchemaBasedProperties>
+            <DISPLAYWIDTH
+              Value="25"/>
+          </SchemaBasedProperties>
+        </Properties>
+      </ViewCriteriaItem>
+      <ViewCriteriaItem
+        Name="VehicleNo"
+        ViewAttribute="VehicleNo"
+        Operator="CONTAINS"
+        Conjunction="AND"
+        Value=":Vehicle"
+        IsBindVarValue="true"
+        Required="Optional">
+        <Properties>
+          <SchemaBasedProperties>
+            <DISPLAYWIDTH
+              Value="25"/>
+          </SchemaBasedProperties>
+        </Properties>
+      </ViewCriteriaItem>
+      <ViewCriteriaItem
+        Name="RefGatePassNo"
+        ViewAttribute="RefGatePassNo"
+        Operator="CONTAINS"
+        Conjunction="AND"
+        Value=":p_ref_gatepass_no"
+        IsBindVarValue="true"
+        Required="Optional">
+        <Properties>
+          <SchemaBasedProperties>
+            <DISPLAYWIDTH
+              Value="23"/>
+          </SchemaBasedProperties>
+        </Properties>
+      </ViewCriteriaItem>
+    </ViewCriteriaRow>
+  </ViewCriteria>
+  <ViewCriteria
+    Name="PwcGatePassHeaderRefNo"
+    ViewObjectName="model.VO.PwcGatePassHeaderVO"
+    Conjunction="AND">
+    <Properties Name="_Props">
+      <CustomProperties>
+        <Property
+          Name="autoExecute"
+          Value="true"/>
+        <Property
+          Name="mode"
+          Value="Basic"/>
+        <Property
+          Name="allowConjunctionOverride"
+          Value="true"/>
+        <Property
+          Name="showInList"
+          Value="true"/>
+        <Property
+          Name="displayOperators"
+          Value="InAdvancedMode"/>
+      </CustomProperties>
+    </Properties>
+    <ViewCriteriaRow
+      Name="PwcGatePassHeaderVOCriteria1_row_0"
+      UpperColumns="1">
+      <ViewCriteriaItem
+        Name="GatePassNo"
+        ViewAttribute="GatePassNo"
+        Operator="CONTAINS"
+        Conjunction="AND"
+        Value=":GP_NO"
+        IsBindVarValue="true"
+        Required="Optional"/>
+    </ViewCriteriaRow>
+  </ViewCriteria>
+  <ViewLinkAccessor
+    Name="PwcGatePassLinesVO"
+    ViewLink="model.VL.PwcGatePassHeaderLinesVL"
+    Type="oracle.jbo.RowIterator"
+    IsUpdateable="false"/>
+  <ViewLinkAccessor
+    Name="PwcPopulateSearchVO"
+    ViewLink="model.VL.HeaderPopulateSearchVL"
+    Type="oracle.jbo.RowIterator"
+    IsUpdateable="false"/>
+  <ResourceBundle>
+    <PropertiesBundle
+      PropertiesFile="model.ModelBundle"/>
+  </ResourceBundle>
+</ViewObject>

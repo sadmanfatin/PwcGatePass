@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<!DOCTYPE ViewObject SYSTEM "jbo_03_01.dtd">
+<!---->
+<ViewObject
+  xmlns="http://xmlns.oracle.com/bc4j"
+  Name="OperatingUnitsLOV"
+  Version="12.2.1.22.48"
+  InheritPersonalization="merge"
+  BindingStyle="OracleName"
+  CustomQuery="true"
+  RowClass="model.LOV.OperatingUnitsLOVRowImpl"
+  ComponentClass="model.LOV.OperatingUnitsLOVImpl"
+  PageIterMode="Full"
+  FetchMode="FETCH_AS_NEEDED"
+  MaxFetchSize="10"
+  AccessMode="DEFAULT">
+  <DesignTime>
+    <Attr Name="_codeGenFlag2" Value="Coll"/>
+    <Attr Name="_isExpertMode" Value="true"/>
+    <Attr Name="_isCodegen" Value="true"/>
+  </DesignTime>
+  <Properties>
+    <SchemaBasedProperties>
+      <LABEL
+        ResId="model.LOV.OperatingUnitsLOV_LABEL"/>
+    </SchemaBasedProperties>
+  </Properties>
+  <Variable
+    Name="P_OU"
+    Kind="where"
+    Type="java.lang.String">
+    <!--<TransientExpression
+      Name="VariableScript"
+      trustMode="untrusted"
+      CodeSourceName="OperatingUnitsLOV"/>-->
+      <TransientExpression
+          Name="BindVariable"><![CDATA[adf.context.sessionScope.OrgId]]></TransientExpression>
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYHINT
+          Value="Hide"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </Variable>
+  <Variable
+    Name="p_resp_id"
+    Kind="where"
+    Type="java.lang.String">
+    <TransientExpression
+      Name="BindVariable"><![CDATA[adf.context.sessionScope.RespId]]></TransientExpression>
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYHINT
+          Value="Hide"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </Variable>
+  <SQLQuery><![CDATA[/* Formatted on 8/23/2022 10:59:53 AM (QP5 v5.215.12089.38647) */      
+SELECT DISTINCT ORGANIZATION_ID, OPERATING_UNITS FROM      
+(    
+SELECT ORGANIZATION_ID,      
+       NAME OPERATING_UNITS     
+  FROM HR_OPERATING_UNITS      
+ WHERE ORGANIZATION_ID = :P_OU      
+UNION ALL         
+(SELECT HOU.ORGANIZATION_ID,      
+        HOU.NAME OPERATING_UNITS           --FOR UNITS WITH SECURITY GROUP RESTRICTION ON OPERATING UNIT  
+  FROM apps.fnd_profile_options_vl po,       
+                         apps.fnd_profile_option_values pov,       
+                         apps.fnd_responsibility_tl rsp,         
+                         per_security_profiles   psp,       
+                         per_security_organizations pso,         
+                         hr_organization_units hou       
+                    WHERE     1 = 1       
+                         AND to_char(psp.security_profile_id) = pov.profile_option_value       
+                         AND pso.security_profile_id = psp.security_profile_id       
+                         AND pso.organization_id = hou.organization_id        
+                         AND pov.application_id = po.application_id       
+                         AND pov.profile_option_id = po.profile_option_id         
+                         AND rsp.responsibility_id(+) = pov.level_value        
+                         and po.user_profile_option_name like 'MO: Security Profile'       
+                         and rsp.responsibility_id  = :p_resp_id       
+                         AND psp.ORG_SECURITY_MODE <> 'NONE'    
+                         AND TO_CHAR (pov.level_id) = '10003')    
+UNION ALL    
+(SELECT HOU.ORGANIZATION_ID,      
+        HOU.NAME OPERATING_UNITS  
+                            FROM HR_OPERATING_UNITS HOU WHERE EXISTS(SELECT 1         --FOR UNITS WITH NO SECURITY GROUP RESTRICTION ON OPERATING UNIT  
+                        FROM apps.fnd_profile_options_vl po,       
+                         apps.fnd_profile_option_values pov,       
+                         apps.fnd_responsibility_tl rsp,         
+                         per_security_profiles   psp,       
+                         per_security_organizations pso,         
+                         hr_organization_units hou       
+                    WHERE     1 = 1       
+                         AND to_char(psp.security_profile_id) = pov.profile_option_value       
+                         AND pso.security_profile_id(+) = psp.security_profile_id       
+                         AND pso.organization_id = hou.organization_id (+)       
+                         AND pov.application_id = po.application_id       
+                         AND pov.profile_option_id = po.profile_option_id         
+                         AND rsp.responsibility_id(+) = pov.level_value        
+                         and po.user_profile_option_name like 'MO: Security Profile'       
+                         and rsp.responsibility_id  = :p_resp_id       
+                         AND psp.ORG_SECURITY_MODE = 'NONE'    
+                         AND TO_CHAR (pov.level_id) = '10003')))  
+ORDER BY OPERATING_UNITS ASC]]></SQLQuery>
+  <ViewAttribute
+    Name="OrganizationId"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Type="oracle.jbo.domain.Number"
+    ColumnType="LONGINT"
+    AliasName="ORGANIZATION_ID"
+    Expression="ORGANIZATION_ID"
+    SQLType="NUMERIC">
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYWIDTH
+          Value="15"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="OperatingUnits"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="240"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="OPERATING_UNITS"
+    Expression="OPERATING_UNITS"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="240"/>
+    </DesignTime>
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYWIDTH
+          Value="25"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ResourceBundle>
+    <PropertiesBundle
+      PropertiesFile="model.ModelBundle"/>
+  </ResourceBundle>
+</ViewObject>

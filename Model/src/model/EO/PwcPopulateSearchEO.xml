@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<!DOCTYPE Entity SYSTEM "jbo_03_01.dtd">
+<!---->
+<Entity
+  xmlns="http://xmlns.oracle.com/bc4j"
+  Name="PwcPopulateSearchEO"
+  Version="12.2.1.22.48"
+  InheritPersonalization="merge"
+  DBObjectType="table"
+  DBObjectName="PWC_POPULATE_SEARCH"
+  AliasName="PwcPopulateSearchEO"
+  BindingStyle="OracleName">
+  <Attribute
+    Name="Sources"
+    Precision="255"
+    ColumnName="SOURCES"
+    SQLType="VARCHAR"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    TableName="PWC_POPULATE_SEARCH">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="255"/>
+    </DesignTime>
+  </Attribute>
+  <Attribute
+    Name="SourcesDocNo"
+    Precision="255"
+    ColumnName="SOURCES_DOC_NO"
+    SQLType="VARCHAR"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    TableName="PWC_POPULATE_SEARCH">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="255"/>
+    </DesignTime>
+  </Attribute>
+  <Attribute
+    Name="Ids"
+    ColumnName="IDS"
+    SQLType="NUMERIC"
+    Type="java.math.BigDecimal"
+    ColumnType="NUMBER"
+    TableName="PWC_POPULATE_SEARCH"
+    PrimaryKey="true"
+    ChangeIndicator="true"/>
+  <Attribute
+    Name="HeaderId"
+    ColumnName="HEADER_ID"
+    SQLType="NUMERIC"
+    Type="java.math.BigDecimal"
+    ColumnType="NUMBER"
+    TableName="PWC_POPULATE_SEARCH"/>
+  <Key
+    Name="PwcpopulatesearcheoPrimaryKey"
+    PrimaryKey="true">
+    <DesignTime>
+      <Attr Name="_DBObjectName" Value="PWCPOPULATESEARCHEO_PRIMARY_KE"/>
+    </DesignTime>
+    <AttrArray Name="Attributes">
+      <Item Value="model.EO.PwcPopulateSearchEO.Ids"/>
+    </AttrArray>
+  </Key>
+</Entity>

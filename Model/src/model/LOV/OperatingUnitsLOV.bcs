@@ -1,0 +1,19 @@
+//Groovy Scripts for model.LOV.OperatingUnitsLOV
+
+package model.LOV
+
+import oracle.jbo.script.annotation.VariableExpression;
+
+@VariableExpression(path="P_OU")
+def P_OU_VariableScript_Variable()
+{
+//adf.context.sessionScope.OrgId
+}
+
+
+@VariableExpression(path="p_resp_id")
+def p_resp_id_VariableScript_Variable()
+{
+//adf.context.sessionScope.RespId
+}
+

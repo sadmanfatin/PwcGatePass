@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<!DOCTYPE ViewObject SYSTEM "jbo_03_01.dtd">
+<!---->
+<ViewObject
+  xmlns="http://xmlns.oracle.com/bc4j"
+  Name="RefGatePassLOV"
+  Version="12.2.1.22.48"
+  InheritPersonalization="merge"
+  BindingStyle="OracleName"
+  CustomQuery="true"
+  RowClass="model.LOV.RefGatePassLOVRowImpl"
+  ComponentClass="model.LOV.RefGatePassLOVImpl"
+  PageIterMode="Full"
+  AccessMode="DEFAULT">
+  <DesignTime>
+    <Attr Name="_codeGenFlag2" Value="Coll"/>
+    <Attr Name="_isExpertMode" Value="true"/>
+    <Attr Name="_isCodegen" Value="true"/>
+  </DesignTime>
+  <Properties>
+    <SchemaBasedProperties>
+      <LABEL
+        ResId="model.LOV.RefGatePassLOV_LABEL"/>
+    </SchemaBasedProperties>
+  </Properties>
+  <Variable
+    Name="P_PARTY_TO_ID"
+    Kind="where"
+    Type="java.lang.String"/>
+  <SQLQuery><![CDATA[SELECT HDR.GATE_PASS_NO    
+FROM PWC_GATE_PASS_HEADER HDR        
+WHERE HDR.GATE_PASS_CLASS = DECODE(:P_PARTY_TO_ID,'OGP','IGP','IGP','OGP','Time Out','OGP')    
+AND NVL(HDR.TIME_OUT_FLAG,'N') = DECODE(:P_PARTY_TO_ID,'IGP','Y',NVL(HDR.TIME_OUT_FLAG,'N'))    
+AND NOT EXISTS (SELECT 1 FROM PWC_GATE_PASS_HEADER H WHERE H.REF_GATE_PASS_NO = HDR.GATE_PASS_NO)]]></SQLQuery>
+  <ViewAttribute
+    Name="GatePassNo"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="255"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="GATE_PASS_NO"
+    Expression="GATE_PASS_NO"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="255"/>
+    </DesignTime>
+    <Properties>
+      <SchemaBasedProperties>
+        <LABEL
+          ResId="model.LOV.RefGatePassLOV.GatePassNo_LABEL"/>
+        <DISPLAYWIDTH
+          Value="30"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ResourceBundle>
+    <PropertiesBundle
+      PropertiesFile="model.ModelBundle"/>
+  </ResourceBundle>
+</ViewObject>

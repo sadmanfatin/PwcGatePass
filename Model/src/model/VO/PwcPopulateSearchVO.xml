@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<!DOCTYPE ViewObject SYSTEM "jbo_03_01.dtd">
+<!---->
+<ViewObject
+  xmlns="http://xmlns.oracle.com/bc4j"
+  Name="PwcPopulateSearchVO"
+  Version="12.2.1.22.48"
+  InheritPersonalization="merge"
+  BindingStyle="OracleName"
+  CustomQuery="false"
+  PageIterMode="Full"
+  AccessMode="DEFAULT"
+  SelectListFlags="1"
+  FromListFlags="1"
+  WhereFlags="1"
+  SelectAllAttributes="false">
+  <ViewAccessor
+    Name="PopulateSearchVO1"
+    ViewObjectName="model.LOV.PopulateSearchVO"
+    RowLevelBinds="true"/>
+  <ViewAccessor
+    Name="SourceLOV1"
+    ViewObjectName="model.LOV.SourceLOV"
+    RowLevelBinds="true"/>
+  <ViewAccessor
+    Name="SourcesDocNoLOV1"
+    ViewObjectName="model.LOV.SourcesDocNoLOV"
+    RowLevelBinds="true">
+    <ParameterMap>
+      <PIMap Variable="pSource">
+        <TransientExpression
+          Name="ExpressionScript"
+          trustMode="untrusted"
+          CodeSourceName="PwcPopulateSearchVO"/>
+      </PIMap>
+    </ParameterMap>
+  </ViewAccessor>
+  <ListBinding
+    Name="LOV_Sources"
+    ListVOName="SourceLOV1"
+    ComboRowCountHint="10"
+    NullValueFlag="none"
+    MRUCount="0">
+    <AttrArray Name="AttrNames">
+      <Item Value="Sources"/>
+    </AttrArray>
+    <AttrArray Name="AttrExpressions"/>
+    <AttrArray Name="ListAttrNames">
+      <Item Value="Sources"/>
+    </AttrArray>
+    <AttrArray Name="ListDisplayAttrNames">
+      <Item Value="Sources"/>
+    </AttrArray>
+    <DisplayCriteria
+      Hint="showAndExecute"/>
+  </ListBinding>
+  <ListBinding
+    Name="LOV_SourcesDocNo"
+    ListVOName="SourcesDocNoLOV1"
+    ComboRowCountHint="10"
+    NullValueFlag="none"
+    MRUCount="0">
+    <AttrArray Name="AttrNames">
+      <Item Value="SourcesDocNo"/>
+    </AttrArray>
+    <AttrArray Name="AttrExpressions"/>
+    <AttrArray Name="ListAttrNames">
+      <Item Value="SourceDocNo"/>
+    </AttrArray>
+    <AttrArray Name="ListDisplayAttrNames">
+      <Item Value="SourceDocNo"/>
+    </AttrArray>
+    <DisplayCriteria
+      Hint="showAndExecute"/>
+  </ListBinding>
+  <EntityUsage
+    Name="PwcPopulateSearchEO"
+    Entity="model.EO.PwcPopulateSearchEO"/>
+  <ViewAttribute
+    Name="Sources"
+    PrecisionRule="true"
+    EntityAttrName="Sources"
+    EntityUsage="PwcPopulateSearchEO"
+    AliasName="SOURCES"
+    LOVName="LOV_Sources">
+    <Properties>
+      <SchemaBasedProperties>
+        <CONTROLTYPE
+          Value="combo_lov"/>
+        <DISPLAYWIDTH
+          Value="30"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="SourcesDocNo"
+    PrecisionRule="true"
+    EntityAttrName="SourcesDocNo"
+    EntityUsage="PwcPopulateSearchEO"
+    AliasName="SOURCES_DOC_NO"
+    LOVName="LOV_SourcesDocNo">
+    <Properties>
+      <SchemaBasedProperties>
+        <CONTROLTYPE
+          Value="combo_lov"/>
+        <DISPLAYWIDTH
+          Value="30"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="Ids"
+    PrecisionRule="true"
+    EntityAttrName="Ids"
+    EntityUsage="PwcPopulateSearchEO"
+    AliasName="IDS"/>
+  <ViewAttribute
+    Name="HeaderId"
+    PrecisionRule="true"
+    EntityAttrName="HeaderId"
+    EntityUsage="PwcPopulateSearchEO"
+    AliasName="HEADER_ID"/>
+</ViewObject>

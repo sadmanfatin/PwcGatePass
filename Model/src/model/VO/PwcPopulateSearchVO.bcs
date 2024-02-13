@@ -1,0 +1,12 @@
+//Groovy Scripts for model.VO.PwcPopulateSearchVO
+
+package model.VO
+
+import oracle.jbo.script.annotation.AccessorParameterExpression;
+
+@AccessorParameterExpression(accessorName="SourcesDocNoLOV1", name="pSource")
+def pSource_SourcesDocNoLOV1_BindVariable_BoundParameter()
+{
+Sources
+}
+

@@ -1,0 +1,12 @@
+//Groovy Scripts for model.VO.PwcGatePassHeaderVO
+
+package model.VO
+
+import oracle.jbo.script.annotation.TransientValueExpression;
+
+@TransientValueExpression(attributeName="OperatingUnit")
+def OperatingUnit_ExpressionScript_Expression()
+{
+//adf.context.sessionScope.OrgId
+}
+

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<pageDefinition xmlns="http://xmlns.oracle.com/adfm/uimodel" version="12.2.1.22.48"
+                id="PwcGatePass_task_flow_definition_PwcGatePass_task_flow_definition_getParametersPageDef"
+                Package="view.pageDefs" SkipValidation="true">
+  <parameters/>
+  <executables/>
+  <bindings>
+    <methodAction id="getParameters" RequiresUpdateModel="true" Action="invokeMethod" MethodName="getParameters"
+                  IsViewObjectMethod="false" DataControl="AppModuleDataControl"
+                  InstanceName="bindings.getParameters.dataControl.dataProvider"/>
+  </bindings>
+</pageDefinition>

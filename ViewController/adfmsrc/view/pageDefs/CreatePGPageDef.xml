@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<pageDefinition xmlns="http://xmlns.oracle.com/adfm/uimodel" version="12.2.1.22.48" id="CreatePGPageDef"
+                Package="view.pageDefs">
+  <parameters/>
+  <executables>
+    <variableIterator id="variables"/>
+    <iterator Binds="PwcGatePassHeaderVO1" RangeSize="25" DataControl="AppModuleDataControl"
+              id="PwcGatePassHeaderVO1Iterator" ChangeEventPolicy="none"/>
+    <iterator Binds="PwcGatePassLinesVO1" RangeSize="25" DataControl="AppModuleDataControl"
+              id="PwcGatePassLinesVO1Iterator"/>
+    <searchRegion Binds="PwcGatePassLinesVO1Iterator" Criteria=""
+                  Customizer="oracle.jbo.uicli.binding.JUSearchBindingCustomizer" id="PwcGatePassLinesVO1Query"/>
+    <iterator Binds="PwcGatePassDetailsVO1" RangeSize="25" DataControl="AppModuleDataControl"
+              id="PwcGatePassDetailsVO1Iterator"/>
+    <searchRegion Binds="PwcGatePassDetailsVO1Iterator" Criteria=""
+                  Customizer="oracle.jbo.uicli.binding.JUSearchBindingCustomizer" id="PwcGatePassDetailsVO1Query"/>
+    <iterator Binds="PopulateLinesDataVO1" RangeSize="25" DataControl="AppModuleDataControl"
+              id="PopulateLinesDataVO1Iterator"/>
+    <searchRegion Binds="PopulateLinesDataVO1Iterator" Criteria=""
+                  Customizer="oracle.jbo.uicli.binding.JUSearchBindingCustomizer" id="PopulateLinesDataVO1Query"/>
+    <iterator Binds="PwcPopulateSearchVO1" RangeSize="25" DataControl="AppModuleDataControl"
+              id="PwcPopulateSearchVO1Iterator"/>
+  </executables>
+  <bindings>
+    <attributeValues IterBinding="PwcGatePassHeaderVO1Iterator" id="GatePassDate">
+      <AttrNames>
+        <Item Value="GatePassDate"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="PwcGatePassHeaderVO1Iterator" id="GatePassNo">
+      <AttrNames>
+        <Item Value="GatePassNo"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="PwcGatePassHeaderVO1Iterator" id="PartFromId">
+      <AttrNames>
+        <Item Value="PartFromId"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="PwcGatePassHeaderVO1Iterator" id="PartyToId">
+      <AttrNames>
+        <Item Value="PartyToId"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="PwcGatePassHeaderVO1Iterator" id="VehicleNo">
+      <AttrNames>
+        <Item Value="VehicleNo"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="PwcGatePassHeaderVO1Iterator" id="DriverName">
+      <AttrNames>
+        <Item Value="DriverName"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="PwcGatePassHeaderVO1Iterator" id="DriverPhone">
+      <AttrNames>
+        <Item Value="DriverPhone"/>
+      </AttrNames>
+    </attributeValues>
+    <tree IterBinding="PwcGatePassLinesVO1Iterator" id="PwcGatePassLinesVO1">
+      <nodeDefinition DefName="model.VO.PwcGatePassLinesVO" Name="PwcGatePassLinesVO10">
+        <AttrNames>
+          <Item Value="LineCode"/>
+          <Item Value="DeliveryChallanNo"/>
+          <Item Value="Source"/>
+          <Item Value="SourceDocNo"/>
+          <Item Value="LineId"/>
+          <Item Value="SumofDetQty"/>
+          <Item Value="ShipToLocation"/>
+        </AttrNames>
+      </nodeDefinition>
+    </tree>
+    <listOfValues IterBinding="PwcGatePassHeaderVO1Iterator" StaticList="false" Uses="LOV_PartyFromName"
+                  id="PartyFromName"/>
+    <listOfValues IterBinding="PwcGatePassHeaderVO1Iterator" StaticList="false" Uses="LOV_PartyToName"
+                  id="PartyToName"/>
+    <listOfValues IterBinding="PwcGatePassHeaderVO1Iterator" StaticList="false" Uses="LOV_VehicleType"
+                  id="VehicleType1"/>
+    <button IterBinding="PwcGatePassHeaderVO1Iterator" id="IsReturned1" DTSupportsMRU="false" StaticList="true">
+      <AttrNames>
+        <Item Value="IsReturned"/>
+      </AttrNames>
+      <ValueList>
+        <Item Value="Y"/>
+        <Item Value="N"/>
+      </ValueList>
+    </button>
+    <button IterBinding="PwcGatePassHeaderVO1Iterator" id="Returnable1" DTSupportsMRU="false" StaticList="true">
+      <AttrNames>
+        <Item Value="Returnable"/>
+      </AttrNames>
+      <ValueList>
+        <Item Value="Y"/>
+        <Item Value="N"/>
+      </ValueList>
+    </button>
+    <action IterBinding="PwcGatePassLinesVO1Iterator" id="CreateInsert" RequiresUpdateModel="true"
+            Action="createInsertRow"/>
+    <action IterBinding="PwcGatePassLinesVO1Iterator" id="Delete" RequiresUpdateModel="false"
+            Action="removeCurrentRow"/>
+    <tree IterBinding="PwcGatePassDetailsVO1Iterator" id="PwcGatePassDetailsVO1">
+      <nodeDefinition DefName="model.VO.PwcGatePassDetailsVO" Name="PwcGatePassDetailsVO10">
+        <AttrNames>
+          <Item Value="LineCode"/>
+          <Item Value="ItemId"/>
+          <Item Value="Quantity"/>
+          <Item Value="Uom"/>
+          <Item Value="RefLineId"/>
+          <Item Value="LineId"/>
+          <Item Value="ItemDesc"/>
+          <Item Value="ItemDetails"/>
+          <Item Value="SecondaryQty"/>
+          <Item Value="SecondaryUom"/>
+          <Item Value="Remarks"/>
+          <Item Value="DetailId"/>
+        </AttrNames>
+      </nodeDefinition>
+    </tree>
+    <action IterBinding="PwcGatePassDetailsVO1Iterator" id="Delete1" RequiresUpdateModel="false"
+            Action="removeCurrentRow"/>
+    <attributeValues IterBinding="PwcGatePassHeaderVO1Iterator" id="CreatedBy">
+      <AttrNames>
+        <Item Value="CreatedBy"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="PwcGatePassHeaderVO1Iterator" id="CreationDate">
+      <AttrNames>
+        <Item Value="CreationDate"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="PwcGatePassHeaderVO1Iterator" id="GateInDate">
+      <AttrNames>
+        <Item Value="GateInDate"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="PwcGatePassHeaderVO1Iterator" id="GateOutDate">
+      <AttrNames>
+        <Item Value="GateOutDate"/>
+      </AttrNames>
+    </attributeValues>
+    <listOfValues IterBinding="PwcGatePassHeaderVO1Iterator" StaticList="false" Uses="LOV_GatePassClass"
+                  id="GatePassClass1"/>
+    <list IterBinding="PwcGatePassHeaderVO1Iterator" StaticList="false" Uses="LOV_GatePassType" id="GatePassType1"
+          DTSupportsMRU="false" SelectItemValueMode="ListObject"/>
+    <action id="Commit" RequiresUpdateModel="true" Action="commitTransaction" DataControl="AppModuleDataControl"/>
+    <attributeValues IterBinding="PwcGatePassHeaderVO1Iterator" id="OuId">
+      <AttrNames>
+        <Item Value="OuId"/>
+      </AttrNames>
+    </attributeValues>
+    <methodAction id="createLines" RequiresUpdateModel="true" Action="invokeMethod" MethodName="createLines"
+                  IsViewObjectMethod="false" DataControl="AppModuleDataControl"
+                  InstanceName="bindings.createLines.dataControl.dataProvider"
+                  ReturnName="data.AppModuleDataControl.methodResults.createLines_createLines_dataControl_dataProvider_createLines_result"/>
+    <methodAction id="getPopulateValues" RequiresUpdateModel="true" Action="invokeMethod" MethodName="getPopulateValues"
+                  IsViewObjectMethod="false" DataControl="AppModuleDataControl"
+                  InstanceName="bindings.getPopulateValues.dataControl.dataProvider"
+                  ReturnName="data.AppModuleDataControl.methodResults.getPopulateValues_getPopulateValues_dataControl_dataProvider_getPopulateValues_result">
+      <NamedData NDName="poprow" NDType="oracle.jbo.Row"/>
+      <NamedData NDName="columnName" NDType="java.lang.String"/>
+    </methodAction>
+    <methodAction id="populateLines" RequiresUpdateModel="true" Action="invokeMethod" MethodName="populateLines"
+                  IsViewObjectMethod="false" DataControl="AppModuleDataControl"
+                  InstanceName="bindings.populateLines.dataControl.dataProvider"/>
+    <methodAction id="populateLinesData" RequiresUpdateModel="true" Action="invokeMethod" MethodName="populateLinesData"
+                  IsViewObjectMethod="false" DataControl="AppModuleDataControl"
+                  InstanceName="bindings.populateLinesData.dataControl.dataProvider"
+                  ReturnName="data.AppModuleDataControl.methodResults.populateLinesData_populateLinesData_dataControl_dataProvider_populateLinesData_result"/>
+    <methodAction id="setpopulateLines" RequiresUpdateModel="true" Action="invokeMethod" MethodName="setpopulateLines"
+                  IsViewObjectMethod="false" DataControl="AppModuleDataControl"
+                  InstanceName="bindings.setpopulateLines.dataControl.dataProvider">
+      <NamedData NDName="poprow" NDType="oracle.jbo.Row"/>
+    </methodAction>
+    <methodAction id="populateDetails" RequiresUpdateModel="true" Action="invokeMethod" MethodName="populateDetails"
+                  IsViewObjectMethod="false" DataControl="AppModuleDataControl"
+                  InstanceName="bindings.populateDetails.dataControl.dataProvider"/>
+    <methodAction id="populateDetailsData" RequiresUpdateModel="true" Action="invokeMethod"
+                  MethodName="populateDetailsData" IsViewObjectMethod="false" DataControl="AppModuleDataControl"
+                  InstanceName="bindings.populateDetailsData.dataControl.dataProvider"
+                  ReturnName="data.AppModuleDataControl.methodResults.populateDetailsData_populateDetailsData_dataControl_dataProvider_populateDetailsData_result"/>
+    <methodAction id="setpopulateDetails" RequiresUpdateModel="true" Action="invokeMethod"
+                  MethodName="setpopulateDetails" IsViewObjectMethod="false" DataControl="AppModuleDataControl"
+                  InstanceName="bindings.setpopulateDetails.dataControl.dataProvider">
+      <NamedData NDName="poprow" NDType="oracle.jbo.Row"/>
+    </methodAction>
+    <attributeValues IterBinding="PwcGatePassHeaderVO1Iterator" id="LastUpdatedBy">
+      <AttrNames>
+        <Item Value="LastUpdatedBy"/>
+      </AttrNames>
+    </attributeValues>
+    <tree IterBinding="PopulateLinesDataVO1Iterator" id="PopulateLinesDataVO1">
+      <nodeDefinition DefName="model.LOV.PopulateLinesDataVO" Name="PopulateLinesDataVO10">
+        <AttrNames>
+          <Item Value="Source"/>
+          <Item Value="SourceDocNo"/>
+          <Item Value="DeliveryChallanNo"/>
+          <Item Value="ItemDetails"/>
+          <Item Value="Description"/>
+          <Item Value="Quantity"/>
+          <Item Value="Uom"/>
+          <Item Value="selectFlag" Binds="selectFlag"/>
+          <Item Value="ShipToLocation"/>
+        </AttrNames>
+      </nodeDefinition>
+    </tree>
+    <methodAction id="populateLinesDialogListener" RequiresUpdateModel="true" Action="invokeMethod"
+                  MethodName="populateLinesDialogListener" IsViewObjectMethod="false" DataControl="AppModuleDataControl"
+                  InstanceName="bindings.populateLinesDialogListener.dataControl.dataProvider"/>
+    <methodAction id="populateLinesDialogListenerNew" RequiresUpdateModel="true" Action="invokeMethod"
+                  MethodName="populateLinesDialogListenerNew" IsViewObjectMethod="false"
+                  DataControl="AppModuleDataControl"
+                  InstanceName="bindings.populateLinesDialogListenerNew.dataControl.dataProvider">
+      <NamedData NDName="source" NDType="java.lang.String"/>
+      <NamedData NDName="sourceDocNo" NDType="java.lang.String"/>
+    </methodAction>
+    <button IterBinding="PopulateLinesDataVO1Iterator" id="selectFlag" DTSupportsMRU="false" StaticList="true">
+      <AttrNames>
+        <Item Value="selectFlag"/>
+      </AttrNames>
+      <ValueList>
+        <Item Value="Y"/>
+        <Item Value="N"/>
+      </ValueList>
+    </button>
+    <methodAction id="popupFetchListener" RequiresUpdateModel="true" Action="invokeMethod"
+                  MethodName="popupFetchListener" IsViewObjectMethod="false" DataControl="AppModuleDataControl"
+                  InstanceName="bindings.popupFetchListener.dataControl.dataProvider"/>
+    <action id="Rollback" RequiresUpdateModel="false" Action="rollbackTransaction" DataControl="AppModuleDataControl"/>
+    <attributeValues IterBinding="PwcGatePassHeaderVO1Iterator" id="CreaterName">
+      <AttrNames>
+        <Item Value="CreaterName"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="PwcGatePassHeaderVO1Iterator" id="LastEditorName">
+      <AttrNames>
+        <Item Value="LastEditorName"/>
+      </AttrNames>
+    </attributeValues>
+    <listOfValues IterBinding="PwcGatePassHeaderVO1Iterator" StaticList="false" Uses="LOV_RefGatePassNo"
+                  id="RefGatePassNo1"/>
+    <methodAction id="populateHeader" RequiresUpdateModel="true" Action="invokeMethod" MethodName="populateHeader"
+                  IsViewObjectMethod="false" DataControl="AppModuleDataControl"
+                  InstanceName="bindings.populateHeader.dataControl.dataProvider"/>
+    <methodAction id="createHeaderLines" RequiresUpdateModel="true" Action="invokeMethod" MethodName="createHeaderLines"
+                  IsViewObjectMethod="false" DataControl="AppModuleDataControl"
+                  InstanceName="bindings.createHeaderLines.dataControl.dataProvider"
+                  ReturnName="data.AppModuleDataControl.methodResults.createHeaderLines_createHeaderLines_dataControl_dataProvider_createHeaderLines_result"/>
+    <methodAction id="gateOutActionBind" RequiresUpdateModel="true" Action="invokeMethod" MethodName="gateOutActionBind"
+                  IsViewObjectMethod="false" DataControl="AppModuleDataControl"
+                  InstanceName="bindings.gateOutActionBind.dataControl.dataProvider"/>
+    <attributeValues IterBinding="PwcGatePassHeaderVO1Iterator" id="OperatingUnit1">
+      <AttrNames>
+        <Item Value="OperatingUnit1"/>
+      </AttrNames>
+    </attributeValues>
+    <methodAction id="getParameters" RequiresUpdateModel="true" Action="invokeMethod" MethodName="getParameters"
+                  IsViewObjectMethod="false" DataControl="AppModuleDataControl"
+                  InstanceName="bindings.getParameters.dataControl.dataProvider"/>
+    <methodAction id="createBtnLines" RequiresUpdateModel="true" Action="invokeMethod" MethodName="createBtnLines"
+                  IsViewObjectMethod="false" DataControl="AppModuleDataControl"
+                  InstanceName="bindings.createBtnLines.dataControl.dataProvider"/>
+    <attributeValues IterBinding="PwcGatePassHeaderVO1Iterator" id="DisabledFlag">
+      <AttrNames>
+        <Item Value="DisabledFlag"/>
+      </AttrNames>
+    </attributeValues>
+    <methodAction id="populateBtnListener" RequiresUpdateModel="true" Action="invokeMethod"
+                  MethodName="populateBtnListener" IsViewObjectMethod="false" DataControl="AppModuleDataControl"
+                  InstanceName="bindings.populateBtnListener.dataControl.dataProvider"/>
+    <attributeValues IterBinding="PwcGatePassHeaderVO1Iterator" id="ApprovalStatus">
+      <AttrNames>
+        <Item Value="ApprovalStatus"/>
+      </AttrNames>
+    </attributeValues>
+    <methodAction id="sendNotifyforApproval" RequiresUpdateModel="true" Action="invokeMethod"
+                  MethodName="sendNotifyforApproval" IsViewObjectMethod="false" DataControl="AppModuleDataControl"
+                  InstanceName="bindings.sendNotifyforApproval.dataControl.dataProvider"
+                  ReturnName="data.AppModuleDataControl.methodResults.sendNotifyforApproval_sendNotifyforApproval_dataControl_dataProvider_sendNotifyforApproval_result"/>
+    <listOfValues IterBinding="PwcPopulateSearchVO1Iterator" StaticList="false" Uses="LOV_Sources" id="Sources"/>
+    <listOfValues IterBinding="PwcPopulateSearchVO1Iterator" StaticList="false" Uses="LOV_SourcesDocNo"
+                  id="SourcesDocNo"/>
+    <action IterBinding="PwcPopulateSearchVO1Iterator" id="CreateInsert2" RequiresUpdateModel="true"
+            Action="createInsertRow"/>
+    <listOfValues IterBinding="PwcGatePassHeaderVO1Iterator" StaticList="false" Uses="LOV_OperatingUnit"
+                  id="OperatingUnit"/>
+    <methodAction id="popupFetchListenerNew" RequiresUpdateModel="true" Action="invokeMethod"
+                  MethodName="popupFetchListenerNew" IsViewObjectMethod="false" DataControl="AppModuleDataControl"
+                  InstanceName="bindings.popupFetchListenerNew.dataControl.dataProvider"/>
+    <listOfValues IterBinding="PwcGatePassHeaderVO1Iterator" StaticList="false" Uses="LOV_Source" id="Source"/>
+    <listOfValues IterBinding="PwcGatePassHeaderVO1Iterator" StaticList="false" Uses="LOV_SourceDocNo"
+                  id="SourceDocNo"/>
+    <methodAction id="createDeatailAL" RequiresUpdateModel="true" Action="invokeMethod" MethodName="createDeatailAL"
+                  IsViewObjectMethod="false" DataControl="AppModuleDataControl"
+                  InstanceName="bindings.createDeatailAL.dataControl.dataProvider"/>
+    <methodAction id="SaveButtonActionListenerAM" RequiresUpdateModel="true" Action="invokeMethod"
+                  MethodName="SaveButtonActionListenerAM" IsViewObjectMethod="false" DataControl="AppModuleDataControl"
+                  InstanceName="bindings.SaveButtonActionListenerAM.dataControl.dataProvider"/>
+    <attributeValues IterBinding="PwcGatePassHeaderVO1Iterator" id="ApproveStatusMeaning">
+      <AttrNames>
+        <Item Value="ApproveStatusMeaning"/>
+      </AttrNames>
+    </attributeValues>
+    <methodAction id="AttachementActionListener" RequiresUpdateModel="true" Action="invokeMethod"
+                  MethodName="AttachementActionListener" IsViewObjectMethod="false" DataControl="AppModuleDataControl"
+                  InstanceName="bindings.AttachementActionListener.dataControl.dataProvider"
+                  ReturnName="data.AppModuleDataControl.methodResults.AttachementActionListener_AttachementActionListener_dataControl_dataProvider_AttachementActionListener_result"/>
+    <methodAction id="SaveButtonActionListenerAM2" RequiresUpdateModel="true" Action="invokeMethod"
+                  MethodName="SaveButtonActionListenerAM2" IsViewObjectMethod="false" DataControl="AppModuleDataControl"
+                  InstanceName="bindings.SaveButtonActionListenerAM2.dataControl.dataProvider"
+                  ReturnName="data.AppModuleDataControl.methodResults.SaveButtonActionListenerAM2_SaveButtonActionListenerAM2_dataControl_dataProvider_SaveButtonActionListenerAM2_result"/>
+    <attributeValues IterBinding="PwcGatePassHeaderVO1Iterator" id="SumofLineQty">
+      <AttrNames>
+        <Item Value="SumofLineQty"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="PwcGatePassHeaderVO1Iterator" id="LocationId">
+      <AttrNames>
+        <Item Value="LocationId"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="PwcGatePassHeaderVO1Iterator" id="Remarks">
+      <AttrNames>
+        <Item Value="Remarks"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="PwcGatePassHeaderVO1Iterator" id="PartyAddressGeneric">
+      <AttrNames>
+        <Item Value="PartyAddressGeneric"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="PwcGatePassHeaderVO1Iterator" id="PartyToAddress">
+      <AttrNames>
+        <Item Value="PartyToAddress"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="PwcGatePassHeaderVO1Iterator" id="PartyFromAddress">
+      <AttrNames>
+        <Item Value="PartyFromAddress"/>
+      </AttrNames>
+    </attributeValues>
+    <listOfValues IterBinding="PwcGatePassHeaderVO1Iterator" StaticList="false" Uses="LOV_Org_Nam" id="Org_Nam"/>
+    <attributeValues IterBinding="PwcGatePassHeaderVO1Iterator" id="OrganizationId">
+      <AttrNames>
+        <Item Value="OrganizationId"/>
+      </AttrNames>
+    </attributeValues>
+  </bindings>
+</pageDefinition>

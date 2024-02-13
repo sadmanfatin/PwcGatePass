@@ -1,0 +1,12 @@
+
+*.class
+*.jdb
+*.cdi_javac
+*.sso
+ViewController/classes/.data/00000000/0000003e.jdb
+*.jdb
+*.jpr
+Model/classes
+*.cdi
+
+*.jdb

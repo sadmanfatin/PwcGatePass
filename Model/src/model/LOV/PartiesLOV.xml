@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<!DOCTYPE ViewObject SYSTEM "jbo_03_01.dtd">
+<!---->
+<ViewObject
+  xmlns="http://xmlns.oracle.com/bc4j"
+  Name="PartiesLOV"
+  Version="12.2.1.22.48"
+  InheritPersonalization="merge"
+  BindingStyle="OracleName"
+  CustomQuery="true"
+  RowClass="model.LOV.PartiesLOVRowImpl"
+  ComponentClass="model.LOV.PartiesLOVImpl"
+  PageIterMode="Full"
+  FetchMode="FETCH_AS_NEEDED">
+  <DesignTime>
+    <Attr Name="_codeGenFlag2" Value="Coll"/>
+    <Attr Name="_isExpertMode" Value="true"/>
+    <Attr Name="_isCodegen" Value="true"/>
+  </DesignTime>
+  <Properties>
+    <SchemaBasedProperties>
+      <LABEL
+        ResId="model.LOV.PartiesLOV_LABEL"/>
+    </SchemaBasedProperties>
+  </Properties>
+  <Variable
+    Name="P_ORG_ID"
+    Kind="where"
+    Type="java.lang.String">
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYHINT
+          Value="Hide"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </Variable>
+  <Variable
+    Name="P_GATE_PASS_TYPE"
+    Kind="where"
+    Type="java.lang.String"/>
+  <SQLQuery><![CDATA[SELECT DISTINCT hp.PARTY_ID,              
+            hp.PARTY_NAME,                
+            DECODE(:P_GATE_PASS_TYPE,'Generic',NULL,   
+            HL.ADDRESS1   
+               || '-'   
+               || HL.ADDRESS2   
+               || '-'   
+               || HL.ADDRESS3   
+               || '-'   
+               || HL.ADDRESS4   
+               || '-'   
+               || HL.CITY   
+               || '-'   
+               || HL.COUNTRY) AS ADDRESS ,      
+            DECODE(:P_GATE_PASS_TYPE,'Generic',NULL,HL.LOCATION_ID) LOCATION_ID          
+FROM hz_parties hp          
+    ,hz_party_sites hps,          
+     hz_cust_accounts hca,          
+     hz_cust_acct_sites_all hcas,          
+     HZ_LOCATIONS HL,       
+     HZ_CUST_SITE_USES_ALL hcsua          
+WHERE hp.party_id = hca.party_id          
+AND hp.party_id = hps.party_id          
+AND hcas.party_site_id = hps.party_site_id          
+AND HL.LOCATION_ID = hps.LOCATION_ID          
+AND hca.cust_account_id = hcas.cust_account_id          
+AND hp.STATUS = 'A'          
+AND hca.STATUS = 'A'          
+AND hcas.STATUS = 'A'          
+AND PARTY_TYPE = 'ORGANIZATION'       
+AND hcsua.CUST_ACCT_SITE_ID = hcas.CUST_ACCT_SITE_ID       
+AND SITE_USE_CODE = 'SHIP_TO'       
+AND hcas.ORG_ID = :P_ORG_ID       
+UNION      
+SELECT DISTINCT hp.PARTY_ID,              
+            hp.PARTY_NAME,                
+            DECODE(:P_GATE_PASS_TYPE,'Generic',NULL, 
+            HL.ADDRESS1   
+               || '-'   
+               || HL.ADDRESS2   
+               || '-'   
+               || HL.ADDRESS3   
+               || '-'   
+               || HL.ADDRESS4   
+               || '-'   
+               || HL.CITY   
+               || '-'   
+               || HL.COUNTRY) AS ADDRESS ,      
+            DECODE(:P_GATE_PASS_TYPE,'Generic',NULL,HL.LOCATION_ID) LOCATION_ID      
+            FROM hz_parties hp,     
+            hz_party_sites hps,               
+            HZ_LOCATIONS HL,       
+            AP_SUPPLIERS asss,     
+            AP_SUPPLIER_SITES_ALL apsa     
+     WHERE  1=1     
+     And hp.party_id = hps.party_id      
+     AND HL.LOCATION_ID = hps.LOCATION_ID     
+     and asss.party_id = hp.party_id     
+     And asss.VENDOR_ID = apsa.VENDOR_ID     
+     AND PARTY_TYPE = 'ORGANIZATION'     
+     AND hp.STATUS = 'A'        
+     And apsa.ORG_ID = :P_ORG_ID]]></SQLQuery>
+  <ViewAttribute
+    Name="PartyId"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Type="oracle.jbo.domain.Number"
+    ColumnType="LONGINT"
+    AliasName="PARTY_ID"
+    Expression="PARTY_ID"
+    SQLType="NUMERIC"/>
+  <ViewAttribute
+    Name="PartyName"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="360"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="PARTY_NAME"
+    Expression="PARTY_NAME"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="360"/>
+    </DesignTime>
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYWIDTH
+          Value="25"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="Address"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="1260"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="ADDRESS"
+    Expression="ADDRESS"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="1260"/>
+    </DesignTime>
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYWIDTH
+          Value="50"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="LocationId"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="LOCATION_ID"
+    Expression="LOCATION_ID"
+    SQLType="VARCHAR"/>
+  <ResourceBundle>
+    <PropertiesBundle
+      PropertiesFile="model.ModelBundle"/>
+  </ResourceBundle>
+</ViewObject>

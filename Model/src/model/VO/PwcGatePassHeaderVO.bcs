@@ -1,0 +1,69 @@
+//Groovy Scripts for model.VO.PwcGatePassHeaderVO
+
+package model.VO
+
+import oracle.jbo.script.annotation.VariableExpression;
+import oracle.jbo.script.annotation.AccessorParameterExpression;
+
+@VariableExpression(path="p_gatePassClass")
+def p_gatePassClass_VariableScript_Variable()
+{
+//adf.context.sessionScope.gatePassClass
+}
+
+
+@VariableExpression(path="pOrgId")
+def pOrgId_VariableScript_Variable()
+{
+//adf.context.sessionScope.OrgId
+}
+
+
+@VariableExpression(path="p_resp_id")
+def p_resp_id_VariableScript_Variable()
+{
+adf.context.sessionScope.RespId
+}
+
+
+@AccessorParameterExpression(accessorName="SourcesDocNoLOV1", name="pSource")
+def pSource_SourcesDocNoLOV1_BindVariable_BoundParameter()
+{
+Source
+}
+
+
+@AccessorParameterExpression(accessorName="SourcesDocNoLOV1", name="pOrgId")
+def pOrgId_SourcesDocNoLOV1_BindVariable_BoundParameter()
+{
+OuId
+}
+
+
+@AccessorParameterExpression(accessorName="PartiesAddressLOV2", name="P_PARTY_ID")
+def P_PARTY_ID_PartiesAddressLOV2_BindVariable_BoundParameter()
+{
+PartyToId
+}
+
+
+@AccessorParameterExpression(accessorName="PartiesAddressLOV2", name="P_ORG_ID")
+def P_ORG_ID_PartiesAddressLOV2_BindVariable_BoundParameter()
+{
+OuId
+}
+
+
+@AccessorParameterExpression(accessorName="PartiesLOV2", name="P_ORG_ID")
+def P_ORG_ID_PartiesLOV2_BindVariable_BoundParameter()
+{
+OuId
+}
+
+
+@AccessorParameterExpression(accessorName="PartiesLOV1", name="P_ORG_ID")
+def P_ORG_ID_PartiesLOV1_BindVariable_BoundParameter()
+{
+OuId
+}
+

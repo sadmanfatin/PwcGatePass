@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<!DOCTYPE ViewLink SYSTEM "jbo_03_01.dtd">
+<!---->
+<ViewLink
+  xmlns="http://xmlns.oracle.com/bc4j"
+  Name="PwcGatePassLinesDetailVL"
+  Version="12.2.1.22.48"
+  InheritPersonalization="merge"
+  EntityAssociation="model.Assocs.PwcGatePassLinesDetail">
+  <Properties>
+    <SchemaBasedProperties>
+      <LABEL
+        ResId="model.VL.PwcGatePassLinesDetailVL_LABEL"/>
+    </SchemaBasedProperties>
+  </Properties>
+  <ViewLinkDefEnd
+    Name="PwcGatePassLinesVO"
+    Cardinality="1"
+    Source="true"
+    Owner="model.VO.PwcGatePassLinesVO">
+    <DesignTime>
+      <Attr Name="_isUpdateable" Value="true"/>
+      <Attr Name="_finderName" Value="PwcGatePassLinesVO"/>
+      <Attr Name="_accessor" Value="true"/>
+    </DesignTime>
+    <AttrArray Name="Attributes">
+      <Item Value="model.VO.PwcGatePassLinesVO.LineId"/>
+    </AttrArray>
+  </ViewLinkDefEnd>
+  <ViewLinkDefEnd
+    Name="PwcGatePassDetailsVO"
+    Cardinality="-1"
+    Owner="model.VO.PwcGatePassDetailsVO">
+    <DesignTime>
+      <Attr Name="_isUpdateable" Value="true"/>
+      <Attr Name="_finderName" Value="PwcGatePassDetailsVO"/>
+    </DesignTime>
+    <AttrArray Name="Attributes">
+      <Item Value="model.VO.PwcGatePassDetailsVO.LineId"/>
+    </AttrArray>
+  </ViewLinkDefEnd>
+  <ResourceBundle>
+    <PropertiesBundle
+      PropertiesFile="model.ModelBundle"/>
+  </ResourceBundle>
+</ViewLink>

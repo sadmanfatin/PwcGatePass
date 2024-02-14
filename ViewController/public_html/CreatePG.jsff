@@ -82,7 +82,7 @@
                   shortDesc="#{bindings.GatePassDate.hints.tooltip}" id="id1"
                   value="#{bindings.GatePassDate.inputValue}"
                   disabled="#{bindings.GatePassClass1.inputValue =='Time Out' ? 'true' : 'false'}"
-                  partialTriggers="gatePassClass1Id it26 sbc4" showRequired="true" autoSubmit="true" immediate="true"
+                  partialTriggers="gatePassClass1Id it26" showRequired="true" autoSubmit="true" immediate="true"
                   readOnly="#{sessionScope.timeOutMode eq 'Y' || bindings.ApprovalStatus.inputValue eq 'I' || ( bindings.ApprovalStatus.inputValue eq 'Y' &amp;&amp; bindings.Internal.inputValue eq 'false') }"
                   required="true">
       <f:validator binding="#{bindings.GatePassDate.validator}"/>
@@ -215,7 +215,8 @@
     </af:panelLabelAndMessage>
     <af:inputText value="#{bindings.VehicleNo.inputValue}" label="Vehicle No" columns="25"
                   maximumLength="#{bindings.VehicleNo.hints.precision}" shortDesc="#{bindings.VehicleNo.hints.tooltip}"
-                  id="it10" disabled="#{bindings.GatePassClass1.inputValue =='Time Out' ? 'true' : 'false'}"
+                  id="it10" 
+                  disabled="#{bindings.GatePassClass1.inputValue =='Time Out' ? 'true' : 'false'  }"
                   partialTriggers="gatePassClass1Id it26"
                   immediate="true"
                   readOnly="#{sessionScope.timeOutMode eq 'Y' || bindings.ApprovalStatus.inputValue eq 'I' || bindings.ApprovalStatus.inputValue eq 'Y'}"

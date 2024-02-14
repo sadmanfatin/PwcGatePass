@@ -310,15 +310,36 @@ public class PwcGatePassLinesEOImpl extends EntityImpl {
      * @param attributeList list of attribute names/values to initialize the row
      */
     protected void create(AttributeList attributeList) {
-        String approvalStatus = null;
+        String approvalStatus = null, internal = null;
         try{
             approvalStatus = getPwcGatePassHeaderEO().getAttribute("ApprovalStatus").toString();    
         }catch(Exception e){
             ;    
         }
-        
-        if(approvalStatus != null && (approvalStatus.equals("I") || approvalStatus.equals("Y"))){
+        try{
+            internal = getPwcGatePassHeaderEO().getAttribute("Internal").toString();    
+            
+            System.out.println("===================== internal val "+internal);
+        }catch(Exception e){
             ;    
+        }
+        
+        
+        if(approvalStatus != null && (approvalStatus.equals("I") || approvalStatus.equals("Y")    )   ){
+            
+            if (internal.equals("Y")){
+                super.create(attributeList);
+                oracle.jbo.server.SequenceImpl s =
+                    new oracle.jbo.server.SequenceImpl("PWC_GATE_PASS_LINES_S",
+                                                       getDBTransaction());
+                oracle.jbo.domain.Number sVal = s.getSequenceNumber();
+                setLineId(sVal);    
+                
+            }else {
+                ;
+            }
+            
+                
         }else{
             super.create(attributeList);
             oracle.jbo.server.SequenceImpl s =

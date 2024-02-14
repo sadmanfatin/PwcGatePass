@@ -959,7 +959,7 @@ public class AppModuleImpl extends ApplicationModuleImpl implements AppModule {
         ViewObject detailvo = this.getPwcGatePassDetailsVO1();
         //System.out.println("Setting Disable FLag");
         hdrvo.getCurrentRow().setAttribute("DisabledFlag", null);
-        this.getDBTransaction().commit();
+      //  this.getDBTransaction().commit();
         
         try {
             gpNo = hdrvo.getCurrentRow()
@@ -970,6 +970,12 @@ public class AppModuleImpl extends ApplicationModuleImpl implements AppModule {
             e.printStackTrace();
         }
         //System.out.println("Value of GPNO " +gpNo);
+        
+        if (gpNo == null){
+            this.showMessage("GatePass No can't be null or empty while creating line! ");
+            return ; 
+        }
+        
         
             int i = linesvo.getRowCount();
             int j = detailvo.getRowCount();

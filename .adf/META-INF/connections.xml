@@ -6,20 +6,20 @@
         <Contents>thin</Contents>
       </StringRefAddr>
       <StringRefAddr addrType="hostname">
-        <Contents>192.168.1.110</Contents>
+        <Contents>10.20.1.11</Contents>
       </StringRefAddr>
       <SecureRefAddr addrType="password"/>
       <StringRefAddr addrType="subtype">
         <Contents>oraJDBC</Contents>
       </StringRefAddr>
       <StringRefAddr addrType="port">
-        <Contents>1606</Contents>
+        <Contents>1531</Contents>
       </StringRefAddr>
       <StringRefAddr addrType="serviceName">
-        <Contents>PP</Contents>
+        <Contents>PROD</Contents>
       </StringRefAddr>
       <StringRefAddr addrType="user">
-        <Contents>apps</Contents>
+        <Contents>appsro</Contents>
       </StringRefAddr>
     </RefAddresses>
   </Reference>

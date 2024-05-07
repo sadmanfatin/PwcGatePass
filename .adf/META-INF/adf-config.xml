@@ -18,4 +18,7 @@
     <CredentialStoreContext credentialStoreClass="oracle.adf.share.security.providers.jps.CSFCredentialStore"
                             credentialStoreLocation="../../src/META-INF/jps-config.xml"/>
   </sec:adf-security-child>
+  <adf-controller-config xmlns="http://xmlns.oracle.com/adf/controller/config">
+<adf-scope-ha-support>true</adf-scope-ha-support>
+</adf-controller-config>
 </adf-config>

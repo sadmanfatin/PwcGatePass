@@ -874,10 +874,6 @@ public class PwcGatePassHeaderEOImpl extends EntityImpl {
                 sqle.printStackTrace();
             }
             this.setLastEditorName(name);
-            if(gatePassType != null && gatePassType.equals("Time Out")){
-            //                this.setGateOutFlag("Y");
-                            this.setGateInDate(Timestamp.toTimestamp(new java.sql.Timestamp(utilDate.getTime()).toString()));
-                        }
             
             if(this.getInternal().equals("Y")){
                 this.setApprovalStatus("Y");
@@ -947,16 +943,10 @@ public class PwcGatePassHeaderEOImpl extends EntityImpl {
                 sqle.printStackTrace();
             }
             this.setCreaterName(name);
-            if(gatePassType != null && gatePassType.equals("IGP")){
-                this.setGateInFlag("Y"); 
-            }else if(gatePassType != null && gatePassType.equals("OGP")){
-                this.setGateOutFlag("Y");
-            }else if(gatePassType != null && gatePassType.equals("Time Out")){
-//                this.setGateOutFlag("Y");
-//                this.setGateInDate(Timestamp.toTimestamp(new java.sql.Timestamp(utilDate.getTime()).toString()));
-//                this.getRefGatePassNo().set
-            }
-            
+                if(gatePassType != null && gatePassType.equals("IGP")){
+                     this.setGateInFlag("Y"); 
+                     this.setGateInDate(Timestamp.toTimestamp(new java.sql.Timestamp(utilDate.getTime()).toString()));
+                 }
             if(this.getInternal().equals("Y")){
                 this.setApprovalStatus("Y");
                 System.out.println("================ ML_UPDATE  this.getInternal().equals(\"Y\") ");

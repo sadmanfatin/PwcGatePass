@@ -52,7 +52,7 @@
                    visible="#{sessionScope.timeOutMode eq 'Y'}"
                    partialTriggers="gatePassClass1Id b12 it24" action="#{backingBeanScope.Main.gateOutAction}"
                    binding="#{backingBeanScope.Main.gateoutBtnBinding}"
-                   disabled="#{bindings.GateInDate.inputValue != null ? 'true' : 'false' &amp;&amp; (sessionScope.timeOutMode eq 'Y')}"/>
+                   disabled="#{bindings.TimeOutFlag.inputValue =='Y' ? 'true' : 'false' &amp;&amp; (sessionScope.timeOutMode eq 'Y')  }"/>
       </af:toolbar>
     </f:facet>
     <af:inputComboboxListOfValues id="gatePassClass1Id"
@@ -346,8 +346,16 @@
           <af:convertNumber groupingUsed="false" pattern="#{bindings.LastUpdatedBy.format}"/>
         </af:outputText>
       </af:panelLabelAndMessage>
-      <af:panelLabelAndMessage label="Gate Out Date" id="plam3" partialTriggers="gatePassClass1Id"
-                               visible="#{(bindings.GatePassClass1.inputValue eq 'Time Out' || bindings.GatePassClass1.inputValue eq 'OGP')}"
+      <af:inputDate value="#{bindings.GateOutDate.inputValue}" label="Gate Out Date"
+                    required="#{bindings.GateOutDate.hints.mandatory}"
+                    columns="#{bindings.GateOutDate.hints.displayWidth}"
+                    shortDesc="#{bindings.GateOutDate.hints.tooltip}" id="id3" readOnly="true"
+                    visible="#{(bindings.GatePassClass1.inputValue eq 'Time Out' || bindings.GatePassClass1.inputValue eq 'OGP')}">
+        <f:validator binding="#{bindings.GateOutDate.validator}"/>
+        <af:convertDateTime pattern="#{bindings.GateOutDate.format}"/>
+      </af:inputDate>
+      <af:panelLabelAndMessage label="Gate In Date" id="plam3" partialTriggers="gatePassClass1Id"
+                               visible="#{( bindings.GatePassClass1.inputValue eq 'IGP')}"
                                binding="#{backingBeanScope.Main.gateInDateFieldBinding}">
         <af:inputText value="#{bindings.GateInDate.inputValue}" required="#{bindings.GateInDate.hints.mandatory}"
                       columns="#{bindings.GateInDate.hints.displayWidth}"
@@ -376,6 +384,13 @@
           <af:convertDateTime pattern="#{bindings.GateOutDate.format}"/>
         </af:outputText>
       </af:panelLabelAndMessage>
+      <af:inputText value="#{bindings.TimeOutFlag.inputValue}" label="#{bindings.TimeOutFlag.hints.label}"
+                    required="#{bindings.TimeOutFlag.hints.mandatory}"
+                    columns="#{bindings.TimeOutFlag.hints.displayWidth}"
+                    maximumLength="#{bindings.TimeOutFlag.hints.precision}"
+                    shortDesc="#{bindings.TimeOutFlag.hints.tooltip}" id="it40" readOnly="true" visible="false">
+        <f:validator binding="#{bindings.TimeOutFlag.validator}"/>
+      </af:inputText>
     </af:showDetail>
     <af:inputText value="#{bindings.PartFromId.inputValue}" label="#{bindings.PartFromId.hints.label}"
                   required="#{bindings.PartFromId.hints.mandatory}" columns="#{bindings.PartFromId.hints.displayWidth}"

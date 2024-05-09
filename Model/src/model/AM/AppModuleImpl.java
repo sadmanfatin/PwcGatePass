@@ -809,15 +809,16 @@ public class AppModuleImpl extends ApplicationModuleImpl implements AppModule {
     
     public void gateOutActionBind(){
         
-        String GateInDate = null;
+        String GateOutDate = null;
         ViewObject hdrVO = this.getPwcGatePassHeaderVO1();
         java.util.Date utilDate = new java.util.Date();
         SimpleDateFormat sdf = new SimpleDateFormat((new java.sql.Timestamp(utilDate.getTime()).toString()));
         Calendar c = Calendar.getInstance();
         
-        GateInDate = sdf.format(c.getTime());             
-        //System.out.println("GateInDate.... : " + GateInDate);
-        hdrVO.getCurrentRow().setAttribute("GateInDate", GateInDate);
+        GateOutDate = sdf.format(c.getTime());             
+        //System.out.println("GateOutDate.... : " + GateOutDate);
+        hdrVO.getCurrentRow().setAttribute("GateOutDate", GateOutDate);
+        hdrVO.getCurrentRow().setAttribute("GateOutFlag", "Y");
         hdrVO.getCurrentRow().setAttribute("TimeOutFlag", "Y");
         getDBTransaction().commit();
 

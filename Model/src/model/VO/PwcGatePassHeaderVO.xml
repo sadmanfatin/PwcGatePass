@@ -777,8 +777,7 @@ ORDER BY PwcGatePassHeaderEO.HEADER_ID DESC]]></SQLQuery>
     PrecisionRule="true"
     EntityAttrName="GateOutDate"
     EntityUsage="PwcGatePassHeaderEO"
-    AliasName="GATE_OUT_DATE"
-    IsUpdateable="false"/>
+    AliasName="GATE_OUT_DATE"/>
   <ViewAttribute
     Name="GateInFlag"
     PrecisionRule="true"

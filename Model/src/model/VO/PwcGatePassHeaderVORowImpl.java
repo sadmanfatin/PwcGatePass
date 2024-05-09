@@ -543,6 +543,14 @@ public class PwcGatePassHeaderVORowImpl extends ViewRowImpl {
     }
 
     /**
+     * Sets <code>value</code> as attribute value for GATE_OUT_DATE using the alias name GateOutDate.
+     * @param value value to set the GATE_OUT_DATE
+     */
+    public void setGateOutDate(Timestamp value) {
+        setAttributeInternal(GATEOUTDATE, value);
+    }
+
+    /**
      * Gets the attribute value for GATE_IN_FLAG using the alias name GateInFlag.
      * @return the GATE_IN_FLAG
      */

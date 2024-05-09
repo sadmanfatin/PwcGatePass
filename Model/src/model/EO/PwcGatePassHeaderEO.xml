@@ -279,9 +279,7 @@
     SQLType="DATE"
     Type="oracle.jbo.domain.Timestamp"
     ColumnType="DATE"
-    TableName="XXPWC.PWC_GATE_PASS_HEADER"
-    IsUpdateable="while_insert"
-    HistoryColumn="DateHistory">
+    TableName="XXPWC.PWC_GATE_PASS_HEADER">
     <Properties>
       <SchemaBasedProperties>
         <FMT_FORMATTER

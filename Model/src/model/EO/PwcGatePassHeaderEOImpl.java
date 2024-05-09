@@ -496,6 +496,12 @@ public class PwcGatePassHeaderEOImpl extends EntityImpl {
     public Timestamp getGateOutDate() {
         return (Timestamp) getAttributeInternal(GATEOUTDATE);
     }
+    
+    public void setGateOutDate(Timestamp value) {
+        setAttributeInternal(GATEOUTDATE,value);
+
+    }
+
 
     /**
      * Gets the attribute value for GateInFlag, using the alias name GateInFlag.

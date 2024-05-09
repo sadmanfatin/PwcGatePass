@@ -5,15 +5,13 @@
     <AppModuleConfig name="AppModuleLocal" jbo.project="model.Model" ApplicationName="model.AM.AppModule"
                      DeployPlatform="LOCAL">
       <Database jbo.TypeMapEntries="OracleApps" JDBCDataSource="java:comp/env/jdbc/Conn1DS"/>
-      <Security AppModuleJndiName="model.AM.AppModule"/>
-	  <AM-Pooling jbo.dofailover="true"/>
+      <Security AppModuleJndiName="model.AM.AppModule"/>	   
     </AppModuleConfig>
     <AppModuleConfig name="AppModuleShared" jbo.project="model.Model" ApplicationName="model.AM.AppModule"
                      DeployPlatform="LOCAL">
-      <AM-Pooling jbo.ampool.maxpoolsize="1" jbo.ampool.isuseexclusive="false"/>
+      <AM-Pooling jbo.ampool.maxpoolsize="1" jbo.ampool.isuseexclusive="false" jbo.dofailover="true"/>
       <Database jbo.TypeMapEntries="OracleApps" JDBCDataSource="java:comp/env/jdbc/Conn1DS"/>
-      <Security AppModuleJndiName="model.AM.AppModule"/>
-	  <AM-Pooling jbo.dofailover="true"/>
-    </AppModuleConfig>
+      <Security AppModuleJndiName="model.AM.AppModule"/>	     
+	  </AppModuleConfig>
   </AppModuleConfigBag>
 </BC4JConfig>

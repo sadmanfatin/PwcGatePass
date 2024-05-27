@@ -38,67 +38,67 @@
     Name="P_GATE_PASS_TYPE"
     Kind="where"
     Type="java.lang.String"/>
-  <SQLQuery><![CDATA[SELECT DISTINCT hp.PARTY_ID,              
-            hp.PARTY_NAME,                
-            DECODE(:P_GATE_PASS_TYPE,'Generic',NULL,   
-            HL.ADDRESS1   
-               || '-'   
-               || HL.ADDRESS2   
-               || '-'   
-               || HL.ADDRESS3   
-               || '-'   
-               || HL.ADDRESS4   
-               || '-'   
-               || HL.CITY   
-               || '-'   
-               || HL.COUNTRY) AS ADDRESS ,      
-            DECODE(:P_GATE_PASS_TYPE,'Generic',NULL,HL.LOCATION_ID) LOCATION_ID          
-FROM hz_parties hp          
-    ,hz_party_sites hps,          
-     hz_cust_accounts hca,          
-     hz_cust_acct_sites_all hcas,          
-     HZ_LOCATIONS HL,       
-     HZ_CUST_SITE_USES_ALL hcsua          
-WHERE hp.party_id = hca.party_id          
-AND hp.party_id = hps.party_id          
-AND hcas.party_site_id = hps.party_site_id          
-AND HL.LOCATION_ID = hps.LOCATION_ID          
-AND hca.cust_account_id = hcas.cust_account_id          
-AND hp.STATUS = 'A'          
-AND hca.STATUS = 'A'          
-AND hcas.STATUS = 'A'          
-AND PARTY_TYPE = 'ORGANIZATION'       
-AND hcsua.CUST_ACCT_SITE_ID = hcas.CUST_ACCT_SITE_ID       
-AND SITE_USE_CODE = 'SHIP_TO'       
-AND hcas.ORG_ID = :P_ORG_ID       
-UNION      
-SELECT DISTINCT hp.PARTY_ID,              
-            hp.PARTY_NAME,                
-            DECODE(:P_GATE_PASS_TYPE,'Generic',NULL, 
-            HL.ADDRESS1   
-               || '-'   
-               || HL.ADDRESS2   
-               || '-'   
-               || HL.ADDRESS3   
-               || '-'   
-               || HL.ADDRESS4   
-               || '-'   
-               || HL.CITY   
-               || '-'   
-               || HL.COUNTRY) AS ADDRESS ,      
-            DECODE(:P_GATE_PASS_TYPE,'Generic',NULL,HL.LOCATION_ID) LOCATION_ID      
-            FROM hz_parties hp,     
-            hz_party_sites hps,               
-            HZ_LOCATIONS HL,       
-            AP_SUPPLIERS asss,     
-            AP_SUPPLIER_SITES_ALL apsa     
-     WHERE  1=1     
-     And hp.party_id = hps.party_id      
-     AND HL.LOCATION_ID = hps.LOCATION_ID     
-     and asss.party_id = hp.party_id     
-     And asss.VENDOR_ID = apsa.VENDOR_ID     
-     AND PARTY_TYPE = 'ORGANIZATION'     
-     AND hp.STATUS = 'A'        
+  <SQLQuery><![CDATA[SELECT DISTINCT hp.PARTY_ID,                 
+            hp.PARTY_NAME,                   
+            DECODE(:P_GATE_PASS_TYPE,'Generic',NULL,      
+            HL.ADDRESS1      
+               || '-'      
+               || HL.ADDRESS2      
+               || '-'      
+               || HL.ADDRESS3      
+               || '-'      
+               || HL.ADDRESS4      
+               || '-'      
+               || HL.CITY      
+               || '-'      
+               || HL.COUNTRY) AS ADDRESS ,         
+            DECODE(:P_GATE_PASS_TYPE,'Generic',NULL,HL.LOCATION_ID) LOCATION_ID             
+FROM hz_parties@DR_OCI hp             
+    ,hz_party_sites@DR_OCI hps,             
+     hz_cust_accounts@DR_OCI hca,             
+     hz_cust_acct_sites_all@DR_OCI hcas,             
+     HZ_LOCATIONS@DR_OCI HL,          
+     HZ_CUST_SITE_USES_ALL@DR_OCI hcsua             
+WHERE hp.party_id = hca.party_id             
+AND hp.party_id = hps.party_id             
+AND hcas.party_site_id = hps.party_site_id             
+AND HL.LOCATION_ID = hps.LOCATION_ID             
+AND hca.cust_account_id = hcas.cust_account_id             
+AND hp.STATUS = 'A'             
+AND hca.STATUS = 'A'             
+AND hcas.STATUS = 'A'             
+AND PARTY_TYPE = 'ORGANIZATION'          
+AND hcsua.CUST_ACCT_SITE_ID = hcas.CUST_ACCT_SITE_ID          
+AND SITE_USE_CODE = 'SHIP_TO'          
+AND hcas.ORG_ID = :P_ORG_ID          
+UNION         
+SELECT DISTINCT hp.PARTY_ID,                 
+            hp.PARTY_NAME,                   
+            DECODE(:P_GATE_PASS_TYPE,'Generic',NULL,    
+            HL.ADDRESS1      
+               || '-'      
+               || HL.ADDRESS2      
+               || '-'      
+               || HL.ADDRESS3      
+               || '-'      
+               || HL.ADDRESS4      
+               || '-'      
+               || HL.CITY      
+               || '-'      
+               || HL.COUNTRY) AS ADDRESS ,         
+            DECODE(:P_GATE_PASS_TYPE,'Generic',NULL,HL.LOCATION_ID) LOCATION_ID         
+            FROM hz_parties@DR_OCI hp,        
+            hz_party_sites@DR_OCI hps,                  
+            HZ_LOCATIONS@DR_OCI HL,          
+            AP_SUPPLIERS@DR_OCI asss,        
+            AP_SUPPLIER_SITES_ALL@DR_OCI apsa        
+     WHERE  1=1        
+     And hp.party_id = hps.party_id         
+     AND HL.LOCATION_ID = hps.LOCATION_ID        
+     and asss.party_id = hp.party_id        
+     And asss.VENDOR_ID = apsa.VENDOR_ID        
+     AND PARTY_TYPE = 'ORGANIZATION'        
+     AND hp.STATUS = 'A'           
      And apsa.ORG_ID = :P_ORG_ID]]></SQLQuery>
   <ViewAttribute
     Name="PartyId"

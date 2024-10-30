@@ -55,54 +55,54 @@
       </SchemaBasedProperties>
     </Properties>
   </Variable>
-  <SQLQuery><![CDATA[/* Formatted on 8/23/2022 10:59:53 AM (QP5 v5.215.12089.38647) */       
-SELECT DISTINCT ORGANIZATION_ID, OPERATING_UNITS FROM       
-(     
-SELECT ORGANIZATION_ID,       
-       NAME OPERATING_UNITS      
-  FROM HR_OPERATING_UNITS       
- WHERE ORGANIZATION_ID = :P_OU       
-UNION ALL          
-(SELECT HOU.ORGANIZATION_ID,       
-        HOU.NAME OPERATING_UNITS           --FOR UNITS WITH SECURITY GROUP RESTRICTION ON OPERATING UNIT   
-  FROM apps.fnd_profile_options_vl@DR_OCI po,        
-                         apps.fnd_profile_option_values@DR_OCI pov,        
-                         apps.fnd_responsibility_tl@DR_OCI rsp,          
-                         per_security_profiles@DR_OCI   psp,        
-                         per_security_organizations@DR_OCI pso,          
-                         hr_organization_units@DR_OCI hou        
-                    WHERE     1 = 1        
-                         AND to_char(psp.security_profile_id) = pov.profile_option_value        
-                         AND pso.security_profile_id = psp.security_profile_id        
-                         AND pso.organization_id = hou.organization_id         
-                         AND pov.application_id = po.application_id        
-                         AND pov.profile_option_id = po.profile_option_id          
-                         AND rsp.responsibility_id(+) = pov.level_value         
-                         and po.user_profile_option_name like 'MO: Security Profile'        
-                         and rsp.responsibility_id  = :p_resp_id        
-                         AND psp.ORG_SECURITY_MODE <> 'NONE'     
-                         AND TO_CHAR (pov.level_id) = '10003')     
-UNION ALL     
-(SELECT HOU.ORGANIZATION_ID,       
-        HOU.NAME OPERATING_UNITS   
-                            FROM HR_OPERATING_UNITS@DR_OCI HOU WHERE EXISTS(SELECT 1         --FOR UNITS WITH NO SECURITY GROUP RESTRICTION ON OPERATING UNIT   
-                        FROM apps.fnd_profile_options_vl@DR_OCI po,        
-                         apps.fnd_profile_option_values@DR_OCI pov,        
-                         apps.fnd_responsibility_tl@DR_OCI rsp,          
-                         per_security_profiles@DR_OCI   psp,        
-                         per_security_organizations@DR_OCI pso,          
-                         hr_organization_units hou        
-                    WHERE     1 = 1        
-                         AND to_char(psp.security_profile_id) = pov.profile_option_value        
-                         AND pso.security_profile_id(+) = psp.security_profile_id        
-                         AND pso.organization_id = hou.organization_id (+)        
-                         AND pov.application_id = po.application_id        
-                         AND pov.profile_option_id = po.profile_option_id          
-                         AND rsp.responsibility_id(+) = pov.level_value         
-                         and po.user_profile_option_name like 'MO: Security Profile'        
-                         and rsp.responsibility_id  = :p_resp_id        
-                         AND psp.ORG_SECURITY_MODE = 'NONE'     
-                         AND TO_CHAR (pov.level_id) = '10003')))   
+  <SQLQuery><![CDATA[/* Formatted on 8/23/2022 10:59:53 AM (QP5 v5.215.12089.38647) */        
+SELECT DISTINCT ORGANIZATION_ID, OPERATING_UNITS FROM        
+(      
+SELECT ORGANIZATION_ID,        
+       NAME OPERATING_UNITS       
+  FROM HR_OPERATING_UNITS        
+ WHERE ORGANIZATION_ID = :P_OU        
+UNION ALL           
+(SELECT HOU.ORGANIZATION_ID,        
+        HOU.NAME OPERATING_UNITS           --FOR UNITS WITH SECURITY GROUP RESTRICTION ON OPERATING UNIT    
+  FROM apps.fnd_profile_options_vl po,         
+                         apps.fnd_profile_option_values pov,         
+                         apps.fnd_responsibility_tl rsp,           
+                         per_security_profiles   psp,         
+                         per_security_organizations pso,           
+                         hr_organization_units hou         
+                    WHERE     1 = 1         
+                         AND to_char(psp.security_profile_id) = pov.profile_option_value         
+                         AND pso.security_profile_id = psp.security_profile_id         
+                         AND pso.organization_id = hou.organization_id          
+                         AND pov.application_id = po.application_id         
+                         AND pov.profile_option_id = po.profile_option_id           
+                         AND rsp.responsibility_id(+) = pov.level_value          
+                         and po.user_profile_option_name like 'MO: Security Profile'         
+                         and rsp.responsibility_id  = :p_resp_id         
+                         AND psp.ORG_SECURITY_MODE <> 'NONE'      
+                         AND TO_CHAR (pov.level_id) = '10003')      
+UNION ALL      
+(SELECT HOU.ORGANIZATION_ID,        
+        HOU.NAME OPERATING_UNITS    
+                            FROM HR_OPERATING_UNITS HOU WHERE EXISTS(SELECT 1         --FOR UNITS WITH NO SECURITY GROUP RESTRICTION ON OPERATING UNIT    
+                        FROM apps.fnd_profile_options_vl po,         
+                         apps.fnd_profile_option_values pov,         
+                         apps.fnd_responsibility_tl rsp,           
+                         per_security_profiles   psp,         
+                         per_security_organizations pso,           
+                         hr_organization_units hou         
+                    WHERE     1 = 1         
+                         AND to_char(psp.security_profile_id) = pov.profile_option_value         
+                         AND pso.security_profile_id(+) = psp.security_profile_id         
+                         AND pso.organization_id = hou.organization_id (+)         
+                         AND pov.application_id = po.application_id         
+                         AND pov.profile_option_id = po.profile_option_id           
+                         AND rsp.responsibility_id(+) = pov.level_value          
+                         and po.user_profile_option_name like 'MO: Security Profile'         
+                         and rsp.responsibility_id  = :p_resp_id         
+                         AND psp.ORG_SECURITY_MODE = 'NONE'      
+                         AND TO_CHAR (pov.level_id) = '10003')))    
 ORDER BY OPERATING_UNITS ASC]]></SQLQuery>
   <ViewAttribute
     Name="OrganizationId"

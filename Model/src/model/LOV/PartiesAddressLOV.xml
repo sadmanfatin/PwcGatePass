@@ -37,23 +37,23 @@
       </SchemaBasedProperties>
     </Properties>
   </Variable>
-  <SQLQuery><![CDATA[SELECT DISTINCT hp.PARTY_ID,        
-            hp.PARTY_NAME,          
-            hl.ADDRESS1 AS ADDRESS    
-FROM hz_parties@DR_OCI hp    
-    ,hz_party_sites@DR_OCI hps,    
-     hz_cust_accounts@DR_OCI hca,    
-     hz_cust_acct_sites_all@DR_OCI hcas,    
-     HZ_LOCATIONS@DR_OCI HL    
-WHERE hp.party_id = hca.party_id    
-AND hp.party_id = hps.party_id    
-AND hcas.party_site_id = hps.party_site_id    
-AND HL.LOCATION_ID = hps.LOCATION_ID    
-AND hca.cust_account_id = hcas.cust_account_id    
-AND hp.STATUS = 'A'    
-AND hca.STATUS = 'A'    
-AND hcas.STATUS = 'A'    
-AND hp.PARTY_ID = :P_PARTY_ID   
+  <SQLQuery><![CDATA[SELECT DISTINCT hp.PARTY_ID,         
+            hp.PARTY_NAME,           
+            hl.ADDRESS1 AS ADDRESS     
+FROM hz_parties hp     
+    ,hz_party_sites hps,     
+     hz_cust_accounts hca,     
+     hz_cust_acct_sites_all hcas,     
+     HZ_LOCATIONS HL     
+WHERE hp.party_id = hca.party_id     
+AND hp.party_id = hps.party_id     
+AND hcas.party_site_id = hps.party_site_id     
+AND HL.LOCATION_ID = hps.LOCATION_ID     
+AND hca.cust_account_id = hcas.cust_account_id     
+AND hp.STATUS = 'A'     
+AND hca.STATUS = 'A'     
+AND hcas.STATUS = 'A'     
+AND hp.PARTY_ID = :P_PARTY_ID    
 AND hcas.org_id=:P_ORG_ID]]></SQLQuery>
   <ViewAttribute
     Name="PartyId"

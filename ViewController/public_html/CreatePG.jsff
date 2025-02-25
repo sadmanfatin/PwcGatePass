@@ -2,7 +2,7 @@
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
                 xmlns:f="http://java.sun.com/jsf/core">
   <af:panelHeader text="Gate Pass - IGP #{bindings.Internal.inputValue eq 'true' ? 'Internal' : ''}" id="ph1"
-                  rendered="#{sessionScope.gatePassClass eq 'IGP'}" partialTriggers="sbc4">
+                  rendered="#{sessionScope.gatePassClass eq 'IGP'} " partialTriggers="sbc4">
     <f:facet name="context"/>
     <f:facet name="toolbar"/>
     <f:facet name="menuBar"/>
@@ -74,11 +74,16 @@
                        partialTriggers="gatePassClass1Id it26 pc1:b13 pc1:b7"
                        valueChangeListener="#{backingBeanScope.Main.gatePassVCListener}" showRequired="true"
                        binding="#{backingBeanScope.Main.gatePassTypeBinding}" required="true" immediate="true"
-                       readOnly="#{sessionScope.timeOutMode eq 'Y' || bindings.ApprovalStatus.inputValue eq 'I' || bindings.ApprovalStatus.inputValue eq 'Y'}"
-                       rendered="true">
+                       readOnly="#{sessionScope.timeOutMode eq 'Y' || bindings.ApprovalStatus.inputValue eq 'I' || bindings.ApprovalStatus.inputValue eq 'Y' || sessionScope.GatePassTypeProfileVal eq 'Generic'  || sessionScope.GatePassTypeProfileVal eq 'Transactional' }"
+                       rendered="true" visible="#{sessionScope.GatePassTypeProfileVal == 'All' }">
       <f:selectItems value="#{bindings.GatePassType1.items}" id="si1"/>
       <f:validator binding="#{bindings.GatePassType1.validator}"/>
     </af:selectOneRadio>
+    <af:panelLabelAndMessage label="#{bindings.GatePassType.hints.label}" id="plam9"
+                             visible="#{sessionScope.GatePassTypeProfileVal != 'All' }">
+      <af:outputText value="#{bindings.GatePassType.inputValue}" shortDesc="#{bindings.GatePassType.hints.tooltip}"
+                     id="ot12"/>
+    </af:panelLabelAndMessage>
     <af:inputDate label="Gate Pass Date" columns="#{bindings.GatePassDate.hints.displayWidth}"
                   shortDesc="#{bindings.GatePassDate.hints.tooltip}" id="id1"
                   value="#{bindings.GatePassDate.inputValue}"

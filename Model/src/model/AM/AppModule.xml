@@ -53,6 +53,9 @@
   <ViewUsage
     Name="ExternalServerAddressVO1"
     ViewObjectName="model.VO.ExternalServerAddressVO"/>
+  <ViewUsage
+    Name="GatePassTypeProfileVO1"
+    ViewObjectName="model.VO.GatePassTypeProfileVO"/>
   <ViewLinkUsage
     Name="PwcGatePassHeaderLinesVL1"
     ViewLinkObjectName="model.VL.PwcGatePassHeaderLinesVL"

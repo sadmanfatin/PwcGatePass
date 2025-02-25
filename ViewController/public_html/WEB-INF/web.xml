@@ -119,6 +119,10 @@
     <param-name>javax.faces.FACELETS_RESOURCE_RESOLVER</param-name>
     <param-value>oracle.adfinternal.view.faces.facelets.rich.AdfFaceletsResourceResolver</param-value>
   </context-param>
+    <context-param>
+    <param-name>oracle.adf.view.rich.security.FRAMEWORK_SECURITY_MODE</param-name>
+    <param-value>relaxed</param-value>
+</context-param>
   <context-param>
     <param-name>javax.faces.FACELETS_VIEW_MAPPINGS</param-name>
     <param-value>*.jsf;*.xhtml</param-value>
@@ -143,4 +147,5 @@
   <listener>
     <listener-class>oracle.bc4j.mbean.BC4JConfigLifeCycleCallBack</listener-class>
   </listener>
+
 </web-app>

@@ -773,11 +773,14 @@ public class PwcGatePassHeaderEOImpl extends EntityImpl {
                                                getDBTransaction());
         oracle.jbo.domain.Number sVal = s.getSequenceNumber();
         setHeaderId(sVal);
-        String gatePassType = this.getGatePassClass();
-        System.out.println(gatePassType);
+        String gatePassClass = this.getGatePassClass();
+        System.out.println(gatePassClass);
                
         Map sessionScope = ADFContext.getCurrent().getSessionScope();
         String OrgId = (String)sessionScope.get("OrgId");
+        String gatePassType = (String) sessionScope.get("GatePassTypeProfileVal");
+        
+        
         FacesContext fctx = FacesContext.getCurrentInstance();
         ExternalContext ectx = fctx.getExternalContext();
         HttpSession userSession = (HttpSession)ectx.getSession(false);
@@ -787,7 +790,12 @@ public class PwcGatePassHeaderEOImpl extends EntityImpl {
         queryVO1.executeQuery();
         queryVO1.getQuery();
         String OU = null;
-        String gatePassClass = null;
+       
+        if(gatePassType.equals("Generic") || gatePassType.equals("Transactional")  ){
+            // for profile value generic or transactional, gate pass type will not be selected from lov
+            this.setGatePassType(gatePassType);
+        }
+       
         try{
             OU = queryVO1.first().getAttribute(0).toString();    
         }catch(Exception ee){
@@ -864,7 +872,7 @@ public class PwcGatePassHeaderEOImpl extends EntityImpl {
             ;    
         }
         
-        String gatePassType = this.getGatePassClass();
+        String gatePassClass = this.getGatePassClass();
         java.util.Date utilDate = new java.util.Date();
         if (DML_UPDATE == operation) {
             try {
@@ -886,7 +894,7 @@ public class PwcGatePassHeaderEOImpl extends EntityImpl {
         } else if (DML_INSERT == operation) {
             System.out.println("In DML");
             
-            String gatePassClass = this.getGatePassClass();
+        
 //            String ouName = this.getOperatingUnit();
             String orgId = null;
             try{
@@ -943,7 +951,7 @@ public class PwcGatePassHeaderEOImpl extends EntityImpl {
                 sqle.printStackTrace();
             }
             this.setCreaterName(name);
-                if(gatePassType != null && gatePassType.equals("IGP")){
+                if(gatePassClass != null && gatePassClass.equals("IGP")){
                      this.setGateInFlag("Y"); 
                      this.setGateInDate(Timestamp.toTimestamp(new java.sql.Timestamp(utilDate.getTime()).toString()));
                  }

@@ -16,6 +16,7 @@ import model.LOV.SourceLOVImpl;
 import model.LOV.SourcesDocNoLOVImpl;
 
 import model.VO.ExternalServerAddressVOImpl;
+import model.VO.GatePassTypeProfileVOImpl;
 import model.VO.PwcDeleteBtnValidateVOImpl;
 
 import model.VO.PwcGatePassHeaderVOImpl;
@@ -889,7 +890,7 @@ public class AppModuleImpl extends ApplicationModuleImpl implements AppModule {
         //System.out.println("User Id " +userId);
         //System.out.println("Respid " +respId);
         //System.out.println("REsp APpv ID" +respAppl );
-        
+      
         userSession.setAttribute("userId", userId);
         userSession.setAttribute("orgId", orgId);
         userSession.setAttribute("respId", respId);
@@ -931,6 +932,10 @@ public class AppModuleImpl extends ApplicationModuleImpl implements AppModule {
 
                     userSession.setAttribute("deleteBtnFlag", deleteFlag);
                     //System.out.println("Value of the delete Button Flag is " +deleteFlag);
+                    
+                    setGatePassTypeValue(userSession);
+                    
+                
         
     }
     
@@ -1287,5 +1292,53 @@ public class AppModuleImpl extends ApplicationModuleImpl implements AppModule {
     public ExternalServerAddressVOImpl getExternalServerAddressVO1() {
         return (ExternalServerAddressVOImpl) findViewObject("ExternalServerAddressVO1");
     }
+
+    /**
+     * Container's getter for GatePassTypeProfileVO1.
+     * @return GatePassTypeProfileVO1
+     */
+    public GatePassTypeProfileVOImpl getGatePassTypeProfileVO1() {
+        return (GatePassTypeProfileVOImpl) findViewObject("GatePassTypeProfileVO1");
+    }
+
+ 
+    private void setGatePassTypeValue(HttpSession userSession) {
+        Map sessionScope = ADFContext.getCurrent().getSessionScope();
+        
+     //   System.out.println("============== setGatePassTypeValue() " );
+        
+        String gatePassTypeProfileVal =  null;
+      //  System.out.println("=================  Resp Id"+ sessionScope.get("RespId"));
+        
+        String respId = (String) sessionScope.get("RespId");  
+        String userId = (String) sessionScope.get("UserId");  
+        ViewObject GatePassTypeVo  =  this.getGatePassTypeProfileVO1();                 
+        GatePassTypeVo.setNamedWhereClauseParam("p_resp_id", respId);  
+        GatePassTypeVo.setNamedWhereClauseParam("p_user_id", userId);  
+        GatePassTypeVo.executeQuery();
+    //    System.out.println("============= GatePassClass Row Count"+  GatePassTypeVo.getRowCount());       
+        if(GatePassTypeVo.getRowCount()==1){
+            gatePassTypeProfileVal =  GatePassTypeVo.first().getAttribute("ProfileOptionValue").toString();
+        }
+        else if(GatePassTypeVo.getRowCount()==2){
+            // if both transactional and generic for resp and user profile then consier transactional
+            gatePassTypeProfileVal =  "Transactional"; 
+        }
+        else{
+            //if no value is set as profile
+            gatePassTypeProfileVal ="All" ; // currently profile is not set to all resp. All value will be considred if profile is not set         
+        }
+        
+        userSession.setAttribute("GatePassTypeProfileVal", gatePassTypeProfileVal);     
+        sessionScope.put("GatePassTypeProfileVal", gatePassTypeProfileVal);
+        
+//        ViewObject gatePassTypeLOV = this.getGatePassTypeLOV1();
+//        gatePassTypeLOV.setNamedWhereClauseParam("p_gate_pass_profile_Val", gatePassTypeProfileVal);
+//        gatePassTypeLOV.executeQuery();
+        
+   //     System.out.println("=========session scope profile val "+sessionScope.get("GatePassTypeProfileVal"));
+        
+    }
+
 }
 

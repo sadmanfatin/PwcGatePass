@@ -3,10 +3,10 @@
   <view id="MainPG">
     <page>/MainPG.jsf</page>
     <input-page-parameter id="__1">
-    
-    <from-value>#{param.ParamOrgId}</from-value>                
-   <!--  
-    <from-value>#{"107"}</from-value>     
+      
+      <from-value>#{param.ParamOrgId}</from-value>             
+   <!-- 
+     <from-value>#{"107"}</from-value>     
    -->      
     <to-value>#{sessionScope.OrgId}</to-value>
        
@@ -16,7 +16,10 @@
       <to-value>#{sessionScope.UserId}</to-value>
     </input-page-parameter>
     <input-page-parameter id="__3">
-      <from-value>#{param.ParamRespId}</from-value>
+       <!--  
+          <from-value>#{"56180"}</from-value>       
+       -->
+     <from-value>#{param.ParamRespId}</from-value> 
       <to-value>#{sessionScope.RespId}</to-value>
     </input-page-parameter>
     <input-page-parameter id="__4">
@@ -25,10 +28,12 @@
     </input-page-parameter>
     <input-page-parameter id="__5">
      
-      <from-value>#{param.ParamFunctionId}</from-value>
+    
      <!--   
-      <from-value>#{"PWC_ADF_GATE_PASS_FORM_OGP"}</from-value>    
+ 
+           <from-value>#{"PWC_ADF_GATE_PASS_FORM_OGP"}</from-value> 
        -->  
+           <from-value>#{param.ParamFunctionId}</from-value>
       <to-value>#{sessionScope.FunctionId}</to-value>     
    
     </input-page-parameter>

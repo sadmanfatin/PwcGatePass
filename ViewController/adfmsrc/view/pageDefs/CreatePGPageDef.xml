@@ -358,5 +358,10 @@
         <Item Value="TimeOutFlag"/>
       </AttrNames>
     </attributeValues>
+    <attributeValues IterBinding="PwcGatePassHeaderVO1Iterator" id="GatePassType">
+      <AttrNames>
+        <Item Value="GatePassType"/>
+      </AttrNames>
+    </attributeValues>
   </bindings>
 </pageDefinition>

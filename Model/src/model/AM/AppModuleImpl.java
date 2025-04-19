@@ -748,6 +748,16 @@ public class AppModuleImpl extends ApplicationModuleImpl implements AppModule {
                 } catch (Exception e) {
                     ;
                 }
+                try {
+                    linesRow.setAttribute("SecondaryQty", r.getAttribute("SecondaryQty").toString());
+                } catch (Exception e) {
+                    ;
+                }
+                try {
+                    linesRow.setAttribute("SecondaryUom", r.getAttribute("SecondaryUom").toString());
+                } catch (Exception e) {
+                    ;
+                }
             }
             
             this.getDBTransaction().commit();

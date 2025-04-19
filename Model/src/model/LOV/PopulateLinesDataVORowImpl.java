@@ -21,6 +21,8 @@ public class PopulateLinesDataVORowImpl extends ViewRowImpl {
         Description,
         Quantity,
         Uom,
+        SecondaryQty,
+        SecondaryUom,
         SourceId,
         ShipToLocation,
         selectFlag;
@@ -55,6 +57,8 @@ public class PopulateLinesDataVORowImpl extends ViewRowImpl {
     public static final int DESCRIPTION = AttributesEnum.Description.index();
     public static final int QUANTITY = AttributesEnum.Quantity.index();
     public static final int UOM = AttributesEnum.Uom.index();
+    public static final int SECONDARYQTY = AttributesEnum.SecondaryQty.index();
+    public static final int SECONDARYUOM = AttributesEnum.SecondaryUom.index();
     public static final int SOURCEID = AttributesEnum.SourceId.index();
     public static final int SHIPTOLOCATION = AttributesEnum.ShipToLocation.index();
     public static final int SELECTFLAG = AttributesEnum.selectFlag.index();

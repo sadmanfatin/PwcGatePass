@@ -68,6 +68,9 @@ public class PwcGatePassHeaderVORowImpl extends ViewRowImpl {
         SumofLineQty,
         Org_Nam,
         Internal,
+        Carrier,
+        LicenceNo,
+        LockNo,
         PwcGatePassLinesVO,
         PwcPopulateSearchVO,
         PartiesAddressLOV1,
@@ -158,6 +161,9 @@ public class PwcGatePassHeaderVORowImpl extends ViewRowImpl {
     public static final int SUMOFLINEQTY = AttributesEnum.SumofLineQty.index();
     public static final int ORG_NAM = AttributesEnum.Org_Nam.index();
     public static final int INTERNAL = AttributesEnum.Internal.index();
+    public static final int CARRIER = AttributesEnum.Carrier.index();
+    public static final int LICENCENO = AttributesEnum.LicenceNo.index();
+    public static final int LOCKNO = AttributesEnum.LockNo.index();
     public static final int PWCGATEPASSLINESVO = AttributesEnum.PwcGatePassLinesVO.index();
     public static final int PWCPOPULATESEARCHVO = AttributesEnum.PwcPopulateSearchVO.index();
     public static final int PARTIESADDRESSLOV1 = AttributesEnum.PartiesAddressLOV1.index();
@@ -885,6 +891,54 @@ public class PwcGatePassHeaderVORowImpl extends ViewRowImpl {
                 this.setDriverPhone("");
             }
         
+    }
+
+    /**
+     * Gets the attribute value for CARRIER using the alias name Carrier.
+     * @return the CARRIER
+     */
+    public String getCarrier() {
+        return (String) getAttributeInternal(CARRIER);
+    }
+
+    /**
+     * Sets <code>value</code> as attribute value for CARRIER using the alias name Carrier.
+     * @param value value to set the CARRIER
+     */
+    public void setCarrier(String value) {
+        setAttributeInternal(CARRIER, value);
+    }
+
+    /**
+     * Gets the attribute value for LICENCE_NO using the alias name LicenceNo.
+     * @return the LICENCE_NO
+     */
+    public String getLicenceNo() {
+        return (String) getAttributeInternal(LICENCENO);
+    }
+
+    /**
+     * Sets <code>value</code> as attribute value for LICENCE_NO using the alias name LicenceNo.
+     * @param value value to set the LICENCE_NO
+     */
+    public void setLicenceNo(String value) {
+        setAttributeInternal(LICENCENO, value);
+    }
+
+    /**
+     * Gets the attribute value for LOCK_NO using the alias name LockNo.
+     * @return the LOCK_NO
+     */
+    public String getLockNo() {
+        return (String) getAttributeInternal(LOCKNO);
+    }
+
+    /**
+     * Sets <code>value</code> as attribute value for LOCK_NO using the alias name LockNo.
+     * @param value value to set the LOCK_NO
+     */
+    public void setLockNo(String value) {
+        setAttributeInternal(LOCKNO, value);
     }
 
     /**

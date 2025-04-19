@@ -363,5 +363,20 @@
         <Item Value="GatePassType"/>
       </AttrNames>
     </attributeValues>
+    <attributeValues IterBinding="PwcGatePassHeaderVO1Iterator" id="Carrier">
+      <AttrNames>
+        <Item Value="Carrier"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="PwcGatePassHeaderVO1Iterator" id="LockNo">
+      <AttrNames>
+        <Item Value="LockNo"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="PwcGatePassHeaderVO1Iterator" id="LicenceNo">
+      <AttrNames>
+        <Item Value="LicenceNo"/>
+      </AttrNames>
+    </attributeValues>
   </bindings>
 </pageDefinition>

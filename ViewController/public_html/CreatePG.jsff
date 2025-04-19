@@ -102,6 +102,28 @@
                   partialTriggers="gatePassClass1Id" showRequired="true" readOnly="true">
       <f:validator binding="#{bindings.GatePassNo.validator}"/>
     </af:inputText>
+    <af:inputComboboxListOfValues id="operatingUnitId"
+                                  popupTitle="Search and Select: #{bindings.OperatingUnit.hints.label}"
+                                  value="#{bindings.OperatingUnit.inputValue}" label="Operating Unit"
+                                  model="#{bindings.OperatingUnit.listOfValuesModel}" columns="25"
+                                  shortDesc="#{bindings.OperatingUnit.hints.tooltip}"
+                                  binding="#{backingBeanScope.Main.comboInputOperatingUnitBinding}" required="true"
+                                  showRequired="true"
+                                  readOnly="#{sessionScope.timeOutMode eq 'Y' || bindings.ApprovalStatus.inputValue eq 'I' || ( bindings.ApprovalStatus.inputValue eq 'Y' &amp;&amp; bindings.Internal.inputValue eq 'false')}"
+                                  valueChangeListener="#{backingBeanScope.Main.operatingUnitVCL}"
+                                  disabled="#{bindings.GatePassNo.inputValue != null ? 'true' : 'false'}">
+      <f:validator binding="#{bindings.OperatingUnit.validator}"/>
+      <af:autoSuggestBehavior suggestedItems="#{bindings.OperatingUnit.suggestedItems}"/>
+    </af:inputComboboxListOfValues>
+    <af:inputComboboxListOfValues id="org_NamId" popupTitle="Search and Select: #{bindings.Org_Nam.hints.label}"
+                                  value="#{bindings.Org_Nam.inputValue}" label="Organization Name"
+                                  model="#{bindings.Org_Nam.listOfValuesModel}"
+                                  required="#{bindings.Org_Nam.hints.mandatory}" columns="25"
+                                  shortDesc="#{bindings.Org_Nam.hints.tooltip}" autoSubmit="true"
+                                  readOnly="#{sessionScope.timeOutMode eq 'Y' || bindings.ApprovalStatus.inputValue eq 'I' || bindings.ApprovalStatus.inputValue eq 'Y'}">
+      <f:validator binding="#{bindings.Org_Nam.validator}"/>
+      <af:autoSuggestBehavior suggestedItems="#{bindings.Org_Nam.suggestedItems}"/>
+    </af:inputComboboxListOfValues>
     <af:inputComboboxListOfValues id="partyFromNameId"
                                   popupTitle="Search and Select: #{bindings.PartyFromName.hints.label}"
                                   value="#{bindings.PartyFromName.inputValue}" label="Party Name"
@@ -162,6 +184,25 @@
                   binding="#{backingBeanScope.Main.partyaddressgeneric}" partialTriggers="sor1" visible="false">
       <f:validator binding="#{bindings.PartyAddressGeneric.validator}"/>
     </af:inputText>
+    <af:inputText value="#{bindings.OuId.inputValue}" label="#{bindings.OuId.hints.label}"
+                  required="#{bindings.OuId.hints.mandatory}" columns="#{bindings.OuId.hints.displayWidth}"
+                  maximumLength="#{bindings.OuId.hints.precision}" shortDesc="#{bindings.OuId.hints.tooltip}" id="it1"
+                  readOnly="true" visible="false">
+      <f:validator binding="#{bindings.OuId.validator}"/>
+      <af:convertNumber groupingUsed="false" pattern="#{bindings.OuId.format}"/>
+    </af:inputText>
+    <af:inputText value="#{bindings.OperatingUnit1.inputValue}" label="Operating Unit"
+                  required="#{bindings.OperatingUnit1.hints.mandatory}" columns="25"
+                  maximumLength="#{bindings.OperatingUnit1.hints.precision}"
+                  shortDesc="#{bindings.OperatingUnit1.hints.tooltip}" id="it15" showRequired="true"
+                  binding="#{backingBeanScope.Main.inputOperatingUnitBinding}" readOnly="true" visible="false"
+                  rendered="false">
+      <f:validator binding="#{bindings.OperatingUnit1.validator}"/>
+    </af:inputText>
+    <af:panelLabelAndMessage label="#{bindings.OrganizationId.hints.label}" id="plam8" visible="false">
+      <af:outputText value="#{bindings.OrganizationId.inputValue}" shortDesc="#{bindings.OrganizationId.hints.tooltip}"
+                     id="ot7"/>
+    </af:panelLabelAndMessage>
     <af:inputComboboxListOfValues id="vehicleType1Id"
                                   popupTitle="Search and Select: #{bindings.VehicleType1.hints.label}"
                                   value="#{bindings.VehicleType1.inputValue}" label="Vehicle Type"
@@ -175,50 +216,6 @@
       <f:validator binding="#{bindings.VehicleType1.validator}"/>
       <af:autoSuggestBehavior suggestedItems="#{bindings.VehicleType1.suggestedItems}"/>
     </af:inputComboboxListOfValues>
-    <af:inputText value="#{bindings.OuId.inputValue}" label="#{bindings.OuId.hints.label}"
-                  required="#{bindings.OuId.hints.mandatory}" columns="#{bindings.OuId.hints.displayWidth}"
-                  maximumLength="#{bindings.OuId.hints.precision}" shortDesc="#{bindings.OuId.hints.tooltip}" id="it1"
-                  readOnly="true" visible="false">
-      <f:validator binding="#{bindings.OuId.validator}"/>
-      <af:convertNumber groupingUsed="false" pattern="#{bindings.OuId.format}"/>
-    </af:inputText>
-    <af:inputComboboxListOfValues id="operatingUnitId"
-                                  popupTitle="Search and Select: #{bindings.OperatingUnit.hints.label}"
-                                  value="#{bindings.OperatingUnit.inputValue}"
-                                  label="Operating Unit"
-                                  model="#{bindings.OperatingUnit.listOfValuesModel}"
-                                  columns="25"
-                                  shortDesc="#{bindings.OperatingUnit.hints.tooltip}"
-                                  binding="#{backingBeanScope.Main.comboInputOperatingUnitBinding}" required="true"
-                                  showRequired="true"
-                                  readOnly="#{sessionScope.timeOutMode eq 'Y' || bindings.ApprovalStatus.inputValue eq 'I' || ( bindings.ApprovalStatus.inputValue eq 'Y' &amp;&amp; bindings.Internal.inputValue eq 'false')}"
-                                  valueChangeListener="#{backingBeanScope.Main.operatingUnitVCL}"
-                                  disabled="#{bindings.GatePassNo.inputValue != null ? 'true' : 'false'}">
-      <f:validator binding="#{bindings.OperatingUnit.validator}"/>
-      <af:autoSuggestBehavior suggestedItems="#{bindings.OperatingUnit.suggestedItems}"/>
-    </af:inputComboboxListOfValues>
-    <af:inputText value="#{bindings.OperatingUnit1.inputValue}" label="Operating Unit"
-                  required="#{bindings.OperatingUnit1.hints.mandatory}" columns="25"
-                  maximumLength="#{bindings.OperatingUnit1.hints.precision}"
-                  shortDesc="#{bindings.OperatingUnit1.hints.tooltip}" id="it15" showRequired="true"
-                  binding="#{backingBeanScope.Main.inputOperatingUnitBinding}" readOnly="true" visible="false"
-                  rendered="false">
-      <f:validator binding="#{bindings.OperatingUnit1.validator}"/>
-    </af:inputText>
-    <af:inputComboboxListOfValues id="org_NamId" popupTitle="Search and Select: #{bindings.Org_Nam.hints.label}"
-                                  value="#{bindings.Org_Nam.inputValue}" label="Organization Name"
-                                  model="#{bindings.Org_Nam.listOfValuesModel}"
-                                  required="#{bindings.Org_Nam.hints.mandatory}"
-                                  columns="25"
-                                  shortDesc="#{bindings.Org_Nam.hints.tooltip}" autoSubmit="true"
-                                  readOnly="#{sessionScope.timeOutMode eq 'Y' || bindings.ApprovalStatus.inputValue eq 'I' || bindings.ApprovalStatus.inputValue eq 'Y'}">
-      <f:validator binding="#{bindings.Org_Nam.validator}"/>
-      <af:autoSuggestBehavior suggestedItems="#{bindings.Org_Nam.suggestedItems}"/>
-    </af:inputComboboxListOfValues>
-    <af:panelLabelAndMessage label="#{bindings.OrganizationId.hints.label}" id="plam8" visible="false">
-      <af:outputText value="#{bindings.OrganizationId.inputValue}" shortDesc="#{bindings.OrganizationId.hints.tooltip}"
-                     id="ot7"/>
-    </af:panelLabelAndMessage>
     <af:inputText value="#{bindings.VehicleNo.inputValue}" label="Vehicle No" columns="25"
                   maximumLength="#{bindings.VehicleNo.hints.precision}" shortDesc="#{bindings.VehicleNo.hints.tooltip}"
                   id="it10" 
@@ -247,6 +244,24 @@
                   readOnly="#{sessionScope.timeOutMode eq 'Y' || bindings.ApprovalStatus.inputValue eq 'I' || bindings.ApprovalStatus.inputValue eq 'Y'}"
                   autoSubmit="true" binding="#{backingBeanScope.Main.driverPhone}">
       <f:validator binding="#{bindings.DriverPhone.validator}"/>
+    </af:inputText>
+    <af:inputText value="#{bindings.Carrier.inputValue}" label="#{bindings.Carrier.hints.label}"
+                  required="#{bindings.Carrier.hints.mandatory}" columns="#{bindings.Carrier.hints.displayWidth}"
+                  maximumLength="#{bindings.Carrier.hints.precision}" shortDesc="#{bindings.Carrier.hints.tooltip}"
+                  id="it41" rendered="false">
+      <f:validator binding="#{bindings.Carrier.validator}"/>
+    </af:inputText>
+    <af:inputText value="#{bindings.LockNo.inputValue}" label="#{bindings.LockNo.hints.label}"
+                  required="#{bindings.LockNo.hints.mandatory}" columns="#{bindings.LockNo.hints.displayWidth}"
+                  maximumLength="#{bindings.LockNo.hints.precision}" shortDesc="#{bindings.LockNo.hints.tooltip}"
+                  id="it42">
+      <f:validator binding="#{bindings.LockNo.validator}"/>
+    </af:inputText>
+    <af:inputText value="#{bindings.LicenceNo.inputValue}" label="#{bindings.LicenceNo.hints.label}"
+                  required="#{bindings.LicenceNo.hints.mandatory}" columns="#{bindings.LicenceNo.hints.displayWidth}"
+                  maximumLength="#{bindings.LicenceNo.hints.precision}" shortDesc="#{bindings.LicenceNo.hints.tooltip}"
+                  id="it43">
+      <f:validator binding="#{bindings.LicenceNo.validator}"/>
     </af:inputText>
     <af:inputText value="#{bindings.ApproveStatusMeaning.inputValue}"
                   label="Approval Status"
@@ -818,7 +833,7 @@
                           columns="#{bindings.PwcGatePassDetailsVO1.hints.ItemDetails.displayWidth}"
                           maximumLength="#{bindings.PwcGatePassDetailsVO1.hints.ItemDetails.precision}"
                           shortDesc="#{bindings.PwcGatePassDetailsVO1.hints.ItemDetails.tooltip}" id="it23"
-                          readOnly="#{sessionScope.timeOutMode eq 'Y' || bindings.DisabledFlag.inputValue eq 'Y'}"
+                          readOnly="#{sessionScope.timeOutMode eq 'Y' || bindings.DisabledFlag.inputValue eq 'Y' || bindings.GatePassType1.inputValue eq 'Transactional'}"
                           partialTriggers="uomId" autoSubmit="true">
               <f:validator binding="#{row.bindings.ItemDetails.validator}"/>
             </af:inputText>
@@ -844,7 +859,7 @@
                           columns="#{bindings.PwcGatePassDetailsVO1.hints.Quantity.displayWidth}"
                           maximumLength="#{bindings.PwcGatePassDetailsVO1.hints.Quantity.precision}"
                           shortDesc="#{bindings.PwcGatePassDetailsVO1.hints.Quantity.tooltip}" id="it9"
-                          readOnly="#{sessionScope.timeOutMode eq 'Y' || bindings.DisabledFlag.inputValue eq 'Y'}"
+                          readOnly="#{sessionScope.timeOutMode eq 'Y' || bindings.DisabledFlag.inputValue eq 'Y' || bindings.GatePassType1.inputValue eq 'Transactional'}"
                           partialTriggers=":::sor1 :gatePassClass1Id uomId" autoSubmit="true">
               <f:validator binding="#{row.bindings.Quantity.validator}"/>
               <af:convertNumber groupingUsed="false" pattern="#{bindings.PwcGatePassDetailsVO1.hints.Quantity.format}"/>
@@ -858,7 +873,7 @@
                                           required="#{bindings.PwcGatePassDetailsVO1.hints.Uom.mandatory}"
                                           columns="#{row.bindings.Uom.hints.displayWidth}"
                                           shortDesc="#{bindings.PwcGatePassDetailsVO1.hints.Uom.tooltip}"
-                                          readOnly="#{sessionScope.timeOutMode eq 'Y' || bindings.DisabledFlag.inputValue eq 'Y'}"
+                                          readOnly="#{sessionScope.timeOutMode eq 'Y' || bindings.DisabledFlag.inputValue eq 'Y' || bindings.GatePassType1.inputValue eq 'Transactional'}"
                                           autoSubmit="true">
               <f:validator binding="#{row.bindings.Uom.validator}"/>
               <af:autoSuggestBehavior suggestedItems="#{row.bindings.Uom.suggestedItems}"/>
@@ -872,7 +887,8 @@
                           columns="#{bindings.PwcGatePassDetailsVO1.hints.SecondaryQty.displayWidth}"
                           maximumLength="#{bindings.PwcGatePassDetailsVO1.hints.SecondaryQty.precision}"
                           shortDesc="#{bindings.PwcGatePassDetailsVO1.hints.SecondaryQty.tooltip}" id="it38"
-                          autoSubmit="true">
+                          autoSubmit="true"
+                          readOnly="#{sessionScope.timeOutMode eq 'Y' || bindings.DisabledFlag.inputValue eq 'Y' || bindings.GatePassType1.inputValue eq 'Transactional'}">
               <f:validator binding="#{row.bindings.SecondaryQty.validator}"/>
               <af:convertNumber groupingUsed="false"
                                 pattern="#{bindings.PwcGatePassDetailsVO1.hints.SecondaryQty.format}"/>
@@ -886,7 +902,8 @@
                                           model="#{row.bindings.SecondaryUom.listOfValuesModel}"
                                           required="#{bindings.PwcGatePassDetailsVO1.hints.SecondaryUom.mandatory}"
                                           columns="#{row.bindings.SecondaryUom.hints.displayWidth}"
-                                          shortDesc="#{bindings.PwcGatePassDetailsVO1.hints.SecondaryUom.tooltip}">
+                                          shortDesc="#{bindings.PwcGatePassDetailsVO1.hints.SecondaryUom.tooltip}"
+                                          readOnly="#{sessionScope.timeOutMode eq 'Y' || bindings.DisabledFlag.inputValue eq 'Y' || bindings.GatePassType1.inputValue eq 'Transactional'}">
               <f:validator binding="#{row.bindings.SecondaryUom.validator}"/>
               <af:autoSuggestBehavior suggestedItems="#{row.bindings.SecondaryUom.suggestedItems}"/>
             </af:inputComboboxListOfValues>

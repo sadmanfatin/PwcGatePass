@@ -485,94 +485,97 @@
     </AttrArray>
     <DisplayCriteria/>
   </ListBinding>
-  <SQLQuery><![CDATA[SELECT PwcGatePassHeaderEO.HEADER_ID,                             
-       PwcGatePassHeaderEO.CREATED_BY,                             
-       PwcGatePassHeaderEO.CREATION_DATE,                             
-       PwcGatePassHeaderEO.LAST_UPDATE_DATE,                             
-       PwcGatePassHeaderEO.LAST_UPDATED_BY,                             
-       PwcGatePassHeaderEO.GATE_PASS_CLASS,                             
-       PwcGatePassHeaderEO.GATE_PASS_DATE,                             
-       PwcGatePassHeaderEO.GATE_PASS_TYPE,                             
-       PwcGatePassHeaderEO.GATE_PASS_NO,                             
-       PwcGatePassHeaderEO.PART_FROM_ID,                             
-       PwcGatePassHeaderEO.PARTY_TO_ID,                             
-       PwcGatePassHeaderEO.PARTY_FROM_ADDRESS,                             
-       PwcGatePassHeaderEO.PARTY_TO_ADDRESS,                             
-       PwcGatePassHeaderEO.OU_ID,                             
-       PwcGatePassHeaderEO.VEHICLE_TYPE,                             
-       PwcGatePassHeaderEO.VEHICLE_NO,                             
-       PwcGatePassHeaderEO.DRIVER_NAME,                             
-       PwcGatePassHeaderEO.DRIVER_PHONE,                             
-       PwcGatePassHeaderEO.RETURNABLE,                             
-       PwcGatePassHeaderEO.IS_RETURNED,                             
-       PwcGatePassHeaderEO.REF_GATE_PASS_NO,                             
-       PwcGatePassHeaderEO.GATE_IN_DATE,                             
-       PwcGatePassHeaderEO.GATE_OUT_DATE,                             
-       PwcGatePassHeaderEO.GATE_IN_FLAG,                             
-       PwcGatePassHeaderEO.GATE_OUT_FLAG,                             
-       (SELECT PARTY_NAME    FROM HZ_PARTIES      WHERE PARTY_ID = PwcGatePassHeaderEO.PART_FROM_ID) AS PARTY_FROM_NAME,                             
-       (SELECT PARTY_NAME    FROM HZ_PARTIES      WHERE PARTY_ID = PwcGatePassHeaderEO.PARTY_TO_ID) AS PARTY_TO_NAME,                             
-       (SELECT NAME FROM HR_OPERATING_UNITS WHERE PwcGatePassHeaderEO.OU_ID = ORGANIZATION_ID) AS OPERATING_UNIT,                             
-       PwcGatePassHeaderEO.CREATER_NAME,                             
-       PwcGatePassHeaderEO.LAST_EDITOR_NAME,                             
-       PwcGatePassHeaderEO.OPERATING_UNIT AS OPERATING_UNIT1,                             
-       PwcGatePassHeaderEO.TIME_OUT_FLAG,                        
-       PwcGatePassHeaderEO.DISABLED_FLAG,                      
-       PwcGatePassHeaderEO.APPROVAL_STATUS,               
-       PwcGatePassHeaderEO.SOURCE,               
-       PwcGatePassHeaderEO.SOURCE_DOC_NO,             
-       (select a1.meaning              
-          from apps.fnd_lookup_values a1,apps.fnd_lookup_types_VL a2             
-          where a1.lookup_type='XXPWC_APPROVAL_STATUS_GP_TRF'             
-          and a1.lookup_type=a2.lookup_type             
-          and a1.LOOKUP_CODE =   PwcGatePassHeaderEO.APPROVAL_STATUS) Approve_Status_Meaning,           
-          PwcGatePassHeaderEO.LOCATION_ID ,          
-          PwcGatePassHeaderEO.REMARKS ,          
-          PwcGatePassHeaderEO.PARTY_ADDRESS_GENERIC ,         
-          PwcGatePassHeaderEO.ORGANIZATION_ID  ,   
-          (SELECT NAME FROM hr_organization_units where ORGANIZATION_ID = PwcGatePassHeaderEO.ORGANIZATION_ID) AS Org_Nam  , 
-          PwcGatePassHeaderEO.INTERNAL 
-FROM  XXPWC.PWC_GATE_PASS_HEADER PwcGatePassHeaderEO                            
-WHERE ( (UPPER(PwcGatePassHeaderEO.GATE_PASS_CLASS) LIKE UPPER('%' || :p_gatePassClass || '%') ) )                          
-AND PwcGatePassHeaderEO.OU_ID IN                 
-                                         ((SELECT  HOU.ORGANIZATION_ID                      
-                            FROM APPS.FND_PROFILE_OPTIONS_VL PO,                      
-                                 APPS.FND_PROFILE_OPTION_VALUES POV,                      
-                                 APPS.FND_RESPONSIBILITY_TL RSP,                        
-                                 PER_SECURITY_PROFILES   PSP,                      
-                                 PER_SECURITY_ORGANIZATIONS PSO,                        
-                                 HR_ORGANIZATION_UNITS HOU                      
-                            WHERE     1 = 1                      
-                                 AND TO_CHAR(PSP.SECURITY_PROFILE_ID) = POV.PROFILE_OPTION_VALUE                      
-                                 AND PSO.SECURITY_PROFILE_ID = PSP.SECURITY_PROFILE_ID                      
-                                 AND PSO.ORGANIZATION_ID = HOU.ORGANIZATION_ID                       
-                                 AND POV.APPLICATION_ID = PO.APPLICATION_ID                      
-                                 AND POV.PROFILE_OPTION_ID = PO.PROFILE_OPTION_ID                        
-                                 AND RSP.RESPONSIBILITY_ID(+) = POV.LEVEL_VALUE                       
-                                 AND PO.USER_PROFILE_OPTION_NAME LIKE 'MO: Security Profile'                      
-                                 AND RSP.RESPONSIBILITY_ID  = :p_resp_id                      
-                                 AND PSP.ORG_SECURITY_MODE <> 'NONE'                   
-                                 AND TO_CHAR (POV.LEVEL_ID) = '10003')                      
-                                 UNION ALL                       
-                                 (SELECT  HOU.ORGANIZATION_ID                    
-                                    FROM HR_OPERATING_UNITS HOU WHERE EXISTS (SELECT 1                     
-                            FROM APPS.FND_PROFILE_OPTIONS_VL PO,                      
-                                 APPS.FND_PROFILE_OPTION_VALUES POV,                      
-                                 APPS.FND_RESPONSIBILITY_TL RSP,                        
-                                 PER_SECURITY_PROFILES   PSP                     
-                            WHERE     1 = 1                      
+  <SQLQuery><![CDATA[SELECT PwcGatePassHeaderEO.HEADER_ID,                               
+       PwcGatePassHeaderEO.CREATED_BY,                               
+       PwcGatePassHeaderEO.CREATION_DATE,                               
+       PwcGatePassHeaderEO.LAST_UPDATE_DATE,                               
+       PwcGatePassHeaderEO.LAST_UPDATED_BY,                               
+       PwcGatePassHeaderEO.GATE_PASS_CLASS,                               
+       PwcGatePassHeaderEO.GATE_PASS_DATE,                               
+       PwcGatePassHeaderEO.GATE_PASS_TYPE,                               
+       PwcGatePassHeaderEO.GATE_PASS_NO,                               
+       PwcGatePassHeaderEO.PART_FROM_ID,                               
+       PwcGatePassHeaderEO.PARTY_TO_ID,                               
+       PwcGatePassHeaderEO.PARTY_FROM_ADDRESS,                               
+       PwcGatePassHeaderEO.PARTY_TO_ADDRESS,                               
+       PwcGatePassHeaderEO.OU_ID,                               
+       PwcGatePassHeaderEO.VEHICLE_TYPE,                               
+       PwcGatePassHeaderEO.VEHICLE_NO,                               
+       PwcGatePassHeaderEO.DRIVER_NAME,                               
+       PwcGatePassHeaderEO.DRIVER_PHONE,                               
+       PwcGatePassHeaderEO.RETURNABLE,                               
+       PwcGatePassHeaderEO.IS_RETURNED,                               
+       PwcGatePassHeaderEO.REF_GATE_PASS_NO,                               
+       PwcGatePassHeaderEO.GATE_IN_DATE,                               
+       PwcGatePassHeaderEO.GATE_OUT_DATE,                               
+       PwcGatePassHeaderEO.GATE_IN_FLAG,                               
+       PwcGatePassHeaderEO.GATE_OUT_FLAG,                               
+       (SELECT PARTY_NAME    FROM HZ_PARTIES      WHERE PARTY_ID = PwcGatePassHeaderEO.PART_FROM_ID) AS PARTY_FROM_NAME,                               
+       (SELECT PARTY_NAME    FROM HZ_PARTIES      WHERE PARTY_ID = PwcGatePassHeaderEO.PARTY_TO_ID) AS PARTY_TO_NAME,                               
+       (SELECT NAME FROM HR_OPERATING_UNITS WHERE PwcGatePassHeaderEO.OU_ID = ORGANIZATION_ID) AS OPERATING_UNIT,                               
+       PwcGatePassHeaderEO.CREATER_NAME,                               
+       PwcGatePassHeaderEO.LAST_EDITOR_NAME,                               
+       PwcGatePassHeaderEO.OPERATING_UNIT AS OPERATING_UNIT1,                               
+       PwcGatePassHeaderEO.TIME_OUT_FLAG,                          
+       PwcGatePassHeaderEO.DISABLED_FLAG,                        
+       PwcGatePassHeaderEO.APPROVAL_STATUS,                 
+       PwcGatePassHeaderEO.SOURCE,                 
+       PwcGatePassHeaderEO.SOURCE_DOC_NO,           
+       (select a1.meaning                
+          from apps.fnd_lookup_values a1,apps.fnd_lookup_types_VL a2               
+          where a1.lookup_type='XXPWC_APPROVAL_STATUS_GP_TRF'               
+          and a1.lookup_type=a2.lookup_type               
+          and a1.LOOKUP_CODE =   PwcGatePassHeaderEO.APPROVAL_STATUS) Approve_Status_Meaning,             
+          PwcGatePassHeaderEO.LOCATION_ID ,            
+          PwcGatePassHeaderEO.REMARKS ,            
+          PwcGatePassHeaderEO.PARTY_ADDRESS_GENERIC ,           
+          PwcGatePassHeaderEO.ORGANIZATION_ID  ,     
+          (SELECT NAME FROM hr_organization_units where ORGANIZATION_ID = PwcGatePassHeaderEO.ORGANIZATION_ID) AS Org_Nam  ,   
+          PwcGatePassHeaderEO.INTERNAL  , 
+           PwcGatePassHeaderEO.CARRIER,   
+        PwcGatePassHeaderEO.LICENCE_NO,   
+        PwcGatePassHeaderEO.LOCK_NO 
+FROM  XXPWC.PWC_GATE_PASS_HEADER PwcGatePassHeaderEO                              
+WHERE ( (UPPER(PwcGatePassHeaderEO.GATE_PASS_CLASS) LIKE UPPER('%' || :p_gatePassClass || '%') ) )                            
+AND PwcGatePassHeaderEO.OU_ID IN                   
+                                         ((SELECT  HOU.ORGANIZATION_ID                        
+                            FROM APPS.FND_PROFILE_OPTIONS_VL PO,                        
+                                 APPS.FND_PROFILE_OPTION_VALUES POV,                        
+                                 APPS.FND_RESPONSIBILITY_TL RSP,                          
+                                 PER_SECURITY_PROFILES   PSP,                        
+                                 PER_SECURITY_ORGANIZATIONS PSO,                          
+                                 HR_ORGANIZATION_UNITS HOU                        
+                            WHERE     1 = 1                        
                                  AND TO_CHAR(PSP.SECURITY_PROFILE_ID) = POV.PROFILE_OPTION_VALUE                        
-                                 AND POV.APPLICATION_ID = PO.APPLICATION_ID                      
-                                 AND POV.PROFILE_OPTION_ID = PO.PROFILE_OPTION_ID                        
-                                 AND RSP.RESPONSIBILITY_ID(+) = POV.LEVEL_VALUE                       
-                                 AND PO.USER_PROFILE_OPTION_NAME LIKE 'MO: Security Profile'                      
-                                 AND RSP.RESPONSIBILITY_ID  = :p_resp_id                      
-                                 AND PSP.ORG_SECURITY_MODE = 'NONE'                   
-                                 AND TO_CHAR (POV.LEVEL_ID) = '10003'))                      
-                                 UNION ALL                   
-                                 SELECT  TO_NUMBER(:pOrgId)                      
-                                 FROM DUAL                      
-                                 )                          
+                                 AND PSO.SECURITY_PROFILE_ID = PSP.SECURITY_PROFILE_ID                        
+                                 AND PSO.ORGANIZATION_ID = HOU.ORGANIZATION_ID                         
+                                 AND POV.APPLICATION_ID = PO.APPLICATION_ID                        
+                                 AND POV.PROFILE_OPTION_ID = PO.PROFILE_OPTION_ID                          
+                                 AND RSP.RESPONSIBILITY_ID(+) = POV.LEVEL_VALUE                         
+                                 AND PO.USER_PROFILE_OPTION_NAME LIKE 'MO: Security Profile'                        
+                                 AND RSP.RESPONSIBILITY_ID  = :p_resp_id                        
+                                 AND PSP.ORG_SECURITY_MODE <> 'NONE'                     
+                                 AND TO_CHAR (POV.LEVEL_ID) = '10003')                        
+                                 UNION ALL                         
+                                 (SELECT  HOU.ORGANIZATION_ID                      
+                                    FROM HR_OPERATING_UNITS HOU WHERE EXISTS (SELECT 1                       
+                            FROM APPS.FND_PROFILE_OPTIONS_VL PO,                        
+                                 APPS.FND_PROFILE_OPTION_VALUES POV,                        
+                                 APPS.FND_RESPONSIBILITY_TL RSP,                          
+                                 PER_SECURITY_PROFILES   PSP                       
+                            WHERE     1 = 1                        
+                                 AND TO_CHAR(PSP.SECURITY_PROFILE_ID) = POV.PROFILE_OPTION_VALUE                          
+                                 AND POV.APPLICATION_ID = PO.APPLICATION_ID                        
+                                 AND POV.PROFILE_OPTION_ID = PO.PROFILE_OPTION_ID                          
+                                 AND RSP.RESPONSIBILITY_ID(+) = POV.LEVEL_VALUE                         
+                                 AND PO.USER_PROFILE_OPTION_NAME LIKE 'MO: Security Profile'                        
+                                 AND RSP.RESPONSIBILITY_ID  = :p_resp_id                        
+                                 AND PSP.ORG_SECURITY_MODE = 'NONE'                     
+                                 AND TO_CHAR (POV.LEVEL_ID) = '10003'))                        
+                                 UNION ALL                     
+                                 SELECT  TO_NUMBER(:pOrgId)                        
+                                 FROM DUAL                        
+                                 )                            
 ORDER BY PwcGatePassHeaderEO.HEADER_ID DESC]]></SQLQuery>
   <EntityUsage
     Name="PwcGatePassHeaderEO"
@@ -1009,6 +1012,45 @@ ORDER BY PwcGatePassHeaderEO.HEADER_ID DESC]]></SQLQuery>
     EntityUsage="PwcGatePassHeaderEO"
     AliasName="INTERNAL"
     DefaultValue="N"/>
+  <ViewAttribute
+    Name="Carrier"
+    PrecisionRule="true"
+    EntityAttrName="Carrier"
+    EntityUsage="PwcGatePassHeaderEO"
+    AliasName="CARRIER">
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYWIDTH
+          Value="25"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="LicenceNo"
+    PrecisionRule="true"
+    EntityAttrName="LicenceNo"
+    EntityUsage="PwcGatePassHeaderEO"
+    AliasName="LICENCE_NO">
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYWIDTH
+          Value="25"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="LockNo"
+    PrecisionRule="true"
+    EntityAttrName="LockNo"
+    EntityUsage="PwcGatePassHeaderEO"
+    AliasName="LOCK_NO">
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYWIDTH
+          Value="25"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
   <ViewCriteria
     Name="PwcGatePassHeaderVOCriteria"
     ViewObjectName="model.VO.PwcGatePassHeaderVO"

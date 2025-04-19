@@ -77,6 +77,9 @@ public class PwcGatePassHeaderEOImpl extends EntityImpl {
         PartyAddressGeneric,
         OrganizationId,
         Internal,
+        Carrier,
+        LicenceNo,
+        LockNo,
         PwcGatePassLinesEO;
         private static AttributesEnum[] vals = null;
         private static final int firstIndex = 0;
@@ -140,6 +143,9 @@ public class PwcGatePassHeaderEOImpl extends EntityImpl {
     public static final int PARTYADDRESSGENERIC = AttributesEnum.PartyAddressGeneric.index();
     public static final int ORGANIZATIONID = AttributesEnum.OrganizationId.index();
     public static final int INTERNAL = AttributesEnum.Internal.index();
+    public static final int CARRIER = AttributesEnum.Carrier.index();
+    public static final int LICENCENO = AttributesEnum.LicenceNo.index();
+    public static final int LOCKNO = AttributesEnum.LockNo.index();
     public static final int PWCGATEPASSLINESEO = AttributesEnum.PwcGatePassLinesEO.index();
 
     /**
@@ -742,6 +748,54 @@ public class PwcGatePassHeaderEOImpl extends EntityImpl {
      */
     public void setInternal(String value) {
         setAttributeInternal(INTERNAL, value);
+    }
+
+    /**
+     * Gets the attribute value for Carrier, using the alias name Carrier.
+     * @return the value of Carrier
+     */
+    public String getCarrier() {
+        return (String) getAttributeInternal(CARRIER);
+    }
+
+    /**
+     * Sets <code>value</code> as the attribute value for Carrier.
+     * @param value value to set the Carrier
+     */
+    public void setCarrier(String value) {
+        setAttributeInternal(CARRIER, value);
+    }
+
+    /**
+     * Gets the attribute value for LicenceNo, using the alias name LicenceNo.
+     * @return the value of LicenceNo
+     */
+    public String getLicenceNo() {
+        return (String) getAttributeInternal(LICENCENO);
+    }
+
+    /**
+     * Sets <code>value</code> as the attribute value for LicenceNo.
+     * @param value value to set the LicenceNo
+     */
+    public void setLicenceNo(String value) {
+        setAttributeInternal(LICENCENO, value);
+    }
+
+    /**
+     * Gets the attribute value for LockNo, using the alias name LockNo.
+     * @return the value of LockNo
+     */
+    public String getLockNo() {
+        return (String) getAttributeInternal(LOCKNO);
+    }
+
+    /**
+     * Sets <code>value</code> as the attribute value for LockNo.
+     * @param value value to set the LockNo
+     */
+    public void setLockNo(String value) {
+        setAttributeInternal(LOCKNO, value);
     }
 
     /**

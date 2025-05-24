@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="windows-1252" ?>
 <!---->
 <BC4JConfig xmlns="http://xmlns.oracle.com/bc4j/configuration" version="11.1">
-  <AppModuleConfigBag ApplicationName="model.AM.AppModule">
+  <AppModuleConfigBag ApplicationName="model.AM.AppModule" default="AppModuleLocal">
     <AppModuleConfig name="AppModuleLocal" jbo.project="model.Model" ApplicationName="model.AM.AppModule"
                      DeployPlatform="LOCAL">
       <Database jbo.TypeMapEntries="OracleApps" JDBCDataSource="java:comp/env/jdbc/Conn1DS"/>

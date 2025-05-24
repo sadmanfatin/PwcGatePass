@@ -16,9 +16,11 @@ import model.LOV.SourceLOVImpl;
 import model.LOV.SourcesDocNoLOVImpl;
 
 import model.VO.ExternalServerAddressVOImpl;
+import model.VO.GatePassAdminProfileVOImpl;
 import model.VO.GatePassTypeProfileVOImpl;
 import model.VO.PwcDeleteBtnValidateVOImpl;
 
+import model.VO.PwcGatePassDetailsVOImpl;
 import model.VO.PwcGatePassHeaderVOImpl;
 
 import oracle.jbo.domain.TimestampLTZ;
@@ -43,6 +45,8 @@ import javax.faces.context.FacesContext;
 
 import javax.servlet.http.HttpSession;
 
+
+import model.VO.PwcGatePassHeaderVORowImpl;
 
 import oracle.jbo.server.ViewObjectImpl;
 
@@ -81,8 +85,8 @@ public class AppModuleImpl extends ApplicationModuleImpl implements AppModule {
      * Container's getter for PwcGatePassDetailsVO1.
      * @return PwcGatePassDetailsVO1
      */
-    public ViewObjectImpl getPwcGatePassDetailsVO1() {
-        return (ViewObjectImpl) findViewObject("PwcGatePassDetailsVO1");
+    public PwcGatePassDetailsVOImpl getPwcGatePassDetailsVO1() {
+        return (PwcGatePassDetailsVOImpl) findViewObject("PwcGatePassDetailsVO1");
     }
 
     /**
@@ -758,6 +762,19 @@ public class AppModuleImpl extends ApplicationModuleImpl implements AppModule {
                 } catch (Exception e) {
                     ;
                 }
+                
+                try {
+                    linesRow.setAttribute("TotalQty", r.getAttribute("Quantity").toString());
+                } catch (Exception e) {
+                    ;
+                }
+                try {
+                    linesRow.setAttribute("TotalSecondaryQty", r.getAttribute("SecondaryQty").toString());
+                } catch (Exception e) {
+                    ;
+                }
+                
+                
             }
             
             this.getDBTransaction().commit();
@@ -944,7 +961,7 @@ public class AppModuleImpl extends ApplicationModuleImpl implements AppModule {
                     //System.out.println("Value of the delete Button Flag is " +deleteFlag);
                     
                     setGatePassTypeValue(userSession);
-                    
+                    setGatePassAdminValue(userSession);
                 
         
     }
@@ -1349,6 +1366,76 @@ public class AppModuleImpl extends ApplicationModuleImpl implements AppModule {
    //     System.out.println("=========session scope profile val "+sessionScope.get("GatePassTypeProfileVal"));
         
     }
+    
+    public void reverseGatePass(){
+        
+        System.out.println("============ in reverseGatePass() method");
+        
+        ViewObject headerVo = this.getPwcGatePassHeaderVO1();
+        Row currentRow = headerVo.getCurrentRow();
+        
+        currentRow.setAttribute("ApprovalStatus", "");
+        
 
+        
+//        PwcGatePassHeaderVORowImpl currentHeaderRow = (PwcGatePassHeaderVORowImpl) currentRow;
+//        currentHeaderRow.setApprovalStatus(value);
+//        currentHeaderRow.setDisabledFlag("N");
+           this.getDBTransaction().commit();
+           
+        headerVo.executeQuery();
+        headerVo.setCurrentRow(currentRow);
+        
+    }
+
+    private void setGatePassAdminValue(HttpSession userSession) {
+        System.out.println("============== in setGatePassAdminValue");
+        
+        Map sessionScope = ADFContext.getCurrent().getSessionScope();
+  
+        String gatePassAdminProfileVal =  null;
+
+        String respId = (String) sessionScope.get("RespId");  
+        String userId = (String) sessionScope.get("UserId");  
+        ViewObject GatePassAdminVo  =  this.getGatePassAdminProfileVO1();            
+        GatePassAdminVo.setNamedWhereClauseParam("p_resp_id", respId);  
+        GatePassAdminVo.setNamedWhereClauseParam("p_user_id", userId);  
+        GatePassAdminVo.executeQuery();
+        
+        
+          // System.out.println("===== "+ respId + " ======== " +userId);
+          // System.out.println("============= GatePassClass Row Count"+  GatePassAdminVo.getRowCount());
+        
+        
+        
+        if(GatePassAdminVo.getRowCount()>0){
+            gatePassAdminProfileVal =  GatePassAdminVo.first().getAttribute("ProfileOptionValue").toString();
+       
+        }      
+        else{
+    
+            gatePassAdminProfileVal ="NotAdmin" ; // currently profile is not set to all resp. All value will be considred if profile is not set         
+        }
+        
+        userSession.setAttribute("GatePassAdminProfileVal", gatePassAdminProfileVal);     
+      //  sessionScope.put("GatePassAdminProfileVal", gatePassAdminProfileVal);
+        
+        //        ViewObject gatePassTypeLOV = this.getGatePassTypeLOV1();
+        //        gatePassTypeLOV.setNamedWhereClauseParam("p_gate_pass_profile_Val", gatePassTypeProfileVal);
+        //        gatePassTypeLOV.executeQuery();
+        
+        //     System.out.println("=========session scope profile val "+sessionScope.get("GatePassTypeProfileVal"));
+        
+      //  System.out.println("================= GatePassAdminProfileVal "+ sessionScope.get("GatePassAdminProfileVal"));
+        
+    }
+
+    /**
+     * Container's getter for GatePassAdminProfileVO1.
+     * @return GatePassAdminProfileVO1
+     */
+    public GatePassAdminProfileVOImpl getGatePassAdminProfileVO1() {
+        return (GatePassAdminProfileVOImpl) findViewObject("GatePassAdminProfileVO1");
+    }
 }
 

@@ -139,7 +139,8 @@
     SQLType="VARCHAR"
     Type="java.lang.String"
     ColumnType="VARCHAR2"
-    TableName="XXPWC.PWC_GATE_PASS_DETAILS">
+    TableName="XXPWC.PWC_GATE_PASS_DETAILS"
+    IsNotNull="true">
     <DesignTime>
       <Attr Name="_DisplaySize" Value="255"/>
     </DesignTime>
@@ -182,6 +183,32 @@
       <Attr Name="_DisplaySize" Value="250"/>
     </DesignTime>
   </Attribute>
+  <Attribute
+    Name="PartialChallan"
+    Precision="20"
+    ColumnName="PARTIAL_CHALLAN"
+    SQLType="VARCHAR"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    TableName="XXPWC.PWC_GATE_PASS_DETAILS">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="20"/>
+    </DesignTime>
+  </Attribute>
+  <Attribute
+    Name="TotalQty"
+    ColumnName="TOTAL_QTY"
+    SQLType="NUMERIC"
+    Type="java.math.BigDecimal"
+    ColumnType="NUMBER"
+    TableName="XXPWC.PWC_GATE_PASS_DETAILS"/>
+  <Attribute
+    Name="TotalSecondaryQty"
+    ColumnName="TOTAL_SECONDARY_QTY"
+    SQLType="NUMERIC"
+    Type="java.math.BigDecimal"
+    ColumnType="NUMBER"
+    TableName="XXPWC.PWC_GATE_PASS_DETAILS"/>
   <AccessorAttribute
     Name="PwcGatePassLinesEO"
     Association="model.Assocs.PwcGatePassLinesDetail"
@@ -197,6 +224,18 @@
     </DesignTime>
     <AttrArray Name="Attributes">
       <Item Value="model.EO.PwcGatePassDetails.DetailId"/>
+    </AttrArray>
+  </Key>
+  <Key
+    Name="XxpwcPwcGatePassDetailsItemDetailsCheck">
+    <DesignTime>
+      <Attr Name="_isNotNull" Value="true"/>
+      <Attr Name="_checkCondition" Value='"ITEM_DETAILS" IS NOT NULL'/>
+      <Attr Name="_isCheck" Value="true"/>
+      <Attr Name="_DBObjectName" Value="XXPWC_PWC_GATE_PASS_DETAILS_IT"/>
+    </DesignTime>
+    <AttrArray Name="Attributes">
+      <Item Value="model.EO.PwcGatePassDetails.ItemDetails"/>
     </AttrArray>
   </Key>
   <Key

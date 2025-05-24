@@ -102,7 +102,7 @@
                   partialTriggers="gatePassClass1Id" showRequired="true" readOnly="true">
       <f:validator binding="#{bindings.GatePassNo.validator}"/>
     </af:inputText>
-    <af:inputComboboxListOfValues id="operatingUnitId"
+  <af:inputComboboxListOfValues id="operatingUnitId"
                                   popupTitle="Search and Select: #{bindings.OperatingUnit.hints.label}"
                                   value="#{bindings.OperatingUnit.inputValue}" label="Operating Unit"
                                   model="#{bindings.OperatingUnit.listOfValuesModel}" columns="25"
@@ -245,10 +245,9 @@
                   autoSubmit="true" binding="#{backingBeanScope.Main.driverPhone}">
       <f:validator binding="#{bindings.DriverPhone.validator}"/>
     </af:inputText>
-    <af:inputText value="#{bindings.Carrier.inputValue}" label="#{bindings.Carrier.hints.label}"
-                  required="#{bindings.Carrier.hints.mandatory}" columns="#{bindings.Carrier.hints.displayWidth}"
+    <af:inputText value="#{bindings.Carrier.inputValue}" label="Ship Mode" columns="#{bindings.Carrier.hints.displayWidth}"
                   maximumLength="#{bindings.Carrier.hints.precision}" shortDesc="#{bindings.Carrier.hints.tooltip}"
-                  id="it41" rendered="false">
+                  id="it41" rendered="true">
       <f:validator binding="#{bindings.Carrier.validator}"/>
     </af:inputText>
     <af:inputText value="#{bindings.LockNo.inputValue}" label="#{bindings.LockNo.hints.label}"
@@ -287,12 +286,12 @@
                   shortDesc="#{bindings.SumofLineQty.hints.tooltip}" id="it30" inlineStyle="font-size:large;">
       <f:validator binding="#{bindings.SumofLineQty.validator}"/>
     </af:inputText>
-    <af:inputText value="#{bindings.Remarks.inputValue}" label="#{bindings.Remarks.hints.label}"
-                  required="#{bindings.Remarks.hints.mandatory}" columns="30"
-                  maximumLength="#{bindings.Remarks.hints.precision}" shortDesc="#{bindings.Remarks.hints.tooltip}"
+    <af:inputText value="#{bindings.Remarks1.inputValue}" label="#{bindings.Remarks1.hints.label}"
+                  required="#{bindings.Remarks1.hints.mandatory}" columns="30"
+                  maximumLength="#{bindings.Remarks1.hints.precision}" shortDesc="#{bindings.Remarks1.hints.tooltip}"
                   id="it34"
                   readOnly="#{sessionScope.timeOutMode eq 'Y' || bindings.ApprovalStatus.inputValue eq 'I' || ( bindings.ApprovalStatus.inputValue eq 'Y' &amp;&amp; bindings.Internal.inputValue eq 'false')}">
-      <f:validator binding="#{bindings.Remarks.validator}"/>
+      <f:validator binding="#{bindings.Remarks1.validator}"/>
     </af:inputText>
     <af:inputText value="#{bindings.DisabledFlag.inputValue}" label="#{bindings.DisabledFlag.hints.label}"
                   required="#{bindings.DisabledFlag.hints.mandatory}"
@@ -492,7 +491,7 @@
         </af:inputComboboxListOfValues>
       </af:panelFormLayout>
       <af:spacer id="s3" height="20"/>
-      <af:panelCollection id="pc3" styleClass="AFStretchWidth" inlineStyle="width :1200px;">
+      <af:panelCollection id="pc3" styleClass="AFStretchWidth" inlineStyle="width :1300px;">
         <f:facet name="menus"/>
         <f:facet name="toolbar"/>
         <f:facet name="statusbar"/>
@@ -504,8 +503,8 @@
                   fetchSize="#{bindings.PopulateLinesDataVO1.rangeSize}"
                   filterModel="#{bindings.PopulateLinesDataVO1Query.queryDescriptor}" filterVisible="true"
                   queryListener="#{bindings.PopulateLinesDataVO1Query.processQuery}" varStatus="vs" id="t6"
-                  binding="#{backingBeanScope.Main.populateSearchTableBinding}" inlineStyle="width :1200px;">
-          <af:column id="c19" headerText="Select" align="center">
+                  binding="#{backingBeanScope.Main.populateSearchTableBinding}" inlineStyle="width :1280px;">
+          <af:column id="c19" headerText="Select" align="center" width="50">
             <af:selectBooleanCheckbox value="#{row.bindings.selectFlag.inputValue}"
                                       label="#{row.bindings.selectFlag.label}"
                                       shortDesc="#{bindings.PopulateLinesDataVO1.hints.selectFlag.tooltip}" id="sbc3"/>
@@ -520,7 +519,8 @@
               <f:validator binding="#{row.bindings.Source.validator}"/>
             </af:inputText>
           </af:column>
-          <af:column headerText="Source Doc No." id="c13" align="center" width="240">
+          <af:column headerText="Source Doc No." id="c13" align="center" width="120" displayIndex="-1"
+                     minimumWidth="12">
             <af:inputText value="#{row.bindings.SourceDocNo.inputValue}"
                           label="#{bindings.PopulateLinesDataVO1.hints.SourceDocNo.label}"
                           required="#{bindings.PopulateLinesDataVO1.hints.SourceDocNo.mandatory}"
@@ -532,7 +532,8 @@
             </af:inputText>
           </af:column>
           <af:column sortProperty="#{bindings.PopulateLinesDataVO1.hints.DeliveryChallanNo.name}" filterable="true"
-                     sortable="true" headerText="Delivery Challan No." id="c14" align="center" width="240">
+                     sortable="true" headerText="Delivery Challan No." id="c14" align="center" width="240"
+                     minimumWidth="12">
             <af:inputText value="#{row.bindings.DeliveryChallanNo.inputValue}"
                           label="#{bindings.PopulateLinesDataVO1.hints.DeliveryChallanNo.label}"
                           required="#{bindings.PopulateLinesDataVO1.hints.DeliveryChallanNo.mandatory}"
@@ -543,7 +544,7 @@
             </af:inputText>
           </af:column>
           <af:column sortProperty="#{bindings.PopulateLinesDataVO1.hints.ItemDetails.name}" filterable="true"
-                     sortable="true" headerText="Item Details" id="c15" align="center" width="240">
+                     sortable="true" headerText="Item Details" id="c15" align="center" width="220">
             <af:inputText value="#{row.bindings.ItemDetails.inputValue}"
                           label="#{bindings.PopulateLinesDataVO1.hints.ItemDetails.label}"
                           required="#{bindings.PopulateLinesDataVO1.hints.ItemDetails.mandatory}"
@@ -554,7 +555,7 @@
             </af:inputText>
           </af:column>
           <af:column sortProperty="#{bindings.PopulateLinesDataVO1.hints.Description.name}" filterable="true"
-                     sortable="true" headerText="Description" id="c16" align="center" width="240">
+                     sortable="true" headerText="Description" id="c16" align="center" width="160" minimumWidth="12">
             <af:inputText value="#{row.bindings.Description.inputValue}"
                           label="#{bindings.PopulateLinesDataVO1.hints.Description.label}"
                           required="#{bindings.PopulateLinesDataVO1.hints.Description.mandatory}"
@@ -566,7 +567,7 @@
           </af:column>
           <af:column sortProperty="#{bindings.PopulateLinesDataVO1.hints.Quantity.name}" filterable="true"
                      sortable="true" headerText="#{bindings.PopulateLinesDataVO1.hints.Quantity.label}" id="c17"
-                     align="center">
+                     align="center" width="60">
             <af:inputText value="#{row.bindings.Quantity.inputValue}"
                           label="#{bindings.PopulateLinesDataVO1.hints.Quantity.label}"
                           required="#{bindings.PopulateLinesDataVO1.hints.Quantity.mandatory}"
@@ -578,7 +579,7 @@
             </af:inputText>
           </af:column>
           <af:column sortProperty="#{bindings.PopulateLinesDataVO1.hints.Uom.name}" filterable="true" sortable="true"
-                     headerText="#{bindings.PopulateLinesDataVO1.hints.Uom.label}" id="c18" align="center">
+                     headerText="#{bindings.PopulateLinesDataVO1.hints.Uom.label}" id="c18" align="center" width="60">
             <af:inputText value="#{row.bindings.Uom.inputValue}"
                           label="#{bindings.PopulateLinesDataVO1.hints.Uom.label}"
                           required="#{bindings.PopulateLinesDataVO1.hints.Uom.mandatory}"
@@ -586,6 +587,30 @@
                           maximumLength="#{bindings.PopulateLinesDataVO1.hints.Uom.precision}"
                           shortDesc="#{bindings.PopulateLinesDataVO1.hints.Uom.tooltip}" id="it21">
               <f:validator binding="#{row.bindings.Uom.validator}"/>
+            </af:inputText>
+          </af:column>
+          <af:column headerText="Sec Qty" id="c28" width="60" align="center" displayIndex="-1">
+            <af:inputText value="#{row.bindings.SecondaryQty.inputValue}"
+                          label="#{bindings.PopulateLinesDataVO1.hints.SecondaryQty.label}"
+                          required="#{bindings.PopulateLinesDataVO1.hints.SecondaryQty.mandatory}"
+                          columns="#{bindings.PopulateLinesDataVO1.hints.SecondaryQty.displayWidth}"
+                          maximumLength="#{bindings.PopulateLinesDataVO1.hints.SecondaryQty.precision}"
+                          shortDesc="#{bindings.PopulateLinesDataVO1.hints.SecondaryQty.tooltip}" id="it44"
+                          readOnly="true">
+              <f:validator binding="#{row.bindings.SecondaryQty.validator}"/>
+              <af:convertNumber groupingUsed="false"
+                                pattern="#{bindings.PopulateLinesDataVO1.hints.SecondaryQty.format}"/>
+            </af:inputText>
+          </af:column>
+          <af:column headerText="Sec Uom" id="c29" width="60" align="center" minimumWidth="12">
+            <af:inputText value="#{row.bindings.SecondaryUom.inputValue}"
+                          label="#{bindings.PopulateLinesDataVO1.hints.SecondaryUom.label}"
+                          required="#{bindings.PopulateLinesDataVO1.hints.SecondaryUom.mandatory}"
+                          columns="#{bindings.PopulateLinesDataVO1.hints.SecondaryUom.displayWidth}"
+                          maximumLength="#{bindings.PopulateLinesDataVO1.hints.SecondaryUom.precision}"
+                          shortDesc="#{bindings.PopulateLinesDataVO1.hints.SecondaryUom.tooltip}" id="it45"
+                          readOnly="true">
+              <f:validator binding="#{row.bindings.SecondaryUom.validator}"/>
             </af:inputText>
           </af:column>
           <af:column headerText="Ship To Location" id="c24" width="250"
@@ -800,7 +825,7 @@
             </af:outputText>
           </af:column>
           <af:column sortProperty="#{bindings.PwcGatePassDetailsVO1.hints.LineCode.name}" filterable="true"
-                     sortable="true" headerText="Line Code" id="c5" align="center">
+                     sortable="true" headerText="Line Code" id="c5" align="center" width="70">
             <af:inputText value="#{row.bindings.LineCode.inputValue}"
                           label="#{bindings.PwcGatePassDetailsVO1.hints.LineCode.label}"
                           required="#{bindings.PwcGatePassDetailsVO1.hints.LineCode.mandatory}"
@@ -825,8 +850,8 @@
               <af:convertNumber groupingUsed="false" pattern="#{bindings.PwcGatePassDetailsVO1.hints.ItemId.format}"/>
             </af:inputText>
           </af:column>
-          <af:column headerText="Item Details" id="c21" align="center" width="300" sortable="true" filterable="true"
-                     sortProperty="ItemDetails" partialTriggers="c9">
+          <af:column headerText="* Item Details" id="c21" align="center" width="250" sortable="true" filterable="true"
+                     sortProperty="ItemDetails" partialTriggers="c9" showRequired="false" displayIndex="-1">
             <af:inputText value="#{row.bindings.ItemDetails.inputValue}"
                           label="#{bindings.PwcGatePassDetailsVO1.hints.ItemDetails.label}"
                           required="#{bindings.PwcGatePassDetailsVO1.hints.ItemDetails.mandatory}"
@@ -838,7 +863,7 @@
               <f:validator binding="#{row.bindings.ItemDetails.validator}"/>
             </af:inputText>
           </af:column>
-          <af:column headerText="Description" id="c20" align="center" width="300" sortProperty="ItemDesc"
+          <af:column headerText="Description" id="c20" align="center" width="250" sortProperty="ItemDesc"
                      sortable="true" filterable="true" partialTriggers="c9">
             <af:inputText value="#{row.bindings.ItemDesc.inputValue}"
                           label="#{bindings.PwcGatePassDetailsVO1.hints.ItemDesc.label}"
@@ -851,21 +876,29 @@
               <f:validator binding="#{row.bindings.ItemDesc.validator}"/>
             </af:inputText>
           </af:column>
+          <af:column headerText="Partial Challan" id="c30" width="80" align="center">
+            <af:selectBooleanCheckbox value="#{row.bindings.PartialChallan.inputValue}"
+                                      label="#{row.bindings.PartialChallan.label}"
+                                      shortDesc="#{bindings.PwcGatePassDetailsVO1.hints.PartialChallan.tooltip}"
+                                      id="sbc5" autoSubmit="true"
+                                      disabled="#{row.bindings.LineSource.inputValue != 'Export Packing List' }"/>
+          </af:column>
           <af:column sortProperty="#{bindings.PwcGatePassDetailsVO1.hints.Quantity.name}" filterable="true"
-                     sortable="true" headerText="Quantity" id="c7" align="center" partialTriggers=":::sor1 c9">
+                     sortable="true" headerText="Quantity" id="c7" align="center" partialTriggers=":::sor1 c9"
+                     width="70">
             <af:inputText value="#{row.bindings.Quantity.inputValue}"
                           label="#{bindings.PwcGatePassDetailsVO1.hints.Quantity.label}"
                           required="#{bindings.PwcGatePassDetailsVO1.hints.Quantity.mandatory}"
                           columns="#{bindings.PwcGatePassDetailsVO1.hints.Quantity.displayWidth}"
                           maximumLength="#{bindings.PwcGatePassDetailsVO1.hints.Quantity.precision}"
                           shortDesc="#{bindings.PwcGatePassDetailsVO1.hints.Quantity.tooltip}" id="it9"
-                          readOnly="#{sessionScope.timeOutMode eq 'Y' || bindings.DisabledFlag.inputValue eq 'Y' || bindings.GatePassType1.inputValue eq 'Transactional'}"
-                          partialTriggers=":::sor1 :gatePassClass1Id uomId" autoSubmit="true">
+                          readOnly="#{sessionScope.timeOutMode eq 'Y' || ( bindings.GatePassType1.inputValue eq 'Transactional' &amp;&amp; row.bindings.PartialChallan.inputValue eq 'n' )}"
+                          partialTriggers=":::gatePassClass1Id :::sor1 uomId sbc5" autoSubmit="true">
               <f:validator binding="#{row.bindings.Quantity.validator}"/>
               <af:convertNumber groupingUsed="false" pattern="#{bindings.PwcGatePassDetailsVO1.hints.Quantity.format}"/>
             </af:inputText>
           </af:column>
-          <af:column headerText="UOM" id="c9" align="center" sortable="true" filterable="true">
+          <af:column headerText="UOM" id="c9" align="center" sortable="true" filterable="true" width="90">
             <af:inputComboboxListOfValues id="uomId"
                                           popupTitle="Search and Select: #{bindings.PwcGatePassDetailsVO1.hints.Uom.label}"
                                           value="#{row.bindings.Uom.inputValue}"
@@ -879,8 +912,9 @@
               <af:autoSuggestBehavior suggestedItems="#{row.bindings.Uom.suggestedItems}"/>
             </af:inputComboboxListOfValues>
           </af:column>
-          <af:column headerText="Secondary Qty" id="c8" visible="true"
-                     align="center">
+          <af:column headerText="Secondary Qty" id="c8"
+                     align="center" width="70" partialTriggers="sbc5"
+                     rendered="true">
             <af:inputText value="#{row.bindings.SecondaryQty.inputValue}"
                           label="#{bindings.PwcGatePassDetailsVO1.hints.SecondaryQty.label}"
                           required="#{bindings.PwcGatePassDetailsVO1.hints.SecondaryQty.mandatory}"
@@ -888,14 +922,15 @@
                           maximumLength="#{bindings.PwcGatePassDetailsVO1.hints.SecondaryQty.precision}"
                           shortDesc="#{bindings.PwcGatePassDetailsVO1.hints.SecondaryQty.tooltip}" id="it38"
                           autoSubmit="true"
-                          readOnly="#{sessionScope.timeOutMode eq 'Y' || bindings.DisabledFlag.inputValue eq 'Y' || bindings.GatePassType1.inputValue eq 'Transactional'}">
+                          readOnly="#{sessionScope.timeOutMode eq 'Y' || ( bindings.GatePassType1.inputValue eq 'Transactional' &amp;&amp; row.bindings.PartialChallan.inputValue eq 'n' )}"
+                          partialTriggers=":::gatePassClass1Id :::sor1 uomId sbc5">
               <f:validator binding="#{row.bindings.SecondaryQty.validator}"/>
               <af:convertNumber groupingUsed="false"
                                 pattern="#{bindings.PwcGatePassDetailsVO1.hints.SecondaryQty.format}"/>
             </af:inputText>
           </af:column>
           <af:column headerText="Secondary Uom" id="c26" align="center"
-                     sortable="true" filterable="true">
+                     sortable="true" filterable="true" width="90">
             <af:inputComboboxListOfValues id="secondaryUomId"
                                           popupTitle="Search and Select: #{bindings.PwcGatePassDetailsVO1.hints.SecondaryUom.label}"
                                           value="#{row.bindings.SecondaryUom.inputValue}"
@@ -908,15 +943,23 @@
               <af:autoSuggestBehavior suggestedItems="#{row.bindings.SecondaryUom.suggestedItems}"/>
             </af:inputComboboxListOfValues>
           </af:column>
-          <af:column headerText="#{bindings.PwcGatePassDetailsVO1.hints.Remarks.label}" id="c27" align="center">
+          <af:column headerText="#{bindings.PwcGatePassDetailsVO1.hints.Remarks.label}" id="c27" width="200">
             <af:inputText value="#{row.bindings.Remarks.inputValue}"
                           label="#{bindings.PwcGatePassDetailsVO1.hints.Remarks.label}"
                           required="#{bindings.PwcGatePassDetailsVO1.hints.Remarks.mandatory}"
                           columns="#{bindings.PwcGatePassDetailsVO1.hints.Remarks.displayWidth}"
                           maximumLength="#{bindings.PwcGatePassDetailsVO1.hints.Remarks.precision}"
-                          shortDesc="#{bindings.PwcGatePassDetailsVO1.hints.Remarks.tooltip}" id="it39">
+                          shortDesc="#{bindings.PwcGatePassDetailsVO1.hints.Remarks.tooltip}" id="it39"
+                          autoSubmit="true">
               <f:validator binding="#{row.bindings.Remarks.validator}"/>
             </af:inputText>
+          </af:column>
+          <af:column id="c32" visible="false">
+            <af:outputText value="#{row.bindings.LineSource.inputValue }" id="ot14"/>
+          </af:column>
+          <af:column id="c31" headerText="Line Level Source" displayIndex="-1" visible="false">
+            <af:outputText value="#{row.bindings.LineSource.inputValue}"
+                           shortDesc="#{bindings.PwcGatePassDetailsVO1.hints.LineSource.tooltip}" id="ot13"/>
           </af:column>
         </af:table>
         <af:popup childCreation="deferred" autoCancel="disabled" id="p3">

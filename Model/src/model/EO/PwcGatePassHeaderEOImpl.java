@@ -944,6 +944,9 @@ public class PwcGatePassHeaderEOImpl extends EntityImpl {
                 
                  //   this.setApprovalStatus("");
                 }
+            if(this.getGatePassType().equals("Transactional")){
+                this.setDisabledFlag("Y");
+            }
             
         } else if (DML_INSERT == operation) {
             System.out.println("In DML");
@@ -1016,7 +1019,9 @@ public class PwcGatePassHeaderEOImpl extends EntityImpl {
                 
                  //   this.setApprovalStatus("");
                 }
-            
+            if(this.getGatePassType().equals("Transactional")){
+                this.setDisabledFlag("Y");
+            }
             
         }
         super.doDML(operation, e);

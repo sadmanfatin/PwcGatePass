@@ -44,6 +44,9 @@ public class PwcGatePassDetailsImpl extends EntityImpl {
         SecondaryQty,
         Remarks,
         SecondaryUom,
+        PartialChallan,
+        TotalQty,
+        TotalSecondaryQty,
         PwcGatePassLinesEO;
         private static AttributesEnum[] vals = null;
         private static final int firstIndex = 0;
@@ -86,6 +89,9 @@ public class PwcGatePassDetailsImpl extends EntityImpl {
     public static final int SECONDARYQTY = AttributesEnum.SecondaryQty.index();
     public static final int REMARKS = AttributesEnum.Remarks.index();
     public static final int SECONDARYUOM = AttributesEnum.SecondaryUom.index();
+    public static final int PARTIALCHALLAN = AttributesEnum.PartialChallan.index();
+    public static final int TOTALQTY = AttributesEnum.TotalQty.index();
+    public static final int TOTALSECONDARYQTY = AttributesEnum.TotalSecondaryQty.index();
     public static final int PWCGATEPASSLINESEO = AttributesEnum.PwcGatePassLinesEO.index();
 
     /**
@@ -366,6 +372,54 @@ public class PwcGatePassDetailsImpl extends EntityImpl {
      */
     public void setSecondaryUom(String value) {
         setAttributeInternal(SECONDARYUOM, value);
+    }
+
+    /**
+     * Gets the attribute value for PartialChallan, using the alias name PartialChallan.
+     * @return the value of PartialChallan
+     */
+    public String getPartialChallan() {
+        return (String) getAttributeInternal(PARTIALCHALLAN);
+    }
+
+    /**
+     * Sets <code>value</code> as the attribute value for PartialChallan.
+     * @param value value to set the PartialChallan
+     */
+    public void setPartialChallan(String value) {
+        setAttributeInternal(PARTIALCHALLAN, value);
+    }
+
+    /**
+     * Gets the attribute value for TotalQty, using the alias name TotalQty.
+     * @return the value of TotalQty
+     */
+    public BigDecimal getTotalQty() {
+        return (BigDecimal) getAttributeInternal(TOTALQTY);
+    }
+
+    /**
+     * Sets <code>value</code> as the attribute value for TotalQty.
+     * @param value value to set the TotalQty
+     */
+    public void setTotalQty(BigDecimal value) {
+        setAttributeInternal(TOTALQTY, value);
+    }
+
+    /**
+     * Gets the attribute value for TotalSecondaryQty, using the alias name TotalSecondaryQty.
+     * @return the value of TotalSecondaryQty
+     */
+    public BigDecimal getTotalSecondaryQty() {
+        return (BigDecimal) getAttributeInternal(TOTALSECONDARYQTY);
+    }
+
+    /**
+     * Sets <code>value</code> as the attribute value for TotalSecondaryQty.
+     * @param value value to set the TotalSecondaryQty
+     */
+    public void setTotalSecondaryQty(BigDecimal value) {
+        setAttributeInternal(TOTALSECONDARYQTY, value);
     }
 
     /**

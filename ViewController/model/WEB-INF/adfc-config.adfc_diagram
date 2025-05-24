@@ -3,15 +3,15 @@
    <OverallProperties
       id="OverallProperties1"/>
    <View
-      id="View2">
+      id="View12">
       <property
          name="activityId">MainPG</property>
       <property
-         name="x">433.0</property>
+         name="x">55.5</property>
       <property
          name="description">&lt;html>&lt;p>&lt;b>MainPG&lt;/b>&lt;/p>&lt;p>Activity Type:  View&lt;/p></property>
       <property
-         name="y">266.89648</property>
+         name="y">71.79883</property>
       <property
          name="page">/MainPG.jsf</property>
       <property

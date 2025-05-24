@@ -6,14 +6,37 @@
   Name="PwcGatePassDetailsVO"
   Version="12.2.1.22.48"
   InheritPersonalization="merge"
-  SelectListFlags="1"
-  FromListFlags="1"
-  WhereFlags="1"
   BindingStyle="OracleName"
   CustomQuery="false"
-  SelectAllAttributes="false"
   PageIterMode="Full"
-  AccessMode="DEFAULT">
+  AccessMode="DEFAULT"
+  SelectList="PwcGatePassDetails.LINE_ID, 
+       PwcGatePassDetails.DETAIL_ID, 
+       PwcGatePassDetails.LINE_CODE, 
+       PwcGatePassDetails.ITEM_ID, 
+       PwcGatePassDetails.QUANTITY, 
+       PwcGatePassDetails.UOM, 
+       PwcGatePassDetails.CREATED_BY, 
+       PwcGatePassDetails.CREATION_DATE, 
+       PwcGatePassDetails.LAST_UPDATED_BY, 
+       PwcGatePassDetails.LAST_UPDATE_DATE, 
+       PwcGatePassDetails.REF_LINE_ID, 
+       PwcGatePassDetails.ITEM_DETAILS, 
+       PwcGatePassDetails.ITEM_DESC, 
+       PwcGatePassDetails.SOURCE_ID, 
+       PwcGatePassDetails.SECONDARY_QTY, 
+       PwcGatePassDetails.SECONDARY_UOM, 
+       PwcGatePassDetails.REMARKS, 
+       PwcGatePassDetails.TOTAL_SECONDARY_QTY, 
+       PwcGatePassDetails.TOTAL_QTY, 
+       PwcGatePassDetails.PARTIAL_CHALLAN"
+  FromList="XXPWC.PWC_GATE_PASS_DETAILS PwcGatePassDetails"
+  RowClass="model.VO.PwcGatePassDetailsVORowImpl"
+  ComponentClass="model.VO.PwcGatePassDetailsVOImpl">
+  <DesignTime>
+    <Attr Name="_codeGenFlag2" Value="Access|Coll"/>
+    <Attr Name="_isCodegen" Value="true"/>
+  </DesignTime>
   <ViewAccessor
     Name="UomLOV1"
     ViewObjectName="model.LOV.UomLOV"
@@ -179,6 +202,35 @@
     EntityAttrName="Remarks"
     EntityUsage="PwcGatePassDetails"
     AliasName="REMARKS"/>
+  <ViewAttribute
+    Name="TotalSecondaryQty"
+    PrecisionRule="true"
+    EntityAttrName="TotalSecondaryQty"
+    EntityUsage="PwcGatePassDetails"
+    AliasName="TOTAL_SECONDARY_QTY"/>
+  <ViewAttribute
+    Name="TotalQty"
+    PrecisionRule="true"
+    EntityAttrName="TotalQty"
+    EntityUsage="PwcGatePassDetails"
+    AliasName="TOTAL_QTY"/>
+  <ViewAttribute
+    Name="PartialChallan"
+    PrecisionRule="true"
+    EntityAttrName="PartialChallan"
+    EntityUsage="PwcGatePassDetails"
+    AliasName="PARTIAL_CHALLAN"/>
+  <ViewAttribute
+    Name="LineSource"
+    IsUpdateable="false"
+    IsSelected="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="255"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="VIEW_ATTR"
+    SQLType="VARCHAR"/>
   <ViewLinkAccessor
     Name="PwcGatePassLinesVO"
     ViewLink="model.VL.PwcGatePassLinesDetailVL"

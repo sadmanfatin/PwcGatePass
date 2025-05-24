@@ -42,7 +42,8 @@
                 fetchSize="#{bindings.PwcGatePassHeaderVO1.rangeSize}"
                 filterModel="#{bindings.PwcGatePassHeaderVOCriteriaQuery.queryDescriptor}" filterVisible="true"
                 queryListener="#{bindings.PwcGatePassHeaderVOCriteriaQuery.processQuery}" varStatus="vs" id="resId1"
-                partialTriggers="::b2 ::b3" styleClass="AFStretchWidth">
+                partialTriggers="::b2 ::b3" styleClass="AFStretchWidth"
+                binding="#{backingBeanScope.Main.searhPageHeaderTable}">
         <af:column sortProperty="#{bindings.PwcGatePassHeaderVO1.hints.GatePassClass.name}" filterable="true"
                    sortable="true" headerText="Gate Pass Class" id="resId1c1" align="center">
           <af:outputText value="#{row.GatePassClass}"
@@ -62,7 +63,7 @@
           </af:outputText>
         </af:column>
         <af:column sortProperty="#{bindings.PwcGatePassHeaderVO1.hints.GatePassNo.name}" filterable="true"
-                   sortable="true" headerText="Gate Pass No" id="resId1c4" align="center" width="200">
+                   sortable="true" headerText="Gate Pass No" id="resId1c4" align="center" width="150" displayIndex="-1">
           <af:outputText value="#{row.GatePassNo}" shortDesc="#{bindings.PwcGatePassHeaderVO1.hints.GatePassNo.tooltip}"
                          id="ot3"/>
         </af:column>
@@ -82,21 +83,51 @@
                          id="ot6"/>
         </af:column>
         <af:column sortProperty="#{bindings.PwcGatePassHeaderVO1.hints.DriverName.name}" filterable="true"
-                   sortable="true" headerText="Driver Name" id="resId1c9" align="center">
+                   sortable="true" headerText="Driver Name" id="resId1c9" align="center" width="90" minimumWidth="12">
           <af:outputText value="#{row.DriverName}" shortDesc="#{bindings.PwcGatePassHeaderVO1.hints.DriverName.tooltip}"
                          id="ot7"/>
         </af:column>
         <af:column sortProperty="#{bindings.PwcGatePassHeaderVO1.hints.DriverPhone.name}" filterable="true"
-                   sortable="true" headerText="Driver Phone" id="resId1c10" align="center">
+                   sortable="true" headerText="Driver Phone" id="resId1c10" align="center" width="90" minimumWidth="12">
           <af:outputText value="#{row.DriverPhone}"
                          shortDesc="#{bindings.PwcGatePassHeaderVO1.hints.DriverPhone.tooltip}" id="ot8"/>
         </af:column>
         <af:column sortProperty="#{bindings.PwcGatePassHeaderVO1.hints.RefGatePassNo.name}" filterable="false"
-                   sortable="true" headerText="Ref Gate Pass No" id="resId1c11" align="center" width="150">
+                   sortable="true" headerText="Ref Gate Pass No" id="resId1c11" align="center" width="120"
+                   displayIndex="-1">
           <af:outputText value="#{row.RefGatePassNo}"
                          shortDesc="#{bindings.PwcGatePassHeaderVO1.hints.RefGatePassNo.tooltip}" id="ot9"/>
         </af:column>
-        <af:column headerText="#{bindings.PwcGatePassHeaderVO1.hints.TimeOutFlag.label}" id="c1" rendered="false">
+        <af:column headerText="Approval Status" id="c2"
+                   filterable="true" sortProperty="#{bindings.PwcGatePassHeaderVO1.hints.ApproveStatusMeaning.name}"
+                   align="center" displayIndex="-1" width="110">
+          <af:inputText value="#{row.bindings.ApproveStatusMeaning.inputValue}"
+                        label="#{bindings.PwcGatePassHeaderVO1.hints.ApproveStatusMeaning.label}"
+                        required="#{bindings.PwcGatePassHeaderVO1.hints.ApproveStatusMeaning.mandatory}"
+                        columns="#{bindings.PwcGatePassHeaderVO1.hints.ApproveStatusMeaning.displayWidth}"
+                        maximumLength="#{bindings.PwcGatePassHeaderVO1.hints.ApproveStatusMeaning.precision}"
+                        shortDesc="#{bindings.PwcGatePassHeaderVO1.hints.ApproveStatusMeaning.tooltip}" id="it2"/>
+        </af:column>
+        <af:column id="Reverse">
+          <af:button text="Reverse" id="b1"
+                     visible="#{row.bindings.ApprovalStatus.inputValue eq 'Y'  &amp;&amp;  row.bindings.TimeOutFlag.inputValue != 'Y'   &amp;&amp;  sessionScope.GatePassAdminProfileVal eq 'Admin'    &amp;&amp;  row.bindings.Internal.inputValue != 'Y'  }"
+                     actionListener="#{backingBeanScope.Main.reverseGatePass}"/>
+        </af:column>
+        <af:column id="c3" visible="false">
+          <af:outputText value="#{sessionScope.GatePassAdminProfileVal}" id="ot10"/>
+        </af:column>
+        <af:column headerText="#{bindings.PwcGatePassHeaderVO1.hints.Internal.label}" id="c5" visible="false">
+          <af:inputText value="#{row.bindings.Internal.inputValue}"
+                        label="#{bindings.PwcGatePassHeaderVO1.hints.Internal.label}"
+                        required="#{bindings.PwcGatePassHeaderVO1.hints.Internal.mandatory}"
+                        columns="#{bindings.PwcGatePassHeaderVO1.hints.Internal.displayWidth}"
+                        maximumLength="#{bindings.PwcGatePassHeaderVO1.hints.Internal.precision}"
+                        shortDesc="#{bindings.PwcGatePassHeaderVO1.hints.Internal.tooltip}" id="it4">
+            <f:validator binding="#{row.bindings.Internal.validator}"/>
+          </af:inputText>
+        </af:column>
+        <af:column headerText="#{bindings.PwcGatePassHeaderVO1.hints.TimeOutFlag.label}" id="c1" rendered="false"
+                   visible="false">
           <af:inputText value="#{row.bindings.TimeOutFlag.inputValue}"
                         label="#{bindings.PwcGatePassHeaderVO1.hints.TimeOutFlag.label}"
                         required="#{bindings.PwcGatePassHeaderVO1.hints.TimeOutFlag.mandatory}"
@@ -104,6 +135,16 @@
                         maximumLength="#{bindings.PwcGatePassHeaderVO1.hints.TimeOutFlag.precision}"
                         shortDesc="#{bindings.PwcGatePassHeaderVO1.hints.TimeOutFlag.tooltip}" id="it1">
             <f:validator binding="#{row.bindings.TimeOutFlag.validator}"/>
+          </af:inputText>
+        </af:column>
+        <af:column headerText="#{bindings.PwcGatePassHeaderVO1.hints.ApprovalStatus.label}" id="c4" visible="false">
+          <af:inputText value="#{row.bindings.ApprovalStatus.inputValue}"
+                        label="#{bindings.PwcGatePassHeaderVO1.hints.ApprovalStatus.label}"
+                        required="#{bindings.PwcGatePassHeaderVO1.hints.ApprovalStatus.mandatory}"
+                        columns="#{bindings.PwcGatePassHeaderVO1.hints.ApprovalStatus.displayWidth}"
+                        maximumLength="#{bindings.PwcGatePassHeaderVO1.hints.ApprovalStatus.precision}"
+                        shortDesc="#{bindings.PwcGatePassHeaderVO1.hints.ApprovalStatus.tooltip}" id="it3">
+            <f:validator binding="#{row.bindings.ApprovalStatus.validator}"/>
           </af:inputText>
         </af:column>
       </af:table>

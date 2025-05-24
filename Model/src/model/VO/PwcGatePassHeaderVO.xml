@@ -837,7 +837,7 @@ ORDER BY PwcGatePassHeaderEO.HEADER_ID DESC]]></SQLQuery>
   </ViewAttribute>
   <ViewAttribute
     Name="OperatingUnit"
-    IsPersistent="false"
+    IsPersistent="true"
     PrecisionRule="true"
     Precision="255"
     Type="java.lang.String"
@@ -845,7 +845,7 @@ ORDER BY PwcGatePassHeaderEO.HEADER_ID DESC]]></SQLQuery>
     AliasName="OPERATING_UNIT"
     SQLType="VARCHAR"
     LOVName="LOV_OperatingUnit"
-    IsQueriable="false"
+    IsQueriable="true"
     Expression="(SELECT NAME FROM HR_OPERATING_UNITS WHERE PwcGatePassHeaderEO.OU_ID = ORGANIZATION_ID)">
     <!--<TransientExpression
       Name="ExpressionScript"
@@ -865,7 +865,16 @@ ORDER BY PwcGatePassHeaderEO.HEADER_ID DESC]]></SQLQuery>
     PrecisionRule="true"
     EntityAttrName="CreaterName"
     EntityUsage="PwcGatePassHeaderEO"
-    AliasName="CREATER_NAME"/>
+    AliasName="CREATER_NAME">
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYWIDTH
+          Value="25"/>
+        <LABEL
+          ResId="model.VO.PwcGatePassHeaderVO.CreaterName_LABEL"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
   <ViewAttribute
     Name="LastEditorName"
     PrecisionRule="true"
@@ -1122,6 +1131,12 @@ ORDER BY PwcGatePassHeaderEO.HEADER_ID DESC]]></SQLQuery>
           </SchemaBasedProperties>
         </Properties>
       </ViewCriteriaItem>
+      <ViewCriteriaItem
+        Name="CreaterName"
+        ViewAttribute="CreaterName"
+        Operator="CONTAINS"
+        Conjunction="AND"
+        Required="Optional"/>
     </ViewCriteriaRow>
   </ViewCriteria>
   <ViewCriteria

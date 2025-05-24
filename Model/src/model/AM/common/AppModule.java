@@ -52,5 +52,7 @@ public interface AppModule extends ApplicationModule {
     String AttachementActionListener();
 
     String SaveButtonActionListenerAM2();
+
+    void reverseGatePass();
 }
 

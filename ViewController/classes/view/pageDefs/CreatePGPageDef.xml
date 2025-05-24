@@ -113,6 +113,8 @@
           <Item Value="SecondaryUom"/>
           <Item Value="Remarks"/>
           <Item Value="DetailId"/>
+          <Item Value="PartialChallan" Binds="PartialChallan"/>
+          <Item Value="LineSource"/>
         </AttrNames>
       </nodeDefinition>
     </tree>
@@ -200,6 +202,8 @@
           <Item Value="Uom"/>
           <Item Value="selectFlag" Binds="selectFlag"/>
           <Item Value="ShipToLocation"/>
+          <Item Value="SecondaryQty"/>
+          <Item Value="SecondaryUom"/>
         </AttrNames>
       </nodeDefinition>
     </tree>
@@ -318,11 +322,6 @@
         <Item Value="LocationId"/>
       </AttrNames>
     </attributeValues>
-    <attributeValues IterBinding="PwcGatePassHeaderVO1Iterator" id="Remarks">
-      <AttrNames>
-        <Item Value="Remarks"/>
-      </AttrNames>
-    </attributeValues>
     <attributeValues IterBinding="PwcGatePassHeaderVO1Iterator" id="PartyAddressGeneric">
       <AttrNames>
         <Item Value="PartyAddressGeneric"/>
@@ -376,6 +375,20 @@
     <attributeValues IterBinding="PwcGatePassHeaderVO1Iterator" id="LicenceNo">
       <AttrNames>
         <Item Value="LicenceNo"/>
+      </AttrNames>
+    </attributeValues>
+    <button IterBinding="PwcGatePassDetailsVO1Iterator" id="PartialChallan" DTSupportsMRU="false" StaticList="true">
+      <AttrNames>
+        <Item Value="PartialChallan"/>
+      </AttrNames>
+      <ValueList>
+        <Item Value="y"/>
+        <Item Value="n"/>
+      </ValueList>
+    </button>
+    <attributeValues IterBinding="PwcGatePassHeaderVO1Iterator" id="Remarks1">
+      <AttrNames>
+        <Item Value="Remarks"/>
       </AttrNames>
     </attributeValues>
   </bindings>

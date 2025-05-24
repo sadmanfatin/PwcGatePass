@@ -54,6 +54,7 @@ import org.apache.myfaces.trinidad.render.ExtendedRenderKitService;
 import org.apache.myfaces.trinidad.util.Service;
 
 public class Main {
+    private RichTable searhPageHeaderTable;
     private RichSelectBooleanCheckbox isReturnedBinding;
     private RichSelectBooleanCheckbox returnableBinding;
     private RichTable deliveryLinesTable;
@@ -1016,4 +1017,23 @@ public class Main {
       public RichButton getSendForApproval() {
           return sendForApproval;
       }
+    public void reverseGatePass(ActionEvent actionEvent) {
+        // Add event code here...
+        OperationBinding operationBinding = executeOperation("reverseGatePass");
+        operationBinding.execute();
+        
+        AdfFacesContext.getCurrentInstance().addPartialTarget(this.getSearhPageHeaderTable());
+    
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO , "",  "GatePass Approval Reversed Successfully!");
+            FacesContext.getCurrentInstance().addMessage(null, message);
+        
+    }
+    public void setSearhPageHeaderTable(RichTable searhPageHeaderTable) {
+        this.searhPageHeaderTable = searhPageHeaderTable;
+    }
+
+    public RichTable getSearhPageHeaderTable() {
+        return searhPageHeaderTable;
+    }
+    
 }

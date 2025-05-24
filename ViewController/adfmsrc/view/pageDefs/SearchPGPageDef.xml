@@ -27,6 +27,9 @@
           <Item Value="PartyFromName"/>
           <Item Value="PartyToName"/>
           <Item Value="TimeOutFlag"/>
+          <Item Value="ApprovalStatus"/>
+          <Item Value="ApproveStatusMeaning"/>
+          <Item Value="Internal"/>
         </AttrNames>
       </nodeDefinition>
     </tree>
@@ -36,5 +39,8 @@
     </action>
     <action IterBinding="PwcGatePassHeaderVO1Iterator" id="CreateWithParams" RequiresUpdateModel="true"
             Action="createWithParams"/>
+    <methodAction id="reverseGatePass" RequiresUpdateModel="true" Action="invokeMethod" MethodName="reverseGatePass"
+                  IsViewObjectMethod="false" DataControl="AppModuleDataControl"
+                  InstanceName="bindings.reverseGatePass.dataControl.dataProvider"/>
   </bindings>
 </pageDefinition>

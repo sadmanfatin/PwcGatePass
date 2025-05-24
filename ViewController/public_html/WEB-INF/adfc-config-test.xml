@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<adfc-config xmlns="http://xmlns.oracle.com/adf/controller" version="1.2">
+  <view id="MainPG">
+    <page>/MainPG.jsf</page>
+    <input-page-parameter id="__1">                  
+   <!-- 
+   <from-value>#{param.ParamOrgId}</from-value>
+     
+   -->  
+    <from-value>#{"107"}</from-value>   
+    <to-value>#{sessionScope.OrgId}</to-value>
+       
+    </input-page-parameter>
+    
+    <input-page-parameter id="__2">
+    
+    <!-- 
+    <from-value>#{param.ParamUserId}</from-value>    
+   -->  
+    
+      <from-value>#{"14401"}</from-value>
+      <to-value>#{sessionScope.UserId}</to-value>
+    </input-page-parameter>
+    
+    <input-page-parameter id="__3">
+       <!--  
+          <from-value>#{"57858"}</from-value>       
+       <from-value>#{param.ParamRespId}</from-value> 
+       -->
+              <from-value>#{"53679"}</from-value> 
+     
+      <to-value>#{sessionScope.RespId}</to-value>
+    </input-page-parameter>
+    
+    <input-page-parameter id="__4">
+      <from-value>#{param.ParamRespApplId}</from-value>
+      <to-value>#{sessionScope.RespAppId}</to-value>
+    </input-page-parameter>
+    
+    <input-page-parameter id="__5">
+
+     <!--   
+  <from-value>#{param.ParamFunctionId}</from-value>
+          
+       -->  
+           <from-value>#{"PWC_ADF_GATE_PASS_FORM_OGP"}</from-value> 
+      <to-value>#{sessionScope.FunctionId}</to-value>     
+   
+    </input-page-parameter>
+  </view>
+</adfc-config>

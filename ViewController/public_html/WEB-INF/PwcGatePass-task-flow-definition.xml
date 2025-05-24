@@ -10,6 +10,7 @@
       <managed-bean-class>view.bean.Main</managed-bean-class>
       <managed-bean-scope>backingBean</managed-bean-scope>
     </managed-bean>
+
     <view id="SearchPG">
       <page>/SearchPG.jsff</page>
     </view>

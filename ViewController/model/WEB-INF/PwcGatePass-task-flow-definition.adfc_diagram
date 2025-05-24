@@ -46,7 +46,7 @@
       <property
          name="fromOutcome">goCreate</property>
       <property
-         name="sdm:polyPoints">R46,504.0206,279.55664,638.0,280.34473,L46</property>
+         name="sdm:polyPoints">R46,504.0114,279.55664,638.0,279.99414,L46</property>
    </ControlFlowCase>
    <ControlFlowCase
       islink="true"
@@ -56,7 +56,7 @@
       <property
          name="fromOutcome">gotoSearch</property>
       <property
-         name="sdm:polyPoints">L54,637.97943,287.34473,504.0,286.55664,R54</property>
+         name="sdm:polyPoints">L54,637.9886,286.99414,504.0,286.55664,R54</property>
    </ControlFlowCase>
    <MethodCall
       id="MethodCall6">

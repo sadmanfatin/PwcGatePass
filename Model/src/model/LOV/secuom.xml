@@ -22,8 +22,8 @@
         ResId="model.LOV.secuom_LABEL"/>
     </SchemaBasedProperties>
   </Properties>
-  <SQLQuery><![CDATA[SELECT UNIT_OF_MEASURE, UOM_CODE    
-FROM MTL_UNITS_OF_MEASURE]]></SQLQuery>
+  <SQLQuery><![CDATA[SELECT UNIT_OF_MEASURE, UOM_CODE     
+FROM MTL_UNITS_OF_MEASURE@ROPROD]]></SQLQuery>
   <ViewAttribute
     Name="UnitOfMeasure"
     IsUpdateable="false"

@@ -46,427 +46,425 @@
       </SchemaBasedProperties>
     </Properties>
   </Variable>
-  <SQLQuery><![CDATA[SELECT DISTINCT 'Sample Tracking' SOURCE, SAMPLE_ORDER_NO SOURCE_DOC_NO            
-  FROM XXPWC.PWC_ACCESS_SMPLE_TRCKNG_HDR PwcAccessSmpleTrckngHdrEO,            
-       PWC_ACCES_SMPLE_TRCKNG_RCD_HDR PwcAccessSmpleRcdHdrEO,            
-       PWC_ACCES_SMPLE_TRCKNG_RCD_LNS PwcAccessSmpleRcdLns            
- --MTL_SYSTEM_ITEMS_B MSIB            
- WHERE     PwcAccessSmpleTrckngHdrEO.HEADER_ID =            
-              PwcAccessSmpleRcdHdrEO.HEADER_ID            
-       AND PwcAccessSmpleRcdHdrEO.CHALLAN_ID =            
-              PwcAccessSmpleRcdLns.CHALLAN_ID            
-       --AND MSIB.INVENTORY_ITEM_ID = PwcAccessSmpleRcdLns.ITEM_ID            
-       --AND MSIB.organization_id = xxpwc.pwc_organization_name ('Item Master Organization')            
-       AND CURRENT_DELIVERY IS NOT NULL            
-       AND 'Sample Tracking' = :pSource            
-       AND ACCESSORIES_UNIT_ID = :pOrgId            
-     AND PwcAccessSmpleTrckngHdrEO.SAMPLE_ORDER_NO IS NOT NULL                       
-UNION ALL                      
-SELECT DISTINCT                       
-       'Bundle Movement' SOURCE, PwcMfgCutissuance.CUTISSUE_NO SOURCE_DOC_NO                       
-  FROM PWC_MFG_CUTISSUANCE PwcMfgCutissuance, PWC_MFG_CUTISSUANCE_LINE LineEO                       
- WHERE     PwcMfgCutissuance.CUTISSUE_ID = LineEO.CUTISSUE_ID                       
-       AND 'Bundle Movement' = :pSource                       
-       AND PwcMfgCutissuance.DIVISION_ID = :pOrgId                       
+  <SQLQuery><![CDATA[SELECT DISTINCT 'Sample Tracking' SOURCE, SAMPLE_ORDER_NO SOURCE_DOC_NO             
+  FROM XXPWC.PWC_ACCESS_SMPLE_TRCKNG_HDR PwcAccessSmpleTrckngHdrEO,             
+       PWC_ACCES_SMPLE_TRCKNG_RCD_HDR PwcAccessSmpleRcdHdrEO,             
+       PWC_ACCES_SMPLE_TRCKNG_RCD_LNS PwcAccessSmpleRcdLns             
+ --MTL_SYSTEM_ITEMS_B MSIB             
+ WHERE     PwcAccessSmpleTrckngHdrEO.HEADER_ID =             
+              PwcAccessSmpleRcdHdrEO.HEADER_ID             
+       AND PwcAccessSmpleRcdHdrEO.CHALLAN_ID =             
+              PwcAccessSmpleRcdLns.CHALLAN_ID             
+       --AND MSIB.INVENTORY_ITEM_ID = PwcAccessSmpleRcdLns.ITEM_ID             
+       --AND MSIB.organization_id = xxpwc.pwc_organization_name ('Item Master Organization')             
+       AND CURRENT_DELIVERY IS NOT NULL             
+       AND 'Sample Tracking' = :pSource             
+       AND ACCESSORIES_UNIT_ID = :pOrgId             
+     AND PwcAccessSmpleTrckngHdrEO.SAMPLE_ORDER_NO IS NOT NULL                        
 UNION ALL                       
-SELECT DISTINCT                       
-       'Sample Status (Dispatch)' SOURCE,                       
-       HederEO.PROVISIONAL_SAMPLE_CODE SOURCE_DOC_NO                       
-  FROM PWC_ONT_SAM_STAT_AWP_DETAIL AWBEO,                       
-       PWC_ONT_SAMPLE_STATUS_LINE LineEO,                       
-       PWC_ONT_SAMPLE_STATUS HederEO                       
- WHERE     LineEO.LINE_ID = AWBEO.LINE_ID                       
-       AND HederEO.HEADER_ID = LineEO.HEADER_ID                       
-       AND 'Sample Status (Dispatch)' = :pSource                       
-       AND HederEO.ORG_ID = :pOrgId                       
+SELECT DISTINCT                        
+       'Bundle Movement' SOURCE, PwcMfgCutissuance.CUTISSUE_NO SOURCE_DOC_NO                        
+  FROM PWC_MFG_CUTISSUANCE PwcMfgCutissuance, PWC_MFG_CUTISSUANCE_LINE LineEO                        
+ WHERE     PwcMfgCutissuance.CUTISSUE_ID = LineEO.CUTISSUE_ID                        
+       AND 'Bundle Movement' = :pSource                        
+       AND PwcMfgCutissuance.DIVISION_ID = :pOrgId                        
+UNION ALL                        
+SELECT DISTINCT                        
+       'Sample Status (Dispatch)' SOURCE,                        
+       HederEO.PROVISIONAL_SAMPLE_CODE SOURCE_DOC_NO                        
+  FROM PWC_ONT_SAM_STAT_AWP_DETAIL AWBEO,                        
+       PWC_ONT_SAMPLE_STATUS_LINE LineEO,                        
+       PWC_ONT_SAMPLE_STATUS HederEO                        
+ WHERE     LineEO.LINE_ID = AWBEO.LINE_ID                        
+       AND HederEO.HEADER_ID = LineEO.HEADER_ID                        
+       AND 'Sample Status (Dispatch)' = :pSource                        
+       AND HederEO.ORG_ID = :pOrgId                        
+UNION ALL                        
+SELECT DISTINCT                        
+       'Sample Status (Sending)' SOURCE,                        
+       HederEO.PROVISIONAL_SAMPLE_CODE SOURCE_DOC_NO                        
+  FROM PWC_ONT_REQ_DET_TO_PRI_DEP ToPriDepEO,                        
+       PWC_ONT_SAMPLE_STATUS_LINE LineEO,                        
+       PWC_ONT_SAMPLE_STATUS HederEO                        
+ WHERE     LineEO.LINE_ID = ToPriDepEO.LINE_ID                        
+       AND HederEO.HEADER_ID = LineEO.HEADER_ID                        
+       AND 'Sample Status (Sending)' = :pSource                        
+       AND HederEO.ORG_ID = :pOrgId                        
 UNION ALL                       
-SELECT DISTINCT                       
-       'Sample Status (Sending)' SOURCE,                       
-       HederEO.PROVISIONAL_SAMPLE_CODE SOURCE_DOC_NO                       
-  FROM PWC_ONT_REQ_DET_TO_PRI_DEP ToPriDepEO,                       
-       PWC_ONT_SAMPLE_STATUS_LINE LineEO,                       
-       PWC_ONT_SAMPLE_STATUS HederEO                       
- WHERE     LineEO.LINE_ID = ToPriDepEO.LINE_ID                       
-       AND HederEO.HEADER_ID = LineEO.HEADER_ID                       
-       AND 'Sample Status (Sending)' = :pSource                       
-       AND HederEO.ORG_ID = :pOrgId                       
-UNION ALL                      
-SELECT DISTINCT                       
-       'Sample Status (LOB-Dispatch)' SOURCE,                       
-       HederEO.PROVISIONAL_SAMPLE_CODE SOURCE_DOC_NO                       
-  FROM PWC_ONT_REQ_DET_TO_PRI_DEP ToPriDepEO,                       
-       PWC_ONT_REQ_DET_FROM_PRI_DEP FromPriDepEO,                       
-       PWC_ONT_SAMPLE_STATUS_LINE LineEO,                       
-       PWC_ONT_SAMPLE_STATUS HederEO                       
- WHERE     LineEO.LINE_ID = ToPriDepEO.LINE_ID                       
-       AND HederEO.HEADER_ID = LineEO.HEADER_ID                       
-       AND FromPriDepEO.TO_PRI_DEP = ToPriDepEO.TO_PRI_DEP                       
-       AND 'Sample Status (LOB-Dispatch)' = :pSource                       
-       AND FromPriDepEO.PRODUCTION_UNIT_ID = :pOrgId                                    
-UNION ALL                       
-/*                 
-SELECT DISTINCT                       
-       'Sample Status (LOB-Dispatch)' SOURCE,                       
-       HederEO.PROVISIONAL_SAMPLE_CODE SOURCE_DOC_NO                       
-  FROM PWC_ONT_REQ_DET_TO_PRI_DEP ToPriDepEO,                       
-       PWC_ONT_REQ_DET_FROM_PRI_DEP FromPriDepEO,                       
-       PWC_ONT_SAMPLE_STATUS_LINE LineEO,                       
-       PWC_ONT_SAMPLE_STATUS HederEO                       
- WHERE     LineEO.LINE_ID = ToPriDepEO.LINE_ID                       
-       AND HederEO.HEADER_ID = LineEO.HEADER_ID                       
-       AND FromPriDepEO.TO_PRI_DEP = ToPriDepEO.TO_PRI_DEP                       
-       AND FromPriDepEO.Qty_Send_To_Merch IS NOT NULL                       
-       AND 'Sample Status (LOB-Dispatch)' = :pSource                       
-       AND HederEO.ORG_ID = :pOrgId                       
-UNION ALL                 
-*/                 
-SELECT DISTINCT                       
-       'Sample Status (Sending)' SOURCE,                       
-       HederEO.PROVISIONAL_SAMPLE_CODE SOURCE_DOC_NO                       
-  FROM PWC_ONT_REQ_TO_EMB_DEPT PwcOntReqToEmbDeptEO,                       
-       PWC_ONT_SAMPLE_STATUS_LINE LineEO,                       
-       PWC_ONT_SAMPLE_STATUS HederEO                       
- WHERE     LineEO.LINE_ID = PwcOntReqToEmbDeptEO.LINE_ID                       
-       AND HederEO.HEADER_ID = LineEO.HEADER_ID                       
-       AND 'Sample Status (Sending)' = :pSource                       
-       AND HederEO.ORG_ID = :pOrgId                       
-UNION ALL                       
-SELECT DISTINCT                       
-       'Sample Status (LOB-Dispatch)' SOURCE,                       
-       HederEO.PROVISIONAL_SAMPLE_CODE SOURCE_DOC_NO                       
-  FROM PWC_ONT_REQ_TO_EMB_DEPT PwcOntReqToEmbDeptEO,                       
-       PWC_ONT_REQ_FROM_EMB_DEPT PwcOntReqFromEmbDeptEO,                       
-       PWC_ONT_SAMPLE_STATUS_LINE LineEO,                       
-       PWC_ONT_SAMPLE_STATUS HederEO                       
- WHERE     LineEO.LINE_ID = PwcOntReqToEmbDeptEO.LINE_ID                       
-       AND HederEO.HEADER_ID = LineEO.HEADER_ID                       
-       AND PwcOntReqFromEmbDeptEO.TO_EMB_ID = PwcOntReqToEmbDeptEO.TO_EMB_ID                       
-       AND 'Sample Status (LOB-Dispatch)' = :pSource                       
-       AND PwcOntReqFromEmbDeptEO.PRODUCTION_UNIT_ID = :pOrgId                       
-UNION ALL                       
-/*                 
-SELECT DISTINCT                       
-       'Sample Status (LOB-Dispatch)' SOURCE,                       
-       HederEO.PROVISIONAL_SAMPLE_CODE SOURCE_DOC_NO                       
-  FROM PWC_ONT_REQ_TO_EMB_DEPT PwcOntReqToEmbDeptEO,                       
-       PWC_ONT_REQ_FROM_EMB_DEPT PwcOntReqFromEmbDeptEO,                       
-       PWC_ONT_SAMPLE_STATUS_LINE LineEO,                       
-       PWC_ONT_SAMPLE_STATUS HederEO                       
- WHERE     LineEO.LINE_ID = PwcOntReqToEmbDeptEO.LINE_ID                       
-       AND HederEO.HEADER_ID = LineEO.HEADER_ID                       
-       AND PwcOntReqFromEmbDeptEO.TO_EMB_ID = PwcOntReqToEmbDeptEO.TO_EMB_ID                       
-       AND PwcOntReqFromEmbDeptEO.PRODUCTION_QTY IS NOT NULL                       
-       AND 'Sample Status (LOB-Dispatch)' = :pSource                       
-       AND HederEO.ORG_ID = :pOrgId                       
-UNION ALL                       
-*/                 
-SELECT DISTINCT                       
-       'Sample Status (Sending)' SOURCE,                       
-       HederEO.PROVISIONAL_SAMPLE_CODE SOURCE_DOC_NO                       
-  FROM PWC_ONT_REQ_TO_WASH_DEP ReqToWashingDetailsEO,                       
-       PWC_ONT_SAMPLE_STATUS_LINE LineEO,                       
-       PWC_ONT_SAMPLE_STATUS HederEO                       
- WHERE     LineEO.LINE_ID = ReqToWashingDetailsEO.LINE_ID                       
-       AND HederEO.HEADER_ID = LineEO.HEADER_ID                       
-       AND 'Sample Status (Sending)' = :pSource                       
-       AND HederEO.ORG_ID = :pOrgId                       
-UNION ALL                       
-SELECT DISTINCT                       
-       'Sample Status (LOB-Dispatch)' SOURCE,                       
-       HederEO.PROVISIONAL_SAMPLE_CODE SOURCE_DOC_NO                       
-  FROM PWC_ONT_REQ_TO_WASH_DEP ReqToWashingDetailsEO,                       
-       PWC_ONT_REQ_FROM_WASH_DEP ReqFromWashingDetailsEO,                       
-       PWC_ONT_SAMPLE_STATUS_LINE LineEO,                       
-       PWC_ONT_SAMPLE_STATUS HederEO                       
- WHERE     LineEO.LINE_ID = ReqToWashingDetailsEO.LINE_ID                       
-       AND HederEO.HEADER_ID = LineEO.HEADER_ID                       
-       AND ReqFromWashingDetailsEO.REQ_DETAIL_ID =                       
-              ReqToWashingDetailsEO.REQ_DETAIL_ID                       
-       AND 'Sample Status (LOB-Dispatch)' = :pSource                       
-       /*AND HederEO.ORG_ID = :pOrgId*/                 
-       AND ReqFromWashingDetailsEO.PRODUCTION_UNIT_ID = :pOrgId                 
-UNION ALL                       
-/*                 
-SELECT DISTINCT                       
-       'Sample Status (LOB-Dispatch)' SOURCE,                       
-       HederEO.PROVISIONAL_SAMPLE_CODE SOURCE_DOC_NO                       
-  FROM PWC_ONT_REQ_TO_WASH_DEP ReqToWashingDetailsEO,                       
-       PWC_ONT_REQ_FROM_WASH_DEP ReqFromWashingDetailsEO,                       
-       PWC_ONT_SAMPLE_STATUS_LINE LineEO,                       
-       PWC_ONT_SAMPLE_STATUS HederEO                       
- WHERE     LineEO.LINE_ID = ReqToWashingDetailsEO.LINE_ID                       
-       AND HederEO.HEADER_ID = LineEO.HEADER_ID                       
-       AND ReqFromWashingDetailsEO.REQ_DETAIL_ID =                       
-              ReqToWashingDetailsEO.REQ_DETAIL_ID                       
-       AND ReqFromWashingDetailsEO.Production_Qty IS NOT NULL                       
-       AND 'Sample Status (LOB-Dispatch)' = :pSource                       
-       AND HederEO.ORG_ID = :pOrgId                       
-UNION ALL                       
-*/                 
-SELECT DISTINCT                       
-       'Sample Status (LOB-Dispatch)' SOURCE,                       
-       HederEO.PROVISIONAL_SAMPLE_CODE SOURCE_DOC_NO                       
-  FROM PWC_ONT_REQ_DET_FROM_PRI_DEP FromPriDepEO,                       
-       PWC_ONT_SAMPLE_STATUS_LINE LineEO,                       
-       PWC_ONT_SAMPLE_STATUS HederEO                       
- WHERE     HederEO.HEADER_ID = LineEO.HEADER_ID                       
-       AND FromPriDepEO.LINE_ID = LineEO.LINE_ID                       
-       AND 'Sample Status (LOB-Dispatch)' = :pSource                       
-       AND FromPriDepEO.PRODUCTION_UNIT_ID = :pOrgId                       
-UNION ALL                       
-SELECT DISTINCT                       
-       'Sample Status (Dispatch)' SOURCE,                       
-       HederEO.PROVISIONAL_SAMPLE_CODE SOURCE_DOC_NO                       
-  FROM PWC_ONT_REQ_DET_FROM_PRI_DEP FromPriDepEO,                       
-       PWC_ONT_SAMPLE_STATUS_LINE LineEO,                       
-       PWC_ONT_SAMPLE_STATUS HederEO                       
- WHERE     HederEO.HEADER_ID = LineEO.HEADER_ID                       
-       AND FromPriDepEO.LINE_ID = LineEO.LINE_ID                       
-       AND FromPriDepEO.Production_Qty IS NOT NULL                       
-       AND 'Sample Status (Dispatch)' = :pSource                       
-       AND HederEO.ORG_ID = :pOrgId                       
-UNION ALL                       
-SELECT DISTINCT                       
-       'Sample Status (LOB-Dispatch)' SOURCE,                       
-       HederEO.PROVISIONAL_SAMPLE_CODE SOURCE_DOC_NO                       
-  FROM PWC_ONT_REQ_FROM_EMB_DEPT PwcOntReqFromEmbDeptEO,                       
-       PWC_ONT_SAMPLE_STATUS_LINE LineEO,                       
-       PWC_ONT_SAMPLE_STATUS HederEO                       
- WHERE     HederEO.HEADER_ID = LineEO.HEADER_ID                       
-       AND PwcOntReqFromEmbDeptEO.LINE_ID = LineEO.LINE_ID                       
-       AND 'Sample Status (LOB-Dispatch)' = :pSource                       
-       AND PwcOntReqFromEmbDeptEO.PRODUCTION_UNIT_ID = :pOrgId                       
-UNION ALL                       
-SELECT DISTINCT                       
-       'Sample Status (Dispatch)' SOURCE,                       
-       HederEO.PROVISIONAL_SAMPLE_CODE SOURCE_DOC_NO                       
-  FROM PWC_ONT_REQ_FROM_EMB_DEPT PwcOntReqFromEmbDeptEO,                       
-       PWC_ONT_SAMPLE_STATUS_LINE LineEO,                       
-       PWC_ONT_SAMPLE_STATUS HederEO                       
- WHERE     HederEO.HEADER_ID = LineEO.HEADER_ID                       
-       AND PwcOntReqFromEmbDeptEO.LINE_ID = LineEO.LINE_ID                       
-       AND PwcOntReqFromEmbDeptEO.PRODUCTION_QTY IS NOT NULL                       
-       AND 'Sample Status (Dispatch)' = :pSource                       
-       AND HederEO.ORG_ID = :pOrgId                       
-UNION ALL                       
-SELECT DISTINCT                       
-       'Sample Status (LOB-Dispatch)' SOURCE,                       
-       HederEO.PROVISIONAL_SAMPLE_CODE SOURCE_DOC_NO                       
-  FROM PWC_ONT_REQ_FROM_WASH_DEP ReqFromWashingDetailsEO,                       
-       PWC_ONT_SAMPLE_STATUS_LINE LineEO,                       
-       PWC_ONT_SAMPLE_STATUS HederEO                       
- WHERE     HederEO.HEADER_ID = LineEO.HEADER_ID                       
-       AND ReqFromWashingDetailsEO.LINE_ID = LineEO.LINE_ID                       
-       AND 'Sample Status (LOB-Dispatch)' = :pSource                       
-       AND ReqFromWashingDetailsEO.PRODUCTION_UNIT_ID = :pOrgId                       
-UNION ALL                       
-SELECT DISTINCT                       
-       'Sample Status (Dispatch)' SOURCE,                       
-       HederEO.PROVISIONAL_SAMPLE_CODE SOURCE_DOC_NO                       
-  FROM PWC_ONT_REQ_FROM_WASH_DEP ReqFromWashingDetailsEO,                       
-       PWC_ONT_SAMPLE_STATUS_LINE LineEO,                       
-       PWC_ONT_SAMPLE_STATUS HederEO                       
- WHERE     HederEO.HEADER_ID = LineEO.HEADER_ID                       
-       AND ReqFromWashingDetailsEO.LINE_ID = LineEO.LINE_ID                       
-       AND ReqFromWashingDetailsEO.Production_Qty IS NOT NULL                       
-       AND 'Sample Status (Dispatch)' = :pSource                       
-       AND HederEO.ORG_ID = :pOrgId                       
-UNION ALL                       
-SELECT DISTINCT                       
-       'Sample Tracking' SOURCE,                       
-       HederEO.PROVISIONAL_SAMPLE_CODE SOURCE_DOC_NO                       
-  FROM PWC_ONT_SAM_STAT_AWP_DETAIL AWBEO,                       
-       PWC_ONT_SAMPLE_STATUS_LINE LineEO,                       
-       PWC_ONT_SAMPLE_STATUS HederEO                       
- WHERE     LineEO.LINE_ID = AWBEO.LINE_ID                       
-       AND HederEO.HEADER_ID = LineEO.HEADER_ID                       
-       AND 'Sample Tracking' = :pSource                       
-       AND HederEO.ORG_ID = :pOrgId                       
-UNION ALL                       
-SELECT DISTINCT                       
-       'Dye / Wash Receive and Delivery' SOURCE, RECEIVE_NO SOURCE_DOC_NO                       
-  FROM PWC_MFG_DYE_IR_H HEADEREO,                       
-       PWC_ISSUE_REC_DYE_DEL_L PWC_ISSUE_REC_DYE_DEL_L_EO                       
- WHERE     HEADEREO.IR_HEADER_ID = PWC_ISSUE_REC_DYE_DEL_L_EO.IR_HEADER_ID                       
-       AND 'Dye / Wash Receive and Delivery' = :pSource                       
-       AND HEADEREO.ORG_ID = :pOrgId                       
-UNION ALL                       
-SELECT DISTINCT 'Move Order' SOURCE,                   
-REQUEST_NUMBER SOURCE_DOC_NO                   
-from  MTL_TXN_REQUEST_HEADERS MTRH, MTL_MATERIAL_TRANSACTIONS MMT                   
-where MMT.TRANSACTION_SOURCE_ID = MTRH.HEADER_ID                   
-AND MMT.TRANSACTION_SOURCE_TYPE_ID = 4                   
-AND EXISTS                   
-(SELECT OOD.ORGANIZATION_ID FROM ORG_ORGANIZATION_DEFINITIONS OOD, HR_OPERATING_UNITS HOU                    
-                            WHERE 1=1                   
-                            AND OOD.OPERATING_UNIT = HOU.ORGANIZATION_ID                   
-                            AND HOU.ORGANIZATION_ID = :pOrgId                   
-                            AND MMT.ORGANIZATION_ID = OOD.ORGANIZATION_ID                   
-                            )                   
-AND 'Move Order' = :pSource                   
-UNION ALL                   
-SELECT DISTINCT 'Inter Orgs' SOURCE,                   
-TO_CHAR(TRANSFER_TRANSACTION_ID) SOURCE_DOC_NO                   
-from  MTL_MATERIAL_TRANSACTIONS MMT                   
-WHERE MMT.TRANSACTION_ACTION_ID IN (3,21)                  
-AND EXISTS (SELECT OOD.ORGANIZATION_ID FROM ORG_ORGANIZATION_DEFINITIONS OOD, HR_OPERATING_UNITS HOU                    
-                            WHERE 1=1                   
-                            AND OOD.OPERATING_UNIT = HOU.ORGANIZATION_ID                   
-                            AND HOU.ORGANIZATION_ID = :pOrgId                   
-                            AND MMT.ORGANIZATION_ID = OOD.ORGANIZATION_ID                   
-                            )                   
-AND 'Inter Orgs' = :pSource                  
-UNION ALL                       
-SELECT DISTINCT                       
-       'Spreading Table Status (Sending)' SOURCE,                       
-       HederEO.PROVISIONAL_SAMPLE_CODE SOURCE_DOC_NO                       
-  FROM PWC_ONT_SAM_STAT_AWP_DETAIL AWBEO,                       
-       PWC_ONT_SAMPLE_STATUS_LINE LineEO,                       
-       PWC_ONT_SAMPLE_STATUS HederEO                       
- WHERE     LineEO.LINE_ID = AWBEO.LINE_ID                       
-       AND HederEO.HEADER_ID = LineEO.HEADER_ID                       
-       AND 'Spreading Table Status (Sending)' = :pSource                       
-       AND HederEO.ORG_ID = :pOrgId                       
-UNION ALL                       
-SELECT DISTINCT                       
-       'Spreading Table Status (Receiving)' SOURCE,                       
-       HederEO.PROVISIONAL_SAMPLE_CODE SOURCE_DOC_NO                       
-  FROM PWC_ONT_SAM_STAT_AWP_DETAIL AWBEO,                       
-       PWC_ONT_SAMPLE_STATUS_LINE LineEO,                       
-       PWC_ONT_SAMPLE_STATUS HederEO                       
- WHERE     LineEO.LINE_ID = AWBEO.LINE_ID                       
-       AND HederEO.HEADER_ID = LineEO.HEADER_ID                       
-       AND 'Spreading Table Status (Receiving)' = :pSource                       
-       AND HederEO.ORG_ID = :pOrgId                       
-UNION ALL                       
-SELECT DISTINCT                       
-       'Sample Tracking' SOURCE,                       
-       HederEO.PROVISIONAL_SAMPLE_CODE SOURCE_DOC_NO                       
-  FROM PWC_ONT_SAM_STAT_AWP_DETAIL AWBEO,                       
-       PWC_ONT_SAMPLE_STATUS_LINE LineEO,                       
-       PWC_ONT_SAMPLE_STATUS HederEO                       
- WHERE     LineEO.LINE_ID = AWBEO.LINE_ID                       
-       AND HederEO.HEADER_ID = LineEO.HEADER_ID                       
-       AND 'Sample Tracking' = :pSource                       
-       AND HederEO.ORG_ID = :pOrgId                       
-UNION ALL                       
-/*SELECT DISTINCT                       
-       'Move Orders / Inter-Orgs' SOURCE,                       
-       HederEO.PROVISIONAL_SAMPLE_CODE SOURCE_DOC_NO                       
-  FROM PWC_ONT_SAM_STAT_AWP_DETAIL AWBEO,                       
-       PWC_ONT_SAMPLE_STATUS_LINE LineEO,                       
-       PWC_ONT_SAMPLE_STATUS HederEO                       
- WHERE     LineEO.LINE_ID = AWBEO.LINE_ID                       
-       AND HederEO.HEADER_ID = LineEO.HEADER_ID                       
-       AND 'Move Orders / Inter-Orgs' = :pSource                       
-       AND HederEO.ORG_ID = :pOrgId                       
-UNION ALL*/                       
-SELECT DISTINCT                       
-       'Spreading Table Status (Sending)' SOURCE,                       
-       HederEO.PROVISIONAL_SAMPLE_CODE SOURCE_DOC_NO                       
-  FROM PWC_ONT_SAM_STAT_AWP_DETAIL AWBEO,                       
-       PWC_ONT_SAMPLE_STATUS_LINE LineEO,                       
-       PWC_ONT_SAMPLE_STATUS HederEO                       
- WHERE     LineEO.LINE_ID = AWBEO.LINE_ID                       
-       AND HederEO.HEADER_ID = LineEO.HEADER_ID                       
-       AND 'Spreading Table Status (Sending)' = :pSource                       
-       AND HederEO.ORG_ID = :pOrgId                       
-UNION ALL                       
-SELECT DISTINCT                       
-       'Spreading Table Status (Receiving)' SOURCE,                       
-       HederEO.PROVISIONAL_SAMPLE_CODE SOURCE_DOC_NO                       
-  FROM PWC_ONT_SAM_STAT_AWP_DETAIL AWBEO,                       
-       PWC_ONT_SAMPLE_STATUS_LINE LineEO,                       
-       PWC_ONT_SAMPLE_STATUS HederEO                       
- WHERE     LineEO.LINE_ID = AWBEO.LINE_ID                       
-       AND HederEO.HEADER_ID = LineEO.HEADER_ID                       
-       AND 'Spreading Table Status (Receiving)' = :pSource                       
-       AND HederEO.ORG_ID = :pOrgId                       
-UNION ALL                       
-SELECT DISTINCT                       
-       'Sales Order Dispatches' SOURCE,                       
-       WDD.SOURCE_HEADER_NUMBER SOURCE_DOC_NO                       
-  FROM WSH_DELIVERY_DETAILS WDD,                       
-       WSH_DELIVERY_ASSIGNMENTS WDA,                       
-       WSH_NEW_DELIVERIES WND,                       
-       MTL_SYSTEM_ITEMS_B MSIB                       
- WHERE     1 = 1                       
-       AND WDA.DELIVERY_DETAIL_ID = WDD.DELIVERY_DETAIL_ID                       
-       AND MSIB.INVENTORY_ITEM_ID = WDD.INVENTORY_ITEM_ID                       
-       AND MSIB.ORGANIZATION_ID =                       
-              XXPWC.PWC_ORGANIZATION_NAME ('Item Master Organization')                       
-       AND WND.DELIVERY_ID = WDA.DELIVERY_ID                       
-       AND WND.STATUS_CODE = 'CL'                       
-       AND 'Sales Order Dispatches' = :pSource                       
-       AND WDD.ORG_ID = :pOrgId                       
-UNION ALL                       
-SELECT DISTINCT                       
-       'Issue / Receive Garments - Issue' SOURCE,                       
-       HeaderEO.RECEIVE_NO SOURCE_DOC_NO                       
-  FROM PWC_MFG_ISSUE_REC_WASH_H HeaderEO,                     
-       PWC_MFG_ISSUE_REC_WASH_L_H LineHeaderEO,                     
-       PWC_MFG_ISSUE_REC_WASH_L LineEO                     
- WHERE HeaderEO.HEADER_ID = LineHeaderEO.HEADER_ID                     
-   AND  LineHeaderEO.LINE_ID =  LineEO.HEADER_ID                     
-       AND 'Issue / Receive Garments - Issue' = :pSource                       
-       AND HeaderEO.ORG_ID = :pOrgId                       
-UNION ALL                       
-SELECT DISTINCT                       
-       'Issue / Receive Garments - Receive' SOURCE,                       
-       HeaderEO.RECEIVE_NO SOURCE_DOC_NO                       
- FROM PWC_MFG_ISSUE_REC_WASH_H HeaderEO,                    
-       PWC_MFG_ISSUE_REC_WASH_L_H LineHeaderEO,                     
-       PWC_MFG_ISSUE_REC_WASH_D LineEO                       
- WHERE     HeaderEO.HEADER_ID = LineHeaderEO.HEADER_ID                    
-       AND LineEO.HEADER_ID = LineHeaderEO.LINE_ID                    
-       AND 'Issue / Receive Garments - Receive' = :pSource                       
-       AND HeaderEO.ORG_ID = :pOrgId              
-UNION ALL              
-SELECT DISTINCT                       
-       'Accessories Movement' SOURCE,                       
-       HederEO.DOCUMENT_NO SOURCE_DOC_NO                       
-  FROM PWC_ACCESSORIES_MOVEMENT_HDR HederEO               
- WHERE 1=1              
-       AND 'Accessories Movement' = :pSource              
-       AND HederEO.ORG_ID  = :pOrgId         
-                    
+SELECT DISTINCT                        
+       'Sample Status (LOB-Dispatch)' SOURCE,                        
+       HederEO.PROVISIONAL_SAMPLE_CODE SOURCE_DOC_NO                        
+  FROM PWC_ONT_REQ_DET_TO_PRI_DEP ToPriDepEO,                        
+       PWC_ONT_REQ_DET_FROM_PRI_DEP FromPriDepEO,                        
+       PWC_ONT_SAMPLE_STATUS_LINE LineEO,                        
+       PWC_ONT_SAMPLE_STATUS HederEO                        
+ WHERE     LineEO.LINE_ID = ToPriDepEO.LINE_ID                        
+       AND HederEO.HEADER_ID = LineEO.HEADER_ID                        
+       AND FromPriDepEO.TO_PRI_DEP = ToPriDepEO.TO_PRI_DEP                        
+       AND 'Sample Status (LOB-Dispatch)' = :pSource                        
+       AND FromPriDepEO.PRODUCTION_UNIT_ID = :pOrgId                                     
+UNION ALL                        
+/*                  
+SELECT DISTINCT                        
+       'Sample Status (LOB-Dispatch)' SOURCE,                        
+       HederEO.PROVISIONAL_SAMPLE_CODE SOURCE_DOC_NO                        
+  FROM PWC_ONT_REQ_DET_TO_PRI_DEP ToPriDepEO,                        
+       PWC_ONT_REQ_DET_FROM_PRI_DEP FromPriDepEO,                        
+       PWC_ONT_SAMPLE_STATUS_LINE LineEO,                        
+       PWC_ONT_SAMPLE_STATUS HederEO                        
+ WHERE     LineEO.LINE_ID = ToPriDepEO.LINE_ID                        
+       AND HederEO.HEADER_ID = LineEO.HEADER_ID                        
+       AND FromPriDepEO.TO_PRI_DEP = ToPriDepEO.TO_PRI_DEP                        
+       AND FromPriDepEO.Qty_Send_To_Merch IS NOT NULL                        
+       AND 'Sample Status (LOB-Dispatch)' = :pSource                        
+       AND HederEO.ORG_ID = :pOrgId                        
+UNION ALL                  
+*/                  
+SELECT DISTINCT                        
+       'Sample Status (Sending)' SOURCE,                        
+       HederEO.PROVISIONAL_SAMPLE_CODE SOURCE_DOC_NO                        
+  FROM PWC_ONT_REQ_TO_EMB_DEPT PwcOntReqToEmbDeptEO,                        
+       PWC_ONT_SAMPLE_STATUS_LINE LineEO,                        
+       PWC_ONT_SAMPLE_STATUS HederEO                        
+ WHERE     LineEO.LINE_ID = PwcOntReqToEmbDeptEO.LINE_ID                        
+       AND HederEO.HEADER_ID = LineEO.HEADER_ID                        
+       AND 'Sample Status (Sending)' = :pSource                        
+       AND HederEO.ORG_ID = :pOrgId                        
+UNION ALL                        
+SELECT DISTINCT                        
+       'Sample Status (LOB-Dispatch)' SOURCE,                        
+       HederEO.PROVISIONAL_SAMPLE_CODE SOURCE_DOC_NO                        
+  FROM PWC_ONT_REQ_TO_EMB_DEPT PwcOntReqToEmbDeptEO,                        
+       PWC_ONT_REQ_FROM_EMB_DEPT PwcOntReqFromEmbDeptEO,                        
+       PWC_ONT_SAMPLE_STATUS_LINE LineEO,                        
+       PWC_ONT_SAMPLE_STATUS HederEO                        
+ WHERE     LineEO.LINE_ID = PwcOntReqToEmbDeptEO.LINE_ID                        
+       AND HederEO.HEADER_ID = LineEO.HEADER_ID                        
+       AND PwcOntReqFromEmbDeptEO.TO_EMB_ID = PwcOntReqToEmbDeptEO.TO_EMB_ID                        
+       AND 'Sample Status (LOB-Dispatch)' = :pSource                        
+       AND PwcOntReqFromEmbDeptEO.PRODUCTION_UNIT_ID = :pOrgId                        
+UNION ALL                        
+/*                  
+SELECT DISTINCT                        
+       'Sample Status (LOB-Dispatch)' SOURCE,                        
+       HederEO.PROVISIONAL_SAMPLE_CODE SOURCE_DOC_NO                        
+  FROM PWC_ONT_REQ_TO_EMB_DEPT PwcOntReqToEmbDeptEO,                        
+       PWC_ONT_REQ_FROM_EMB_DEPT PwcOntReqFromEmbDeptEO,                        
+       PWC_ONT_SAMPLE_STATUS_LINE LineEO,                        
+       PWC_ONT_SAMPLE_STATUS HederEO                        
+ WHERE     LineEO.LINE_ID = PwcOntReqToEmbDeptEO.LINE_ID                        
+       AND HederEO.HEADER_ID = LineEO.HEADER_ID                        
+       AND PwcOntReqFromEmbDeptEO.TO_EMB_ID = PwcOntReqToEmbDeptEO.TO_EMB_ID                        
+       AND PwcOntReqFromEmbDeptEO.PRODUCTION_QTY IS NOT NULL                        
+       AND 'Sample Status (LOB-Dispatch)' = :pSource                        
+       AND HederEO.ORG_ID = :pOrgId                        
+UNION ALL                        
+*/                  
+SELECT DISTINCT                        
+       'Sample Status (Sending)' SOURCE,                        
+       HederEO.PROVISIONAL_SAMPLE_CODE SOURCE_DOC_NO                        
+  FROM PWC_ONT_REQ_TO_WASH_DEP ReqToWashingDetailsEO,                        
+       PWC_ONT_SAMPLE_STATUS_LINE LineEO,                        
+       PWC_ONT_SAMPLE_STATUS HederEO                        
+ WHERE     LineEO.LINE_ID = ReqToWashingDetailsEO.LINE_ID                        
+       AND HederEO.HEADER_ID = LineEO.HEADER_ID                        
+       AND 'Sample Status (Sending)' = :pSource                        
+       AND HederEO.ORG_ID = :pOrgId                        
+UNION ALL                        
+SELECT DISTINCT                        
+       'Sample Status (LOB-Dispatch)' SOURCE,                        
+       HederEO.PROVISIONAL_SAMPLE_CODE SOURCE_DOC_NO                        
+  FROM PWC_ONT_REQ_TO_WASH_DEP ReqToWashingDetailsEO,                        
+       PWC_ONT_REQ_FROM_WASH_DEP ReqFromWashingDetailsEO,                        
+       PWC_ONT_SAMPLE_STATUS_LINE LineEO,                        
+       PWC_ONT_SAMPLE_STATUS HederEO                        
+ WHERE     LineEO.LINE_ID = ReqToWashingDetailsEO.LINE_ID                        
+       AND HederEO.HEADER_ID = LineEO.HEADER_ID                        
+       AND ReqFromWashingDetailsEO.REQ_DETAIL_ID =                        
+              ReqToWashingDetailsEO.REQ_DETAIL_ID                        
+       AND 'Sample Status (LOB-Dispatch)' = :pSource                        
+       /*AND HederEO.ORG_ID = :pOrgId*/                  
+       AND ReqFromWashingDetailsEO.PRODUCTION_UNIT_ID = :pOrgId                  
+UNION ALL                        
+/*                  
+SELECT DISTINCT                        
+       'Sample Status (LOB-Dispatch)' SOURCE,                        
+       HederEO.PROVISIONAL_SAMPLE_CODE SOURCE_DOC_NO                        
+  FROM PWC_ONT_REQ_TO_WASH_DEP ReqToWashingDetailsEO,                        
+       PWC_ONT_REQ_FROM_WASH_DEP ReqFromWashingDetailsEO,                        
+       PWC_ONT_SAMPLE_STATUS_LINE LineEO,                        
+       PWC_ONT_SAMPLE_STATUS HederEO                        
+ WHERE     LineEO.LINE_ID = ReqToWashingDetailsEO.LINE_ID                        
+       AND HederEO.HEADER_ID = LineEO.HEADER_ID                        
+       AND ReqFromWashingDetailsEO.REQ_DETAIL_ID =                        
+              ReqToWashingDetailsEO.REQ_DETAIL_ID                        
+       AND ReqFromWashingDetailsEO.Production_Qty IS NOT NULL                        
+       AND 'Sample Status (LOB-Dispatch)' = :pSource                        
+       AND HederEO.ORG_ID = :pOrgId                        
+UNION ALL                        
+*/                  
+SELECT DISTINCT                        
+       'Sample Status (LOB-Dispatch)' SOURCE,                        
+       HederEO.PROVISIONAL_SAMPLE_CODE SOURCE_DOC_NO                        
+  FROM PWC_ONT_REQ_DET_FROM_PRI_DEP FromPriDepEO,                        
+       PWC_ONT_SAMPLE_STATUS_LINE LineEO,                        
+       PWC_ONT_SAMPLE_STATUS HederEO                        
+ WHERE     HederEO.HEADER_ID = LineEO.HEADER_ID                        
+       AND FromPriDepEO.LINE_ID = LineEO.LINE_ID                        
+       AND 'Sample Status (LOB-Dispatch)' = :pSource                        
+       AND FromPriDepEO.PRODUCTION_UNIT_ID = :pOrgId                        
+UNION ALL                        
+SELECT DISTINCT                        
+       'Sample Status (Dispatch)' SOURCE,                        
+       HederEO.PROVISIONAL_SAMPLE_CODE SOURCE_DOC_NO                        
+  FROM PWC_ONT_REQ_DET_FROM_PRI_DEP FromPriDepEO,                        
+       PWC_ONT_SAMPLE_STATUS_LINE LineEO,                        
+       PWC_ONT_SAMPLE_STATUS HederEO                        
+ WHERE     HederEO.HEADER_ID = LineEO.HEADER_ID                        
+       AND FromPriDepEO.LINE_ID = LineEO.LINE_ID                        
+       AND FromPriDepEO.Production_Qty IS NOT NULL                        
+       AND 'Sample Status (Dispatch)' = :pSource                        
+       AND HederEO.ORG_ID = :pOrgId                        
+UNION ALL                        
+SELECT DISTINCT                        
+       'Sample Status (LOB-Dispatch)' SOURCE,                        
+       HederEO.PROVISIONAL_SAMPLE_CODE SOURCE_DOC_NO                        
+  FROM PWC_ONT_REQ_FROM_EMB_DEPT PwcOntReqFromEmbDeptEO,                        
+       PWC_ONT_SAMPLE_STATUS_LINE LineEO,                        
+       PWC_ONT_SAMPLE_STATUS HederEO                        
+ WHERE     HederEO.HEADER_ID = LineEO.HEADER_ID                        
+       AND PwcOntReqFromEmbDeptEO.LINE_ID = LineEO.LINE_ID                        
+       AND 'Sample Status (LOB-Dispatch)' = :pSource                        
+       AND PwcOntReqFromEmbDeptEO.PRODUCTION_UNIT_ID = :pOrgId                        
+UNION ALL                        
+SELECT DISTINCT                        
+       'Sample Status (Dispatch)' SOURCE,                        
+       HederEO.PROVISIONAL_SAMPLE_CODE SOURCE_DOC_NO                        
+  FROM PWC_ONT_REQ_FROM_EMB_DEPT PwcOntReqFromEmbDeptEO,                        
+       PWC_ONT_SAMPLE_STATUS_LINE LineEO,                        
+       PWC_ONT_SAMPLE_STATUS HederEO                        
+ WHERE     HederEO.HEADER_ID = LineEO.HEADER_ID                        
+       AND PwcOntReqFromEmbDeptEO.LINE_ID = LineEO.LINE_ID                        
+       AND PwcOntReqFromEmbDeptEO.PRODUCTION_QTY IS NOT NULL                        
+       AND 'Sample Status (Dispatch)' = :pSource                        
+       AND HederEO.ORG_ID = :pOrgId                        
+UNION ALL                        
+SELECT DISTINCT                        
+       'Sample Status (LOB-Dispatch)' SOURCE,                        
+       HederEO.PROVISIONAL_SAMPLE_CODE SOURCE_DOC_NO                        
+  FROM PWC_ONT_REQ_FROM_WASH_DEP ReqFromWashingDetailsEO,                        
+       PWC_ONT_SAMPLE_STATUS_LINE LineEO,                        
+       PWC_ONT_SAMPLE_STATUS HederEO                        
+ WHERE     HederEO.HEADER_ID = LineEO.HEADER_ID                        
+       AND ReqFromWashingDetailsEO.LINE_ID = LineEO.LINE_ID                        
+       AND 'Sample Status (LOB-Dispatch)' = :pSource                        
+       AND ReqFromWashingDetailsEO.PRODUCTION_UNIT_ID = :pOrgId                        
+UNION ALL                        
+SELECT DISTINCT                        
+       'Sample Status (Dispatch)' SOURCE,                        
+       HederEO.PROVISIONAL_SAMPLE_CODE SOURCE_DOC_NO                        
+  FROM PWC_ONT_REQ_FROM_WASH_DEP ReqFromWashingDetailsEO,                        
+       PWC_ONT_SAMPLE_STATUS_LINE LineEO,                        
+       PWC_ONT_SAMPLE_STATUS HederEO                        
+ WHERE     HederEO.HEADER_ID = LineEO.HEADER_ID                        
+       AND ReqFromWashingDetailsEO.LINE_ID = LineEO.LINE_ID                        
+       AND ReqFromWashingDetailsEO.Production_Qty IS NOT NULL                        
+       AND 'Sample Status (Dispatch)' = :pSource                        
+       AND HederEO.ORG_ID = :pOrgId                        
+UNION ALL                        
+SELECT DISTINCT                        
+       'Sample Tracking' SOURCE,                        
+       HederEO.PROVISIONAL_SAMPLE_CODE SOURCE_DOC_NO                        
+  FROM PWC_ONT_SAM_STAT_AWP_DETAIL AWBEO,                        
+       PWC_ONT_SAMPLE_STATUS_LINE LineEO,                        
+       PWC_ONT_SAMPLE_STATUS HederEO                        
+ WHERE     LineEO.LINE_ID = AWBEO.LINE_ID                        
+       AND HederEO.HEADER_ID = LineEO.HEADER_ID                        
+       AND 'Sample Tracking' = :pSource                        
+       AND HederEO.ORG_ID = :pOrgId                        
+UNION ALL                        
+SELECT DISTINCT                        
+       'Dye / Wash Receive and Delivery' SOURCE, RECEIVE_NO SOURCE_DOC_NO                        
+  FROM PWC_MFG_DYE_IR_H HEADEREO,                        
+       PWC_ISSUE_REC_DYE_DEL_L PWC_ISSUE_REC_DYE_DEL_L_EO                        
+ WHERE     HEADEREO.IR_HEADER_ID = PWC_ISSUE_REC_DYE_DEL_L_EO.IR_HEADER_ID                        
+       AND 'Dye / Wash Receive and Delivery' = :pSource                        
+       AND HEADEREO.ORG_ID = :pOrgId                        
+UNION ALL                        
+SELECT DISTINCT 'Move Order' SOURCE,                    
+REQUEST_NUMBER SOURCE_DOC_NO                    
+from  MTL_TXN_REQUEST_HEADERS MTRH, MTL_MATERIAL_TRANSACTIONS MMT                    
+where MMT.TRANSACTION_SOURCE_ID = MTRH.HEADER_ID                    
+AND MMT.TRANSACTION_SOURCE_TYPE_ID = 4                    
+AND EXISTS                    
+(SELECT OOD.ORGANIZATION_ID FROM ORG_ORGANIZATION_DEFINITIONS OOD, HR_OPERATING_UNITS HOU                     
+                            WHERE 1=1                    
+                            AND OOD.OPERATING_UNIT = HOU.ORGANIZATION_ID                    
+                            AND HOU.ORGANIZATION_ID = :pOrgId                    
+                            AND MMT.ORGANIZATION_ID = OOD.ORGANIZATION_ID                    
+                            )                    
+AND 'Move Order' = :pSource                    
+UNION ALL                    
+SELECT DISTINCT 'Inter Orgs' SOURCE,                    
+TO_CHAR(TRANSFER_TRANSACTION_ID) SOURCE_DOC_NO                    
+from  MTL_MATERIAL_TRANSACTIONS MMT                    
+WHERE MMT.TRANSACTION_ACTION_ID IN (3,21)                   
+AND EXISTS (SELECT OOD.ORGANIZATION_ID FROM ORG_ORGANIZATION_DEFINITIONS OOD, HR_OPERATING_UNITS HOU                     
+                            WHERE 1=1                    
+                            AND OOD.OPERATING_UNIT = HOU.ORGANIZATION_ID                    
+                            AND HOU.ORGANIZATION_ID = :pOrgId                    
+                            AND MMT.ORGANIZATION_ID = OOD.ORGANIZATION_ID                    
+                            )                    
+AND 'Inter Orgs' = :pSource                   
+UNION ALL                        
+SELECT DISTINCT                        
+       'Spreading Table Status (Sending)' SOURCE,                        
+       HederEO.PROVISIONAL_SAMPLE_CODE SOURCE_DOC_NO                        
+  FROM PWC_ONT_SAM_STAT_AWP_DETAIL AWBEO,                        
+       PWC_ONT_SAMPLE_STATUS_LINE LineEO,                        
+       PWC_ONT_SAMPLE_STATUS HederEO                        
+ WHERE     LineEO.LINE_ID = AWBEO.LINE_ID                        
+       AND HederEO.HEADER_ID = LineEO.HEADER_ID                        
+       AND 'Spreading Table Status (Sending)' = :pSource                        
+       AND HederEO.ORG_ID = :pOrgId                        
+UNION ALL                        
+SELECT DISTINCT                        
+       'Spreading Table Status (Receiving)' SOURCE,                        
+       HederEO.PROVISIONAL_SAMPLE_CODE SOURCE_DOC_NO                        
+  FROM PWC_ONT_SAM_STAT_AWP_DETAIL AWBEO,                        
+       PWC_ONT_SAMPLE_STATUS_LINE LineEO,                        
+       PWC_ONT_SAMPLE_STATUS HederEO                        
+ WHERE     LineEO.LINE_ID = AWBEO.LINE_ID                        
+       AND HederEO.HEADER_ID = LineEO.HEADER_ID                        
+       AND 'Spreading Table Status (Receiving)' = :pSource                        
+       AND HederEO.ORG_ID = :pOrgId                        
+UNION ALL                        
+SELECT DISTINCT                        
+       'Sample Tracking' SOURCE,                        
+       HederEO.PROVISIONAL_SAMPLE_CODE SOURCE_DOC_NO                        
+  FROM PWC_ONT_SAM_STAT_AWP_DETAIL AWBEO,                        
+       PWC_ONT_SAMPLE_STATUS_LINE LineEO,                        
+       PWC_ONT_SAMPLE_STATUS HederEO                        
+ WHERE     LineEO.LINE_ID = AWBEO.LINE_ID                        
+       AND HederEO.HEADER_ID = LineEO.HEADER_ID                        
+       AND 'Sample Tracking' = :pSource                        
+       AND HederEO.ORG_ID = :pOrgId                        
+UNION ALL                        
+/*SELECT DISTINCT                        
+       'Move Orders / Inter-Orgs' SOURCE,                        
+       HederEO.PROVISIONAL_SAMPLE_CODE SOURCE_DOC_NO                        
+  FROM PWC_ONT_SAM_STAT_AWP_DETAIL AWBEO,                        
+       PWC_ONT_SAMPLE_STATUS_LINE LineEO,                        
+       PWC_ONT_SAMPLE_STATUS HederEO                        
+ WHERE     LineEO.LINE_ID = AWBEO.LINE_ID                        
+       AND HederEO.HEADER_ID = LineEO.HEADER_ID                        
+       AND 'Move Orders / Inter-Orgs' = :pSource                        
+       AND HederEO.ORG_ID = :pOrgId                        
+UNION ALL*/                        
+SELECT DISTINCT                        
+       'Spreading Table Status (Sending)' SOURCE,                        
+       HederEO.PROVISIONAL_SAMPLE_CODE SOURCE_DOC_NO                        
+  FROM PWC_ONT_SAM_STAT_AWP_DETAIL AWBEO,                        
+       PWC_ONT_SAMPLE_STATUS_LINE LineEO,                        
+       PWC_ONT_SAMPLE_STATUS HederEO                        
+ WHERE     LineEO.LINE_ID = AWBEO.LINE_ID                        
+       AND HederEO.HEADER_ID = LineEO.HEADER_ID                        
+       AND 'Spreading Table Status (Sending)' = :pSource                        
+       AND HederEO.ORG_ID = :pOrgId                        
+UNION ALL                        
+SELECT DISTINCT                        
+       'Spreading Table Status (Receiving)' SOURCE,                        
+       HederEO.PROVISIONAL_SAMPLE_CODE SOURCE_DOC_NO                        
+  FROM PWC_ONT_SAM_STAT_AWP_DETAIL AWBEO,                        
+       PWC_ONT_SAMPLE_STATUS_LINE LineEO,                        
+       PWC_ONT_SAMPLE_STATUS HederEO                        
+ WHERE     LineEO.LINE_ID = AWBEO.LINE_ID                        
+       AND HederEO.HEADER_ID = LineEO.HEADER_ID                        
+       AND 'Spreading Table Status (Receiving)' = :pSource                        
+       AND HederEO.ORG_ID = :pOrgId                        
+UNION ALL                        
+SELECT DISTINCT                        
+       'Sales Order Dispatches' SOURCE,                        
+       WDD.SOURCE_HEADER_NUMBER SOURCE_DOC_NO                        
+  FROM WSH_DELIVERY_DETAILS WDD,                        
+       WSH_DELIVERY_ASSIGNMENTS WDA,                        
+       WSH_NEW_DELIVERIES WND,                        
+       MTL_SYSTEM_ITEMS_B MSIB                        
+ WHERE     1 = 1                        
+       AND WDA.DELIVERY_DETAIL_ID = WDD.DELIVERY_DETAIL_ID                        
+       AND MSIB.INVENTORY_ITEM_ID = WDD.INVENTORY_ITEM_ID                        
+       AND MSIB.ORGANIZATION_ID =                        
+              XXPWC.PWC_ORGANIZATION_NAME ('Item Master Organization')                        
+       AND WND.DELIVERY_ID = WDA.DELIVERY_ID                        
+       AND WND.STATUS_CODE = 'CL'                        
+       AND 'Sales Order Dispatches' = :pSource                        
+       AND WDD.ORG_ID = :pOrgId                        
+UNION ALL                        
+SELECT DISTINCT                        
+       'Issue / Receive Garments - Issue' SOURCE,                        
+       HeaderEO.RECEIVE_NO SOURCE_DOC_NO                        
+  FROM PWC_MFG_ISSUE_REC_WASH_H HeaderEO,                      
+       PWC_MFG_ISSUE_REC_WASH_L_H LineHeaderEO,                      
+       PWC_MFG_ISSUE_REC_WASH_L LineEO                      
+ WHERE HeaderEO.HEADER_ID = LineHeaderEO.HEADER_ID                      
+   AND  LineHeaderEO.LINE_ID =  LineEO.HEADER_ID                      
+       AND 'Issue / Receive Garments - Issue' = :pSource                        
+       AND HeaderEO.ORG_ID = :pOrgId                        
+UNION ALL                        
+SELECT DISTINCT                        
+       'Issue / Receive Garments - Receive' SOURCE,                        
+       HeaderEO.RECEIVE_NO SOURCE_DOC_NO                        
+ FROM PWC_MFG_ISSUE_REC_WASH_H HeaderEO,                     
+       PWC_MFG_ISSUE_REC_WASH_L_H LineHeaderEO,                      
+       PWC_MFG_ISSUE_REC_WASH_D LineEO                        
+ WHERE     HeaderEO.HEADER_ID = LineHeaderEO.HEADER_ID                     
+       AND LineEO.HEADER_ID = LineHeaderEO.LINE_ID                     
+       AND 'Issue / Receive Garments - Receive' = :pSource                        
+       AND HeaderEO.ORG_ID = :pOrgId               
+UNION ALL               
+SELECT DISTINCT                        
+       'Accessories Movement' SOURCE,                        
+       HederEO.DOCUMENT_NO SOURCE_DOC_NO                        
+  FROM PWC_ACCESSORIES_MOVEMENT_HDR HederEO                
+ WHERE 1=1               
+       AND 'Accessories Movement' = :pSource               
+       AND HederEO.ORG_ID  = :pOrgId          
+                     
+       union all          
+                
+SELECT 'Send for Pre-Wash' SOURCE, RPP.cut_no SOURCE_DOC_NO         
+  FROM PWC_MFG_RATIOPLAN RPH,         
+       PWC_MFG_MARKER_LINES RPL,         
+       PWC_MFG_RATIOPLAN_PLYCFLINE RPP,         
+       PWC_MFG_RATIO_PLAN_PRE_WASH RPPW         
+ WHERE     1 = 1         
+       AND RPH.RATIOPLAN_ID = RPL.RATIO_PLAN_ID         
+       AND RPL.RATIO_PLAN_LINE_ID = RPP.RATIO_PLAN_LINE_ID         
+       AND RPP.PLYCFLINE_ID = RPPW.PLY_CF_LINE_ID         
+       AND RPPW.STATUS = 'Send for Pre-Wash'         
+    AND 'Send for Pre-Wash' = :pSource         
+       AND RPH.DIVISION_ID = :pOrgId         
+                
        union all         
-               
-SELECT 'Send for Pre-Wash' SOURCE, RPP.cut_no SOURCE_DOC_NO        
-  FROM PWC_MFG_RATIOPLAN RPH,        
-       PWC_MFG_MARKER_LINES RPL,        
-       PWC_MFG_RATIOPLAN_PLYCFLINE RPP,        
-       PWC_MFG_RATIO_PLAN_PRE_WASH RPPW        
- WHERE     1 = 1        
-       AND RPH.RATIOPLAN_ID = RPL.RATIO_PLAN_ID        
-       AND RPL.RATIO_PLAN_LINE_ID = RPP.RATIO_PLAN_LINE_ID        
-       AND RPP.PLYCFLINE_ID = RPPW.PLY_CF_LINE_ID        
-       AND RPPW.STATUS = 'Send for Pre-Wash'        
-    AND 'Send for Pre-Wash' = :pSource        
+                
+SELECT 'Receive from Pre-Wash' SOURCE, RPP.cut_no SOURCE_DOC_NO         
+  FROM PWC_MFG_RATIOPLAN RPH,         
+       PWC_MFG_MARKER_LINES RPL,         
+       PWC_MFG_RATIOPLAN_PLYCFLINE RPP,         
+       PWC_MFG_RATIO_PLAN_PRE_WASH RPPW         
+ WHERE     1 = 1         
+       AND RPH.RATIOPLAN_ID = RPL.RATIO_PLAN_ID         
+       AND RPL.RATIO_PLAN_LINE_ID = RPP.RATIO_PLAN_LINE_ID         
+       AND RPP.PLYCFLINE_ID = RPPW.PLY_CF_LINE_ID         
+       AND RPPW.STATUS = 'Receive from Pre-Wash'         
+       AND 'Receive from Pre-Wash' = :pSource         
        AND RPH.DIVISION_ID = :pOrgId        
-               
+                        
        union all        
                
-SELECT 'Receive from Pre-Wash' SOURCE, RPP.cut_no SOURCE_DOC_NO        
-  FROM PWC_MFG_RATIOPLAN RPH,        
-       PWC_MFG_MARKER_LINES RPL,        
-       PWC_MFG_RATIOPLAN_PLYCFLINE RPP,        
-       PWC_MFG_RATIO_PLAN_PRE_WASH RPPW        
- WHERE     1 = 1        
-       AND RPH.RATIOPLAN_ID = RPL.RATIO_PLAN_ID        
-       AND RPL.RATIO_PLAN_LINE_ID = RPP.RATIO_PLAN_LINE_ID        
-       AND RPP.PLYCFLINE_ID = RPPW.PLY_CF_LINE_ID        
-       AND RPPW.STATUS = 'Receive from Pre-Wash'        
-       AND 'Receive from Pre-Wash' = :pSource        
-       AND RPH.DIVISION_ID = :pOrgId       
-              
-              
-       union all       
-              
-              
-SELECT 'Export Packing List' SOURCE,  to_char( h.SHPCKASSORT_NO) SOURCE_DOC_NO       
-    FROM XXPWC.CUST_PWC_ONT_FINISHPCKASSORT h       
-     WHERE 1 = 1 AND 'Export Packing List' = :pSource        
+SELECT 'Export Packing List' SOURCE,  to_char( h.SHPCKASSORT_NO) SOURCE_DOC_NO        
+    FROM XXPWC.CUST_PWC_ONT_FINISHPCKASSORT h        
+     WHERE 1 = 1 AND 'Export Packing List' = :pSource         
     AND H.DIVISION_ID = :pOrgId]]></SQLQuery>
   <ViewAttribute
     Name="Source"

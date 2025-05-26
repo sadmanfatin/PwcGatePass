@@ -46,9 +46,9 @@
     <DisplayCriteria
       Hint="showAndExecute"/>
   </ListBinding>
-  <SQLQuery><![CDATA[SELECT NULL SOURCE, 
-       NULL SOURCE_DOC_NO 
-FROM DUAL]]></SQLQuery>
+  <SQLQuery><![CDATA[SELECT NULL SOURCE,  
+       NULL SOURCE_DOC_NO  
+FROM DUAL@ROPROD]]></SQLQuery>
   <ViewAttribute
     Name="Source"
     IsPersistent="false"

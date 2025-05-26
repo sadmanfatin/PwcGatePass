@@ -22,9 +22,9 @@
         ResId="model.LOV.GatePassTypeLOV_LABEL"/>
     </SchemaBasedProperties>
   </Properties>
-  <SQLQuery><![CDATA[SELECT 'Transactional' GP_TYPE FROM DUAL  
-UNION  
-SELECT 'Generic' GP_TYPE FROM DUAL]]></SQLQuery>
+  <SQLQuery><![CDATA[SELECT 'Transactional' GP_TYPE FROM DUAL@ROPROD   
+UNION   
+SELECT 'Generic' GP_TYPE FROM DUAL@ROPROD]]></SQLQuery>
   <ViewAttribute
     Name="GpType"
     IsPersistent="false"

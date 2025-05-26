@@ -33,15 +33,15 @@
       </SchemaBasedProperties>
     </Properties>
   </Variable>
-  <SQLQuery><![CDATA[SELECT     
-       ood.ORGANIZATION_NAME NAME ,     
-       ood.ORGANIZATION_ID    
-  FROM ORG_ORGANIZATION_DEFINITIONS  OOD,    
-       HR_ALL_ORGANIZATION_UNITS     haou,    
-       mtl_parameters                mp    
- WHERE     ood.OPERATING_UNIT = haou.organization_id    
-       AND ood.organization_id = mp.organization_id    
-       and ood.ORGANIZATION_NAME not in 'Item Master Organization'    
+  <SQLQuery><![CDATA[SELECT      
+       ood.ORGANIZATION_NAME NAME ,      
+       ood.ORGANIZATION_ID     
+  FROM ORG_ORGANIZATION_DEFINITIONS@ROPROD  OOD,     
+       HR_ALL_ORGANIZATION_UNITS@ROPROD    haou,     
+       mtl_parameters@ROPROD                mp     
+ WHERE     ood.OPERATING_UNIT = haou.organization_id     
+       AND ood.organization_id = mp.organization_id     
+       and ood.ORGANIZATION_NAME not in 'Item Master Organization'     
        and ood.OPERATING_UNIT  = :P_OU]]></SQLQuery>
   <ViewAttribute
     Name="Name"

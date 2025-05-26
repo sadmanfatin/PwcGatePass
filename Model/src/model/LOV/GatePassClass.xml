@@ -22,11 +22,11 @@
         ResId="model.LOV.GatePassClass_LABEL"/>
     </SchemaBasedProperties>
   </Properties>
-  <SQLQuery><![CDATA[select 'OGP' from dual  
+  <SQLQuery><![CDATA[select 'OGP' from dual@ROPROD   
+union   
+select 'IGP' from dual@ROPROD  
 union  
-select 'IGP' from dual 
-union 
-select 'Time Out' from dual]]></SQLQuery>
+select 'Time Out' from dual@ROPROD]]></SQLQuery>
   <ViewAttribute
     Name="Ogp"
     IsUpdateable="false"

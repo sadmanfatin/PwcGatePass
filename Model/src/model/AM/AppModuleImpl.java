@@ -4,6 +4,9 @@ import com.tangosol.internal.sleepycat.je.utilint.Timestamp;
 
 import java.text.SimpleDateFormat;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 import java.util.Calendar;
 import java.util.Map;
 
@@ -849,6 +852,8 @@ public class AppModuleImpl extends ApplicationModuleImpl implements AppModule {
         hdrVO.getCurrentRow().setAttribute("GateOutFlag", "Y");
         hdrVO.getCurrentRow().setAttribute("TimeOutFlag", "Y");
         getDBTransaction().commit();
+        
+        sendNotification();
 
     }
     
@@ -1437,5 +1442,35 @@ public class AppModuleImpl extends ApplicationModuleImpl implements AppModule {
     public GatePassAdminProfileVOImpl getGatePassAdminProfileVO1() {
         return (GatePassAdminProfileVOImpl) findViewObject("GatePassAdminProfileVO1");
     }
+
+    private void sendNotification() {
+        
+        String stmt = "BEGIN apps.XXDBL_GATEPASS_SEND_NOTIFICATOINS(:1, :2); end;";
+        String status =  null;
+        java.sql.CallableStatement cs = getDBTransaction().createCallableStatement(stmt, 1);
+        try {
+            cs.setString(1, this.getPwcGatePassHeaderVO1().getCurrentRow().getAttribute("GatePassNo").toString());
+            cs.setString(2, this.getPwcGatePassHeaderVO1().getCurrentRow().getAttribute("OrganizationId").toString());          
+            cs.execute();          
+            cs.close();
+        } catch (Exception e) {
+            status = e.getMessage();
+            System.out.println(status);
+            ;
+        }
+        
+        
+    }
+    
+    private void printTime(String   methodName, double count ) {
+        LocalDateTime myDateObj = LocalDateTime.now();
+       // System.out.println("Before formatting: " + myDateObj);
+          DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+
+          String formattedDate = myDateObj.format(myFormatObj);
+          System.out.println("#########   "+methodName + " "+count+"  #### Time: " + formattedDate);
+        
+    }    
+    
 }
 

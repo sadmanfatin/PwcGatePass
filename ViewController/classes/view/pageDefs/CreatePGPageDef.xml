@@ -391,5 +391,12 @@
         <Item Value="Remarks"/>
       </AttrNames>
     </attributeValues>
+    <listOfValues IterBinding="PwcGatePassHeaderVO1Iterator" StaticList="false" Uses="LOV_LogisticPartyName"
+                  id="LogisticPartyName"/>
+    <attributeValues IterBinding="PwcGatePassHeaderVO1Iterator" id="LogisticPartyAddress">
+      <AttrNames>
+        <Item Value="LogisticPartyAddress"/>
+      </AttrNames>
+    </attributeValues>
   </bindings>
 </pageDefinition>

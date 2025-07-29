@@ -80,6 +80,8 @@ public class PwcGatePassHeaderEOImpl extends EntityImpl {
         Carrier,
         LicenceNo,
         LockNo,
+        LogisticPartyAddress,
+        LogisticPartyName,
         PwcGatePassLinesEO;
         private static AttributesEnum[] vals = null;
         private static final int firstIndex = 0;
@@ -146,6 +148,8 @@ public class PwcGatePassHeaderEOImpl extends EntityImpl {
     public static final int CARRIER = AttributesEnum.Carrier.index();
     public static final int LICENCENO = AttributesEnum.LicenceNo.index();
     public static final int LOCKNO = AttributesEnum.LockNo.index();
+    public static final int LOGISTICPARTYADDRESS = AttributesEnum.LogisticPartyAddress.index();
+    public static final int LOGISTICPARTYNAME = AttributesEnum.LogisticPartyName.index();
     public static final int PWCGATEPASSLINESEO = AttributesEnum.PwcGatePassLinesEO.index();
 
     /**
@@ -796,6 +800,38 @@ public class PwcGatePassHeaderEOImpl extends EntityImpl {
      */
     public void setLockNo(String value) {
         setAttributeInternal(LOCKNO, value);
+    }
+
+    /**
+     * Gets the attribute value for LogisticPartyAddress, using the alias name LogisticPartyAddress.
+     * @return the value of LogisticPartyAddress
+     */
+    public String getLogisticPartyAddress() {
+        return (String) getAttributeInternal(LOGISTICPARTYADDRESS);
+    }
+
+    /**
+     * Sets <code>value</code> as the attribute value for LogisticPartyAddress.
+     * @param value value to set the LogisticPartyAddress
+     */
+    public void setLogisticPartyAddress(String value) {
+        setAttributeInternal(LOGISTICPARTYADDRESS, value);
+    }
+
+    /**
+     * Gets the attribute value for LogisticPartyName, using the alias name LogisticPartyName.
+     * @return the value of LogisticPartyName
+     */
+    public String getLogisticPartyName() {
+        return (String) getAttributeInternal(LOGISTICPARTYNAME);
+    }
+
+    /**
+     * Sets <code>value</code> as the attribute value for LogisticPartyName.
+     * @param value value to set the LogisticPartyName
+     */
+    public void setLogisticPartyName(String value) {
+        setAttributeInternal(LOGISTICPARTYNAME, value);
     }
 
     /**

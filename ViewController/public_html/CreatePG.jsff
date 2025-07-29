@@ -411,6 +411,22 @@
         <f:validator binding="#{bindings.TimeOutFlag.validator}"/>
       </af:inputText>
     </af:showDetail>
+    <af:inputListOfValues id="logisticPartyNameId"
+                          popupTitle="Search and Select: #{bindings.LogisticPartyName.hints.label}"
+                          value="#{bindings.LogisticPartyName.inputValue}"
+                          label="Logistic Party"
+                          model="#{bindings.LogisticPartyName.listOfValuesModel}"
+                          required="#{bindings.LogisticPartyName.hints.mandatory}"
+                          columns="#{bindings.LogisticPartyName.hints.displayWidth}"
+                          shortDesc="#{bindings.LogisticPartyName.hints.tooltip}" autoSubmit="true">
+      <f:validator binding="#{bindings.LogisticPartyName.validator}"/>
+      <af:autoSuggestBehavior suggestedItems="#{bindings.LigisticPartyName.suggestedItems}"/>
+    </af:inputListOfValues>
+    <af:panelLabelAndMessage label="Logistic Party Address" id="plam10"
+                             partialTriggers="logisticPartyNameId">
+      <af:outputText value="#{bindings.LogisticPartyAddress.inputValue}"
+                     shortDesc="#{bindings.LogisticPartyAddress.hints.tooltip}" id="ot15"/>
+    </af:panelLabelAndMessage>
     <af:inputText value="#{bindings.PartFromId.inputValue}" label="#{bindings.PartFromId.hints.label}"
                   required="#{bindings.PartFromId.hints.mandatory}" columns="#{bindings.PartFromId.hints.displayWidth}"
                   maximumLength="#{bindings.PartFromId.hints.precision}"

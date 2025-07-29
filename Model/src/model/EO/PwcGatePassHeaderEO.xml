@@ -500,6 +500,30 @@
       <Attr Name="_DisplaySize" Value="200"/>
     </DesignTime>
   </Attribute>
+  <Attribute
+    Name="LogisticPartyAddress"
+    Precision="250"
+    ColumnName="LOGISTIC_PARTY_ADDRESS"
+    SQLType="VARCHAR"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    TableName="XXPWC.PWC_GATE_PASS_HEADER">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="250"/>
+    </DesignTime>
+  </Attribute>
+  <Attribute
+    Name="LogisticPartyName"
+    Precision="200"
+    ColumnName="LOGISTIC_PARTY_NAME"
+    SQLType="VARCHAR"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    TableName="XXPWC.PWC_GATE_PASS_HEADER">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="200"/>
+    </DesignTime>
+  </Attribute>
   <AccessorAttribute
     Name="PwcGatePassLinesEO"
     Association="model.Assocs.PwcGatePassHeaderLines"

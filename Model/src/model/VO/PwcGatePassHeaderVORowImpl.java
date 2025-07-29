@@ -71,6 +71,8 @@ public class PwcGatePassHeaderVORowImpl extends ViewRowImpl {
         Carrier,
         LicenceNo,
         LockNo,
+        LogisticPartyAddress,
+        LogisticPartyName,
         PwcGatePassLinesVO,
         PwcPopulateSearchVO,
         PartiesAddressLOV1,
@@ -91,8 +93,10 @@ public class PwcGatePassHeaderVORowImpl extends ViewRowImpl {
         ORG_NAME_LOV5,
         ORG_NAME_LOV6,
         ORG_NAME_LOV7,
-        ORG_NAME_LOV8;
-        private static AttributesEnum[] vals = null; ;
+        ORG_NAME_LOV8,
+        LogisticPartyLOV1;
+        private static AttributesEnum[] vals = null;
+        ;
         private static final int firstIndex = 0;
 
         protected int index() {
@@ -163,6 +167,8 @@ public class PwcGatePassHeaderVORowImpl extends ViewRowImpl {
     public static final int CARRIER = AttributesEnum.Carrier.index();
     public static final int LICENCENO = AttributesEnum.LicenceNo.index();
     public static final int LOCKNO = AttributesEnum.LockNo.index();
+    public static final int LOGISTICPARTYADDRESS = AttributesEnum.LogisticPartyAddress.index();
+    public static final int LOGISTICPARTYNAME = AttributesEnum.LogisticPartyName.index();
     public static final int PWCGATEPASSLINESVO = AttributesEnum.PwcGatePassLinesVO.index();
     public static final int PWCPOPULATESEARCHVO = AttributesEnum.PwcPopulateSearchVO.index();
     public static final int PARTIESADDRESSLOV1 = AttributesEnum.PartiesAddressLOV1.index();
@@ -184,6 +190,7 @@ public class PwcGatePassHeaderVORowImpl extends ViewRowImpl {
     public static final int ORG_NAME_LOV6 = AttributesEnum.ORG_NAME_LOV6.index();
     public static final int ORG_NAME_LOV7 = AttributesEnum.ORG_NAME_LOV7.index();
     public static final int ORG_NAME_LOV8 = AttributesEnum.ORG_NAME_LOV8.index();
+    public static final int LOGISTICPARTYLOV1 = AttributesEnum.LogisticPartyLOV1.index();
 
     /**
      * This is the default constructor (do not remove).
@@ -941,6 +948,38 @@ public class PwcGatePassHeaderVORowImpl extends ViewRowImpl {
     }
 
     /**
+     * Gets the attribute value for LOGISTIC_PARTY_ADDRESS using the alias name LogisticPartyAddress.
+     * @return the LOGISTIC_PARTY_ADDRESS
+     */
+    public String getLogisticPartyAddress() {
+        return (String) getAttributeInternal(LOGISTICPARTYADDRESS);
+    }
+
+    /**
+     * Sets <code>value</code> as attribute value for LOGISTIC_PARTY_ADDRESS using the alias name LogisticPartyAddress.
+     * @param value value to set the LOGISTIC_PARTY_ADDRESS
+     */
+    public void setLogisticPartyAddress(String value) {
+        setAttributeInternal(LOGISTICPARTYADDRESS, value);
+    }
+
+    /**
+     * Gets the attribute value for LOGISTIC_PARTY_NAME using the alias name LogisticPartyName.
+     * @return the LOGISTIC_PARTY_NAME
+     */
+    public String getLogisticPartyName() {
+        return (String) getAttributeInternal(LOGISTICPARTYNAME);
+    }
+
+    /**
+     * Sets <code>value</code> as attribute value for LOGISTIC_PARTY_NAME using the alias name LogisticPartyName.
+     * @param value value to set the LOGISTIC_PARTY_NAME
+     */
+    public void setLogisticPartyName(String value) {
+        setAttributeInternal(LOGISTICPARTYNAME, value);
+    }
+
+    /**
      * Gets the associated <code>RowIterator</code> using master-detail link PwcGatePassLinesVO.
      */
     public RowIterator getPwcGatePassLinesVO() {
@@ -1085,6 +1124,13 @@ public class PwcGatePassHeaderVORowImpl extends ViewRowImpl {
      */
     public RowSet getORG_NAME_LOV8() {
         return (RowSet) getAttributeInternal(ORG_NAME_LOV8);
+    }
+
+    /**
+     * Gets the view accessor <code>RowSet</code> LogisticPartyLOV1.
+     */
+    public RowSet getLogisticPartyLOV1() {
+        return (RowSet) getAttributeInternal(LOGISTICPARTYLOV1);
     }
 }
 

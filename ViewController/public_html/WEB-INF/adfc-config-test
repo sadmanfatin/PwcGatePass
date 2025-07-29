@@ -43,7 +43,7 @@
   <from-value>#{param.ParamFunctionId}</from-value>
           
        -->  
-           <from-value>#{"PWC_ADF_GATE_PASS_FORM_OGP"}</from-value> 
+    <from-value>#{"PWC_ADF_GATE_PASS_FORM_OGP"}</from-value> 
       <to-value>#{sessionScope.FunctionId}</to-value>     
    
     </input-page-parameter>
